@@ -25,6 +25,10 @@ const state = {
     history: [],
     currentStep: 0,
     playerPools: {},
+    slotRoles: {
+        'blue-pick-1': 'TOP', 'blue-pick-2': 'JNG', 'blue-pick-3': 'MID', 'blue-pick-4': 'BOT', 'blue-pick-5': 'SUP',
+        'red-pick-1': 'TOP', 'red-pick-2': 'JNG', 'red-pick-3': 'MID', 'red-pick-4': 'BOT', 'red-pick-5': 'SUP'
+    },
     draftSequence: [
         { side: 'blue', type: 'ban', id: 1 }, { side: 'red', type: 'ban', id: 1 },
         { side: 'blue', type: 'ban', id: 2 }, { side: 'red', type: 'ban', id: 2 },
@@ -67,21 +71,32 @@ async function loadPlayerPools() {
     } catch (e) {}
 }
 
+function cycleRole(event, slotId) {
+    event.stopPropagation();
+    const roles = ['TOP', 'JNG', 'MID', 'BOT', 'SUP'];
+    let currentRole = state.slotRoles[slotId];
+    let nextIndex = (roles.indexOf(currentRole) + 1) % roles.length;
+    state.slotRoles[slotId] = roles[nextIndex];
+    renderDraftSlots();
+    renderChampions();
+    updateAnalysis();
+}
+
 function renderDraftSlots() {
     const sides = ['blue', 'red'];
     sides.forEach(side => {
-        // Reset and attach click handlers to Picks
         for (let i = 1; i <= 5; i++) {
-            const slot = document.getElementById(`${side}-pick-${i}`);
-            const role = slot.getAttribute('data-role');
-            slot.innerHTML = `<img src="${ROLE_ICONS[role]}" class="role-icon"><div class="slot-placeholder">${role}</div>`;
-            slot.onclick = () => handleSlotClick(`${side}-pick-${i}`);
+            const slotId = `${side}-pick-${i}`;
+            const slot = document.getElementById(slotId);
+            const role = state.slotRoles[slotId];
+            slot.innerHTML = `<img src="${ROLE_ICONS[role]}" class="role-icon interactive-icon" onclick="cycleRole(event, '${slotId}')"><div class="slot-placeholder">${role}</div>`;
+            slot.onclick = (e) => { if (!e.target.classList.contains('role-icon')) handleSlotClick(slotId); };
         }
-        // Reset and attach click handlers to Bans
         for (let i = 1; i <= 5; i++) {
-            const banSlot = document.getElementById(`${side}-ban-${i}`);
+            const banSlotId = `${side}-ban-${i}`;
+            const banSlot = document.getElementById(banSlotId);
             banSlot.innerHTML = '';
-            banSlot.onclick = () => handleSlotClick(`${side}-ban-${i}`);
+            banSlot.onclick = () => handleSlotClick(banSlotId);
         }
     });
 
@@ -90,7 +105,8 @@ function renderDraftSlots() {
         const champ = state.champions.find(c => c.id === entry.champId);
         const slot = document.getElementById(`${step.side}-${step.type}-${step.id}`);
         if (step.type === 'pick') {
-            slot.innerHTML = `<img src="https://ddragon.leagueoflegends.com/cdn/${CONFIG.DATA_DRAGON_VERSION}/img/champion/${champ.image.full}" style="height: 100%; border-radius: 4px; margin-right: 15px;"><div class="slot-info"><div style="font-weight: 800; color: #fff;">${champ.name}</div><div style="font-size: 0.7rem; color: var(--text-muted);">${slot.getAttribute('data-role')}</div></div>`;
+            const role = state.slotRoles[`${step.side}-${step.type}-${step.id}`];
+            slot.innerHTML = `<img src="https://ddragon.leagueoflegends.com/cdn/${CONFIG.DATA_DRAGON_VERSION}/img/champion/${champ.image.full}" style="height: 100%; border-radius: 4px; margin-right: 15px;"><div class="slot-info"><div style="font-weight: 800; color: #fff;">${champ.name}</div><div style="font-size: 0.7rem; color: var(--text-muted);">${role}</div></div>`;
         } else {
             slot.innerHTML = `<img src="https://ddragon.leagueoflegends.com/cdn/${CONFIG.DATA_DRAGON_VERSION}/img/champion/${champ.image.full}">`;
         }
@@ -111,93 +127,129 @@ function updateActiveSlot() {
  */
 function evaluateDraft() {
     const enemySide = CONFIG.USER_SIDE === 'blue' ? 'red' : 'blue';
-    const enemyPicks = state.history
-        .filter((h, i) => state.draftSequence[i].side === enemySide && state.draftSequence[i].type === 'pick')
-        .map(h => state.champions.find(c => c.id === h.champId));
-    
-    const userPicks = state.history
-        .filter((h, i) => state.draftSequence[i].side === CONFIG.USER_SIDE && state.draftSequence[i].type === 'pick')
-        .map(h => state.champions.find(c => c.id === h.champId));
+    const enemyPicks = state.history.filter((h, i) => state.draftSequence[i].side === enemySide && state.draftSequence[i].type === 'pick').map(h => ({ champ: state.champions.find(c => c.id === h.champId), role: state.slotRoles[`${state.draftSequence[i].side}-${state.draftSequence[i].type}-${state.draftSequence[i].id}`] }));
+    const userPicks = state.history.filter((h, i) => state.draftSequence[i].side === CONFIG.USER_SIDE && state.draftSequence[i].type === 'pick').map(h => ({ champ: state.champions.find(c => c.id === h.champId), role: state.slotRoles[`${state.draftSequence[i].side}-${state.draftSequence[i].type}-${state.draftSequence[i].id}`] }));
+    const enemyBans = state.history.filter((h, i) => state.draftSequence[i].side === enemySide && state.draftSequence[i].type === 'ban').map(h => state.champions.find(c => c.id === h.champId));
 
-    const enemyThreat = { DIVE: 0, POKE: 0, TANKY: 0 };
-    enemyPicks.forEach(c => {
-        if (c.tags.includes('Assassin') || c.tags.includes('Fighter')) enemyThreat.DIVE += 2;
-        if (c.tags.includes('Mage') && c.stats.attackrange > 500) enemyThreat.POKE += 2;
-        if (c.tags.includes('Tank')) enemyThreat.TANKY += 2;
+    // Deep Threat Analysis
+    const enemyComp = { engage: 0, poke: 0, dps: 0, burst: 0, peel: 0, front: 0, ap: 0, ad: 0 };
+    enemyPicks.forEach(({champ}) => {
+        if (champ.tags.includes('Tank') || champ.info.defense >= 7) { enemyComp.front += 1; enemyComp.engage += (champ.info.difficulty < 5 ? 1 : 0); }
+        if (champ.tags.includes('Mage')) { enemyComp.poke += 1; enemyComp.ap += 2; }
+        if (champ.tags.includes('Assassin')) { enemyComp.burst += 2; enemyComp.ad += 1; }
+        if (champ.tags.includes('Marksman')) { enemyComp.dps += 2; enemyComp.ad += 2; }
+        if (champ.tags.includes('Support')) { enemyComp.peel += 2; }
     });
 
-    const userSynergy = { DIVE: 0, POKE: 0, WOMBO: 0, PROTECT: 0 };
-    userPicks.forEach(c => {
-        if (c.tags.includes('Assassin')) userSynergy.DIVE += 2;
-        if (c.tags.includes('Mage')) userSynergy.POKE += 2;
-        if (c.tags.includes('Tank')) userSynergy.WOMBO += 1;
-        if (c.tags.includes('Marksman')) userSynergy.PROTECT += 1;
+    const userComp = { engage: 0, poke: 0, dps: 0, burst: 0, peel: 0, front: 0, ap: 0, ad: 0 };
+    userPicks.forEach(({champ}) => {
+        if (champ.tags.includes('Tank') || champ.info.defense >= 7 || (champ.tags.includes('Fighter') && champ.info.defense >= 5)) userComp.front += 1;
+        if (champ.tags.includes('Mage') || champ.info.magic >= 6) userComp.ap += 1;
+        if (champ.tags.includes('Marksman') || champ.info.attack >= 6) userComp.ad += 1;
+        if (champ.tags.includes('Support') || champ.tags.includes('Tank')) userComp.peel += 1;
     });
 
-    let suggestedStrategy = 'SCALING / BALANCED';
-    if (enemyThreat.DIVE > 3) suggestedStrategy = 'ANTI-DIVE (CC/Peel)';
-    else if (enemyThreat.POKE > 3) suggestedStrategy = 'HARD ENGAGE / DIVE';
-    else if (userSynergy.PROTECT > 2) suggestedStrategy = 'FRONT-TO-BACK';
+    let strategy = 'BALANCED SCALING';
+    if (enemyComp.engage > enemyComp.peel) strategy = 'ANTI-ENGAGE / DISENGAGE';
+    else if (enemyComp.poke > enemyComp.engage) strategy = 'HARD DIVE / FLANK';
+    else if (enemyComp.front >= 2) strategy = 'FRONT-TO-BACK / TANK SHRED';
+    else if (userComp.dps > 0 && userComp.peel < 1) strategy = 'PROTECT THE CARRY';
+
+    const missing = [];
+    if (userPicks.length >= 3) {
+        if (userComp.ap === 0) missing.push('AP DAMAGE');
+        if (userComp.ad === 0) missing.push('AD DAMAGE');
+        if (userComp.front === 0) missing.push('FRONTLINE');
+        if (userComp.engage === 0 && userComp.poke === 0) missing.push('ENGAGE / INITIATION');
+    }
 
     return { 
-        strategy: suggestedStrategy, 
-        warnings: calculateWarnings(userPicks),
-        enemyThreat, userSynergy
+        strategy, 
+        missing,
+        enemyComp, 
+        userComp,
+        enemyPicks,
+        userPicks
     };
 }
 
 function calculateWarnings(picks) {
-    if (picks.length === 0) return [];
-    const warnings = [];
-    const hasAP = picks.some(c => c.info.magic >= 7 || c.tags.includes('Mage'));
-    const hasAD = picks.some(c => c.info.attack >= 7 || c.tags.includes('Marksman'));
-    const hasTank = picks.some(c => c.info.defense >= 7 || c.tags.includes('Tank'));
-    if (!hasAP && picks.length >= 3) warnings.push('warning_no_ap');
-    if (!hasAD && picks.length >= 3) warnings.push('warning_no_ad');
-    if (!hasTank && picks.length >= 3) warnings.push('warning_no_tank');
-    return warnings;
+    // Deprecated in favor of the new 'missing' array in evaluateDraft
+    return [];
 }
 
-/**
- * TACTICAL SCORING ENGINE
- * Calculates a numerical value for each champion based on the current game state
- */
-function getTacticalScore(champ, activeRole, evaluation, type) {
+function getTacticalScore(champ, activeRole, evaluation, type, stepIndex) {
     let score = 0;
-    
-    // 1. Meta Base Power (Calculated from stats)
-    score += (champ.info.attack + champ.info.magic + champ.info.defense);
+    const reasons = [];
+    const historyIds = state.history.map(h => h.champId);
+    if (historyIds.includes(champ.id)) return { score: -1000, reasons: [] };
 
-    if (type === 'ban') return score; 
+    // 1. BASE POWER
+    const basePower = (champ.info.attack + champ.info.magic + champ.info.defense) / 2;
+    score += basePower;
 
-    // 2. Player Pool Bonus
+    if (type === 'ban') {
+        if (stepIndex > 12) {
+            // Target Ban Phase: Ban what the enemy needs
+            const enemyRolesFilled = evaluation.enemyPicks.map(p => p.role);
+            const missingRoles = ['TOP', 'JNG', 'MID', 'BOT', 'SUP'].filter(r => !enemyRolesFilled.includes(r));
+            if (missingRoles.some(r => state.playerPools[r]?.includes(champ.name))) {
+                score += 50;
+                reasons.push('TARGET BAN');
+            }
+        } else {
+            if (champ.info.difficulty >= 7 && basePower > 10) reasons.push('PRO META THREAT');
+            else reasons.push('HIGH STATS');
+        }
+        return { score, reasons };
+    }
+
+    // 2. POOL & FLEXIBILITY
     const pool = state.playerPools[activeRole] || [];
-    const isInPool = pool.includes(champ.name);
-    if (isInPool) score += 50;
+    if (pool.includes(champ.name)) {
+        score += 50;
+        reasons.push('COMFORT PICK');
+    }
+    const flexRoles = ['TOP', 'JNG', 'MID', 'BOT', 'SUP'].filter(r => state.playerPools[r]?.includes(champ.name));
+    if (flexRoles.length > 1 && stepIndex <= 10) {
+        score += 20; // High value early draft flex
+        reasons.push('FLEXIBLE');
+    }
 
-    // 3. Strategic Synergy Bonus
-    if (evaluation.strategy.includes('ANTI-DIVE') && champ.tags.includes('Tank')) score += 30;
-    if (evaluation.strategy.includes('HARD ENGAGE') && (champ.tags.includes('Tank') || champ.tags.includes('Fighter'))) score += 30;
-    if (evaluation.strategy.includes('FRONT-TO-BACK') && champ.tags.includes('Support')) score += 30;
+    // 3. DRAFT PHASE AWARENESS (Blind vs Counter)
+    const enemyLaner = evaluation.enemyPicks.find(p => p.role === activeRole);
+    if (!enemyLaner) {
+        // Blind Pick: Prioritize safety (High defense or high range)
+        if (champ.info.defense >= 6 || champ.stats.attackrange >= 500) {
+            score += 15;
+            reasons.push('SAFE BLIND');
+        }
+    } else {
+        // Counter Pick Logic
+        if (enemyLaner.champ.tags.includes('Tank') && (champ.tags.includes('Marksman') || champ.info.magic >= 8)) {
+            score += 40; reasons.push('SHREDS ENEMY TANK');
+        }
+        if (enemyLaner.champ.tags.includes('Assassin') && (champ.info.defense >= 6 || champ.tags.includes('Support'))) {
+            score += 40; reasons.push('SURVIVES BURST');
+        }
+        if (enemyLaner.champ.stats.attackrange > 500 && champ.tags.includes('Assassin')) {
+            score += 35; reasons.push('PUNISHES RANGE');
+        }
+    }
 
-    // 4. TEAM BALANCE CORRECTION (The "Fix" for your request)
-    // If we have a warning, boost champions that solve it
-    const isAP = champ.info.magic >= 7 || champ.tags.includes('Mage');
-    const isAD = champ.info.attack >= 7 || champ.tags.includes('Marksman');
-    const isTank = champ.info.defense >= 7 || champ.tags.includes('Tank');
+    // 4. COMPOSITION NEEDS & SYNERGY
+    if (evaluation.missing.includes('AP DAMAGE') && (champ.info.magic >= 7 || champ.tags.includes('Mage'))) { score += 60; reasons.push('FIXES AP DMG'); }
+    if (evaluation.missing.includes('AD DAMAGE') && (champ.info.attack >= 7 || champ.tags.includes('Marksman'))) { score += 60; reasons.push('FIXES AD DMG'); }
+    if (evaluation.missing.includes('FRONTLINE') && (champ.info.defense >= 7 || champ.tags.includes('Tank') || (champ.tags.includes('Fighter') && champ.info.defense >= 5))) { score += 60; reasons.push('ADDS FRONTLINE'); }
+    if (evaluation.missing.includes('ENGAGE / INITIATION') && (champ.tags.includes('Tank') || champ.tags.includes('Fighter'))) { score += 30; reasons.push('ADDS ENGAGE'); }
 
-    if (evaluation.warnings.includes('warning_no_ap') && isAP) score += 60; // Huge boost for AP
-    if (evaluation.warnings.includes('warning_no_ad') && isAD) score += 60; // Huge boost for AD
-    if (evaluation.warnings.includes('warning_no_tank') && isTank) score += 60; // Huge boost for Tank
-
-    // 5. Role Match Bonus
-    if (activeRole === 'TOP' && (champ.tags.includes('Tank') || champ.tags.includes('Fighter'))) score += 20;
-    if (activeRole === 'JNG' && (champ.tags.includes('Tank') || champ.tags.includes('Assassin') || champ.tags.includes('Fighter'))) score += 20;
-    if (activeRole === 'MID' && (champ.tags.includes('Mage') || champ.tags.includes('Assassin'))) score += 20;
-    if (activeRole === 'BOT' && (champ.tags.includes('Marksman') || champ.tags.includes('Mage'))) score += 20;
-    if (activeRole === 'SUP' && (champ.tags.includes('Support') || champ.tags.includes('Tank'))) score += 20;
-
-    return score;
+    // 5. GLOBAL COUNTERS
+    if (evaluation.strategy.includes('DISENGAGE') && (champ.tags.includes('Support') || champ.tags.includes('Tank'))) { score += 25; reasons.push('ANTI-ENGAGE'); }
+    if (evaluation.strategy.includes('HARD DIVE') && (champ.tags.includes('Assassin') || champ.tags.includes('Fighter'))) { score += 25; reasons.push('DIVE ENABLER'); }
+    
+    // Deduplicate and trim reasons
+    const uniqueReasons = [...new Set(reasons)].slice(0, 2);
+    return { score, reasons: uniqueReasons };
 }
 
 function updateAnalysis() {
@@ -219,42 +271,45 @@ function updateAnalysis() {
     const step = state.draftSequence[state.currentStep];
     const isUserTurn = step && step.side === CONFIG.USER_SIDE;
 
-    let html = `<div style="color: var(--accent-gold); font-size: 0.7rem; font-weight: 800; border-bottom: 1px solid rgba(200,155,60,0.2); padding-bottom: 5px; margin-bottom: 10px;">${lang.coach_inference}: ${evaluation.strategy}</div>`;
+    let html = `<div style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; border-bottom: 1px solid rgba(200,155,60,0.2); padding-bottom: 5px; margin-bottom: 10px;">${lang.coach_inference}: ${evaluation.strategy}</div>`;
 
-    evaluation.warnings.forEach(w => { html += `<div class="warning-tag">${lang[w]}</div>`; });
+    evaluation.missing.forEach(m => { html += `<div class="warning-tag">⚠️ NEEDS ${m}</div>`; });
 
     if (step && step.type === 'ban' && step.side === CONFIG.USER_SIDE) {
         html += `<div style="font-weight: 800; font-size: 0.8rem; margin-top: 10px; color: var(--accent-red);">${lang.suggested_bans}:</div>`;
         const metaBans = state.champions
-            .filter(c => !state.history.some(h => h.champId === c.id)) // Filter out already banned/picked
-            .map(c => ({ champ: c, score: getTacticalScore(c, null, evaluation, 'ban') }))
-            .sort((a,b) => b.score - a.score)
+            .map(c => ({ champ: c, analysis: getTacticalScore(c, null, evaluation, 'ban', state.currentStep) }))
+            .sort((a,b) => b.analysis.score - a.analysis.score)
             .slice(0, 4);
         metaBans.forEach(item => {
-            html += `<div class="counter-item"><span class="counter-chip" style="border-color: var(--accent-red); color: var(--accent-red);">BAN</span> ${item.champ.name}</div>`;
+            const reasonStr = item.analysis.reasons.length > 0 ? ` <span style="color:rgba(255,255,255,0.4); font-size: 0.65rem;">(${item.analysis.reasons.join(', ')})</span>` : '';
+            html += `<div class="counter-item"><span class="counter-chip" style="border-color: var(--accent-red); color: var(--accent-red);">BAN</span> ${item.champ.name}${reasonStr}</div>`;
         });
     } else if (isUserTurn && step.type === 'pick') {
-        const activeSlot = document.getElementById(`${step.side}-${step.type}-${step.id}`);
-        const role = activeSlot.getAttribute('data-role');
+        const slotId = `${step.side}-${step.type}-${step.id}`;
+        const role = state.slotRoles[slotId];
         const pool = state.playerPools[role] || [];
-        
         html += `<div style="font-weight: 800; font-size: 0.8rem; margin-top: 10px;">${lang.top_recommendations} (${role}):</div>`;
         
         const recommendations = state.champions
-            .filter(c => pool.includes(c.name))
-            .filter(c => !state.history.some(h => h.champId === c.id)) // Filter out already banned/picked
-            .map(c => ({ champ: c, score: getTacticalScore(c, role, evaluation, 'pick') }))
-            .sort((a,b) => b.score - a.score)
-            .slice(0, 4);
-
+            .map(c => ({ champ: c, analysis: getTacticalScore(c, role, evaluation, 'pick', state.currentStep) }))
+            .filter(item => pool.includes(item.champ.name))
+            .sort((a,b) => b.analysis.score - a.analysis.score)
+            .slice(0, 5);
+            
         recommendations.forEach((item, idx) => {
-            const isTop = idx === 0 && item.score > 70;
+            const isTop = idx === 0 && item.analysis.score > 80;
             const badge = isTop ? lang.badge_pro : lang.badge_pool;
             const color = isTop ? '#ffaa00' : '#00ff88';
-            html += `<div class="counter-item"><span class="counter-chip" style="border-color: ${color}; color: ${color}; background: rgba(0,0,0,0.3)">${badge}</span> ${item.champ.name}</div>`;
+            const reasonStr = item.analysis.reasons.length > 0 ? `<div style="color:rgba(255,255,255,0.6); font-size: 0.65rem; margin-top: 2px; line-height: 1.1;">⤷ ${item.analysis.reasons.join(' • ')}</div>` : '';
+            html += `<div class="counter-item" style="flex-direction: column; align-items: flex-start; padding: 6px 8px;">
+                        <div style="display: flex; align-items: center;">
+                            <span class="counter-chip" style="border-color: ${color}; color: ${color}; background: rgba(0,0,0,0.3)">${badge}</span> ${item.champ.name}
+                        </div>
+                        ${reasonStr}
+                     </div>`;
         });
     }
-
     insights.innerHTML = html;
 }
 
@@ -292,38 +347,27 @@ function renderChampions(filter = '') {
     if (!grid) return;
     const currentScroll = grid.scrollTop;
     grid.innerHTML = '';
-    
     const evaluation = evaluateDraft();
     const step = state.draftSequence[state.currentStep];
     const isUserTurn = step && step.side === CONFIG.USER_SIDE;
-    const activeSlot = step ? document.getElementById(`${step.side}-${step.type}-${step.id}`) : null;
-    const activeRole = activeSlot ? activeSlot.getAttribute('data-role') : null;
+    const activeSlotId = step ? `${step.side}-${step.type}-${step.id}` : null;
+    const activeRole = activeSlotId ? state.slotRoles[activeSlotId] : null;
 
-    // Pre-calculate tactical scores for all champions to enable sorting
     let championsToRender = state.champions.map(c => {
-        const score = (CONFIG.MODE === 'competitive') ? getTacticalScore(c, activeRole, evaluation, step ? step.type : 'pick') : 0;
-        return { ...c, tacticalScore: score };
+        const scoreData = (CONFIG.MODE === 'competitive') ? getTacticalScore(c, activeRole, evaluation, step ? step.type : 'pick', state.currentStep) : { score: 0, reasons: [] };
+        return { ...c, tacticalScore: scoreData.score, reasons: scoreData.reasons };
     });
 
-    // Filtering logic
-    if (filter) {
-        championsToRender = championsToRender.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
-    }
+    if (filter) championsToRender = championsToRender.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
 
     if (CONFIG.MODE === 'competitive' && CONFIG.ONLY_POOL && isUserTurn) {
         if (step && step.type === 'ban') {
-            // In ban phase with ONLY_POOL, show top meta threats
             championsToRender = championsToRender.sort((a,b) => b.tacticalScore - a.tacticalScore).slice(0, 15);
         } else if (step && step.type === 'pick') {
-            // In pick phase with ONLY_POOL, show recommendations from player pool only
             const pool = state.playerPools[activeRole] || [];
-            championsToRender = championsToRender
-                .filter(c => pool.includes(c.name))
-                .sort((a,b) => b.tacticalScore - a.tacticalScore)
-                .slice(0, 10); // Show only top 10 pool options
+            championsToRender = championsToRender.filter(c => pool.includes(c.name)).sort((a,b) => b.tacticalScore - a.tacticalScore).slice(0, 10);
         }
     } else if (CONFIG.MODE === 'competitive') {
-        // Just sort by tactical score even if not filtering
         championsToRender = championsToRender.sort((a,b) => b.tacticalScore - a.tacticalScore);
     }
 
@@ -332,17 +376,14 @@ function renderChampions(filter = '') {
         const isLocked = !!historyEntry;
         const pool = (activeRole && state.playerPools[activeRole]) || [];
         const isInPool = pool.includes(champ.name);
-        const isSynergy = champ.tacticalScore > 80;
-
+        const isSynergy = champ.tacticalScore > 110;
         const card = document.createElement('div');
         card.className = `champ-card ${isLocked ? 'disabled' : ''} ${isSynergy ? 'synergy' : ''}`;
-        
         let badgesHtml = '';
         if (CONFIG.MODE === 'competitive') {
             if (isInPool && step && step.type === 'pick') badgesHtml += `<div class="recommendation-badge">${window.translations[CONFIG.LANG].badge_pool}</div>`;
             if (isSynergy) badgesHtml += `<div class="prio-badge">${window.translations[CONFIG.LANG].badge_pro}</div>`;
         }
-
         card.innerHTML = `<img src="https://ddragon.leagueoflegends.com/cdn/${CONFIG.DATA_DRAGON_VERSION}/img/champion/${champ.image.full}" alt="${champ.name}" loading="lazy">${badgesHtml}<div class="champ-name">${champ.name}</div>`;
         card.onclick = () => isLocked ? handleUndo(historyEntry.stepIndex) : handleSelection(champ);
         grid.appendChild(card);
@@ -373,9 +414,7 @@ function handleSlotClick(slotId) {
     const [side, type, id] = slotId.split('-');
     const stepIndex = state.draftSequence.findIndex(s => s.side === side && s.type === type && s.id == id);
     const historyEntry = state.history.find(h => h.stepIndex === stepIndex);
-    if (historyEntry) {
-        handleUndo(stepIndex);
-    }
+    if (historyEntry) handleUndo(stepIndex);
 }
 
 function updateLanguageUI() {
@@ -399,9 +438,7 @@ function setupEventListeners() {
     document.getElementById('set-side-blue').onclick = () => setUserSide('blue');
     document.getElementById('set-side-red').onclick = () => setUserSide('red');
     const poolToggle = document.getElementById('poolFilterToggle');
-    if (poolToggle) {
-        poolToggle.onchange = (e) => { CONFIG.ONLY_POOL = e.target.checked; renderChampions(); updateAnalysis(); };
-    }
+    if (poolToggle) poolToggle.onchange = (e) => { CONFIG.ONLY_POOL = e.target.checked; renderChampions(); updateAnalysis(); };
     const search = document.getElementById('championSearch');
     if (search) search.oninput = (e) => renderChampions(e.target.value);
     const switcher = document.getElementById('langSwitcher');

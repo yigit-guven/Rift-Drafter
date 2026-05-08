@@ -326,10 +326,28 @@ input:checked + .slider:before {
 
 /* Role Icons */
 .role-icon {
-    width: 24px;
-    height: 24px;
-    filter: brightness(0.8);
+    width: 28px;
+    height: 28px;
+    filter: brightness(0.9);
     margin-right: 15px;
+    cursor: pointer;
+    border: 1px solid rgba(200, 155, 60, 0.4);
+    border-radius: 4px;
+    padding: 2px;
+    background: rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.role-icon:hover {
+    filter: brightness(1.2);
+    border-color: var(--accent-gold);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(200, 155, 60, 0.3);
+}
+
+.role-icon:active {
+    transform: scale(0.9);
 }
 
 .slot.active {
