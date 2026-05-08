@@ -1,5 +1,5 @@
 /**
- * RIFT DRAFTER - Core Logic
+ * RIFT DRAFTER - Core Logic (Autonomous Master Coach Edition)
  */
 
 const CONFIG = {
@@ -41,17 +41,13 @@ const state = {
 async function init() {
     setupEventListeners();
     updateLanguageUI();
-    updateModeUI(); // Force buttons to match saved mode
+    updateModeUI();
     await loadApiKeyFromFile();
     await loadPlayerPools();
-    
     if (CONFIG.API_KEY) {
         const check = await validateApiKey(CONFIG.API_KEY);
         if (check.valid) await startApp();
-        else showApiModal(`${translations[CONFIG.LANG].err_invalid_file}: ${check.message}`);
-    } else {
-        showApiModal();
-    }
+    } else showApiModal();
 }
 
 async function startApp() {
@@ -67,20 +63,25 @@ async function startApp() {
 async function loadPlayerPools() {
     try {
         const response = await fetch('preferences.json');
-        if (response.ok) {
-            state.playerPools = await response.json();
-        }
+        if (response.ok) state.playerPools = await response.json();
     } catch (e) {}
 }
 
 function renderDraftSlots() {
     const sides = ['blue', 'red'];
     sides.forEach(side => {
+        // Reset and attach click handlers to Picks
         for (let i = 1; i <= 5; i++) {
-            document.getElementById(`${side}-ban-${i}`).innerHTML = '';
             const slot = document.getElementById(`${side}-pick-${i}`);
             const role = slot.getAttribute('data-role');
             slot.innerHTML = `<img src="${ROLE_ICONS[role]}" class="role-icon"><div class="slot-placeholder">${role}</div>`;
+            slot.onclick = () => handleSlotClick(`${side}-pick-${i}`);
+        }
+        // Reset and attach click handlers to Bans
+        for (let i = 1; i <= 5; i++) {
+            const banSlot = document.getElementById(`${side}-ban-${i}`);
+            banSlot.innerHTML = '';
+            banSlot.onclick = () => handleSlotClick(`${side}-ban-${i}`);
         }
     });
 
@@ -105,13 +106,107 @@ function updateActiveSlot() {
     if (el) el.classList.add('active');
 }
 
+/**
+ * MASTER COACH INFERENCE ENGINE
+ */
+function evaluateDraft() {
+    const enemySide = CONFIG.USER_SIDE === 'blue' ? 'red' : 'blue';
+    const enemyPicks = state.history
+        .filter((h, i) => state.draftSequence[i].side === enemySide && state.draftSequence[i].type === 'pick')
+        .map(h => state.champions.find(c => c.id === h.champId));
+    
+    const userPicks = state.history
+        .filter((h, i) => state.draftSequence[i].side === CONFIG.USER_SIDE && state.draftSequence[i].type === 'pick')
+        .map(h => state.champions.find(c => c.id === h.champId));
+
+    const enemyThreat = { DIVE: 0, POKE: 0, TANKY: 0 };
+    enemyPicks.forEach(c => {
+        if (c.tags.includes('Assassin') || c.tags.includes('Fighter')) enemyThreat.DIVE += 2;
+        if (c.tags.includes('Mage') && c.stats.attackrange > 500) enemyThreat.POKE += 2;
+        if (c.tags.includes('Tank')) enemyThreat.TANKY += 2;
+    });
+
+    const userSynergy = { DIVE: 0, POKE: 0, WOMBO: 0, PROTECT: 0 };
+    userPicks.forEach(c => {
+        if (c.tags.includes('Assassin')) userSynergy.DIVE += 2;
+        if (c.tags.includes('Mage')) userSynergy.POKE += 2;
+        if (c.tags.includes('Tank')) userSynergy.WOMBO += 1;
+        if (c.tags.includes('Marksman')) userSynergy.PROTECT += 1;
+    });
+
+    let suggestedStrategy = 'SCALING / BALANCED';
+    if (enemyThreat.DIVE > 3) suggestedStrategy = 'ANTI-DIVE (CC/Peel)';
+    else if (enemyThreat.POKE > 3) suggestedStrategy = 'HARD ENGAGE / DIVE';
+    else if (userSynergy.PROTECT > 2) suggestedStrategy = 'FRONT-TO-BACK';
+
+    return { 
+        strategy: suggestedStrategy, 
+        warnings: calculateWarnings(userPicks),
+        enemyThreat, userSynergy
+    };
+}
+
+function calculateWarnings(picks) {
+    if (picks.length === 0) return [];
+    const warnings = [];
+    const hasAP = picks.some(c => c.info.magic >= 7 || c.tags.includes('Mage'));
+    const hasAD = picks.some(c => c.info.attack >= 7 || c.tags.includes('Marksman'));
+    const hasTank = picks.some(c => c.info.defense >= 7 || c.tags.includes('Tank'));
+    if (!hasAP && picks.length >= 3) warnings.push('warning_no_ap');
+    if (!hasAD && picks.length >= 3) warnings.push('warning_no_ad');
+    if (!hasTank && picks.length >= 3) warnings.push('warning_no_tank');
+    return warnings;
+}
+
+/**
+ * TACTICAL SCORING ENGINE
+ * Calculates a numerical value for each champion based on the current game state
+ */
+function getTacticalScore(champ, activeRole, evaluation, type) {
+    let score = 0;
+    
+    // 1. Meta Base Power (Calculated from stats)
+    score += (champ.info.attack + champ.info.magic + champ.info.defense);
+
+    if (type === 'ban') return score; 
+
+    // 2. Player Pool Bonus
+    const pool = state.playerPools[activeRole] || [];
+    const isInPool = pool.includes(champ.name);
+    if (isInPool) score += 50;
+
+    // 3. Strategic Synergy Bonus
+    if (evaluation.strategy.includes('ANTI-DIVE') && champ.tags.includes('Tank')) score += 30;
+    if (evaluation.strategy.includes('HARD ENGAGE') && (champ.tags.includes('Tank') || champ.tags.includes('Fighter'))) score += 30;
+    if (evaluation.strategy.includes('FRONT-TO-BACK') && champ.tags.includes('Support')) score += 30;
+
+    // 4. TEAM BALANCE CORRECTION (The "Fix" for your request)
+    // If we have a warning, boost champions that solve it
+    const isAP = champ.info.magic >= 7 || champ.tags.includes('Mage');
+    const isAD = champ.info.attack >= 7 || champ.tags.includes('Marksman');
+    const isTank = champ.info.defense >= 7 || champ.tags.includes('Tank');
+
+    if (evaluation.warnings.includes('warning_no_ap') && isAP) score += 60; // Huge boost for AP
+    if (evaluation.warnings.includes('warning_no_ad') && isAD) score += 60; // Huge boost for AD
+    if (evaluation.warnings.includes('warning_no_tank') && isTank) score += 60; // Huge boost for Tank
+
+    // 5. Role Match Bonus
+    if (activeRole === 'TOP' && (champ.tags.includes('Tank') || champ.tags.includes('Fighter'))) score += 20;
+    if (activeRole === 'JNG' && (champ.tags.includes('Tank') || champ.tags.includes('Assassin') || champ.tags.includes('Fighter'))) score += 20;
+    if (activeRole === 'MID' && (champ.tags.includes('Mage') || champ.tags.includes('Assassin'))) score += 20;
+    if (activeRole === 'BOT' && (champ.tags.includes('Marksman') || champ.tags.includes('Mage'))) score += 20;
+    if (activeRole === 'SUP' && (champ.tags.includes('Support') || champ.tags.includes('Tank'))) score += 20;
+
+    return score;
+}
+
 function updateAnalysis() {
-    const lang = translations[CONFIG.LANG];
+    const lang = window.translations[CONFIG.LANG];
     const insights = document.getElementById('counterSuggestions');
     const panel = document.getElementById('analysisPanel');
     const setupBar = document.getElementById('competitive-setup');
 
-    if (CONFIG.MODE === 'standard') {
+    if (CONFIG.MODE === 'standard' || !lang) {
         if (panel) panel.style.display = 'none';
         if (setupBar) setupBar.style.display = 'none';
         return;
@@ -120,35 +215,52 @@ function updateAnalysis() {
     if (panel) panel.style.display = 'block';
     if (setupBar) setupBar.style.display = 'flex';
 
-    // Show currently active recommendations in the analysis panel
+    const evaluation = evaluateDraft();
     const step = state.draftSequence[state.currentStep];
-    if (step && step.side === CONFIG.USER_SIDE && step.type === 'pick') {
+    const isUserTurn = step && step.side === CONFIG.USER_SIDE;
+
+    let html = `<div style="color: var(--accent-gold); font-size: 0.7rem; font-weight: 800; border-bottom: 1px solid rgba(200,155,60,0.2); padding-bottom: 5px; margin-bottom: 10px;">${lang.coach_inference}: ${evaluation.strategy}</div>`;
+
+    evaluation.warnings.forEach(w => { html += `<div class="warning-tag">${lang[w]}</div>`; });
+
+    if (step && step.type === 'ban' && step.side === CONFIG.USER_SIDE) {
+        html += `<div style="font-weight: 800; font-size: 0.8rem; margin-top: 10px; color: var(--accent-red);">${lang.suggested_bans}:</div>`;
+        const metaBans = state.champions
+            .filter(c => !state.history.some(h => h.champId === c.id)) // Filter out already banned/picked
+            .map(c => ({ champ: c, score: getTacticalScore(c, null, evaluation, 'ban') }))
+            .sort((a,b) => b.score - a.score)
+            .slice(0, 4);
+        metaBans.forEach(item => {
+            html += `<div class="counter-item"><span class="counter-chip" style="border-color: var(--accent-red); color: var(--accent-red);">BAN</span> ${item.champ.name}</div>`;
+        });
+    } else if (isUserTurn && step.type === 'pick') {
         const activeSlot = document.getElementById(`${step.side}-${step.type}-${step.id}`);
         const role = activeSlot.getAttribute('data-role');
         const pool = state.playerPools[role] || [];
         
-        if (pool.length > 0) {
-            insights.innerHTML = `<div style="color: var(--accent-gold); font-weight: 800; margin-bottom: 10px;">${role} POOL RECOMMENDATIONS:</div>`;
-            pool.forEach(c => {
-                const item = document.createElement('div');
-                item.className = 'counter-item';
-                item.innerHTML = `<span class="counter-chip" style="border-color: #00ff88; color: #00ff88; background: rgba(0,255,136,0.1)">POOL</span> <span>${c}</span>`;
-                insights.appendChild(item);
-            });
-        } else {
-            insights.innerHTML = `<span style="color: var(--text-muted);">No champions defined for ${role} in preferences.json</span>`;
-        }
-    } else {
-        insights.innerHTML = `<span style="color: var(--text-muted);">${lang.insights_empty}</span>`;
+        html += `<div style="font-weight: 800; font-size: 0.8rem; margin-top: 10px;">${lang.top_recommendations} (${role}):</div>`;
+        
+        const recommendations = state.champions
+            .filter(c => pool.includes(c.name))
+            .filter(c => !state.history.some(h => h.champId === c.id)) // Filter out already banned/picked
+            .map(c => ({ champ: c, score: getTacticalScore(c, role, evaluation, 'pick') }))
+            .sort((a,b) => b.score - a.score)
+            .slice(0, 4);
+
+        recommendations.forEach((item, idx) => {
+            const isTop = idx === 0 && item.score > 70;
+            const badge = isTop ? lang.badge_pro : lang.badge_pool;
+            const color = isTop ? '#ffaa00' : '#00ff88';
+            html += `<div class="counter-item"><span class="counter-chip" style="border-color: ${color}; color: ${color}; background: rgba(0,0,0,0.3)">${badge}</span> ${item.champ.name}</div>`;
+        });
     }
+
+    insights.innerHTML = html;
 }
 
 async function validateApiKey(key) {
     const riotKeyRegex = /^RGAPI-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
-    const lang = translations[CONFIG.LANG];
-    if (!key.startsWith('RGAPI-')) return { valid: false, message: lang.err_start_rgapi };
-    if (key.length !== 42) return { valid: false, message: lang.err_length };
-    if (!riotKeyRegex.test(key)) return { valid: false, message: lang.err_format };
+    if (!key.startsWith('RGAPI-')) return { valid: false };
     return { valid: true };
 }
 
@@ -180,37 +292,58 @@ function renderChampions(filter = '') {
     if (!grid) return;
     const currentScroll = grid.scrollTop;
     grid.innerHTML = '';
-    const filtered = state.champions.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
     
+    const evaluation = evaluateDraft();
     const step = state.draftSequence[state.currentStep];
-    const isUserTurn = step && step.side === CONFIG.USER_SIDE && step.type === 'pick';
+    const isUserTurn = step && step.side === CONFIG.USER_SIDE;
     const activeSlot = step ? document.getElementById(`${step.side}-${step.type}-${step.id}`) : null;
     const activeRole = activeSlot ? activeSlot.getAttribute('data-role') : null;
 
-    let finalChampions = filtered;
-    if (CONFIG.MODE === 'competitive' && CONFIG.ONLY_POOL && isUserTurn && activeRole) {
-        const pool = state.playerPools[activeRole] || [];
-        finalChampions = filtered.filter(c => pool.includes(c.name));
+    // Pre-calculate tactical scores for all champions to enable sorting
+    let championsToRender = state.champions.map(c => {
+        const score = (CONFIG.MODE === 'competitive') ? getTacticalScore(c, activeRole, evaluation, step ? step.type : 'pick') : 0;
+        return { ...c, tacticalScore: score };
+    });
+
+    // Filtering logic
+    if (filter) {
+        championsToRender = championsToRender.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
     }
 
-    finalChampions.forEach(champ => {
+    if (CONFIG.MODE === 'competitive' && CONFIG.ONLY_POOL && isUserTurn) {
+        if (step && step.type === 'ban') {
+            // In ban phase with ONLY_POOL, show top meta threats
+            championsToRender = championsToRender.sort((a,b) => b.tacticalScore - a.tacticalScore).slice(0, 15);
+        } else if (step && step.type === 'pick') {
+            // In pick phase with ONLY_POOL, show recommendations from player pool only
+            const pool = state.playerPools[activeRole] || [];
+            championsToRender = championsToRender
+                .filter(c => pool.includes(c.name))
+                .sort((a,b) => b.tacticalScore - a.tacticalScore)
+                .slice(0, 10); // Show only top 10 pool options
+        }
+    } else if (CONFIG.MODE === 'competitive') {
+        // Just sort by tactical score even if not filtering
+        championsToRender = championsToRender.sort((a,b) => b.tacticalScore - a.tacticalScore);
+    }
+
+    championsToRender.forEach(champ => {
         const historyEntry = state.history.find(h => h.champId === champ.id);
         const isLocked = !!historyEntry;
-        const isRecommended = isUserTurn && activeRole && state.playerPools[activeRole] && state.playerPools[activeRole].includes(champ.name);
+        const pool = (activeRole && state.playerPools[activeRole]) || [];
+        const isInPool = pool.includes(champ.name);
+        const isSynergy = champ.tacticalScore > 80;
 
         const card = document.createElement('div');
-        card.className = `champ-card ${isLocked ? 'disabled' : ''}`;
+        card.className = `champ-card ${isLocked ? 'disabled' : ''} ${isSynergy ? 'synergy' : ''}`;
         
         let badgesHtml = '';
-        if (CONFIG.MODE === 'competitive' && isRecommended) {
-            badgesHtml += `<div class="recommendation-badge" data-i18n="player_pool_recommendation">POOL</div>`;
+        if (CONFIG.MODE === 'competitive') {
+            if (isInPool && step && step.type === 'pick') badgesHtml += `<div class="recommendation-badge">${window.translations[CONFIG.LANG].badge_pool}</div>`;
+            if (isSynergy) badgesHtml += `<div class="prio-badge">${window.translations[CONFIG.LANG].badge_pro}</div>`;
         }
 
-        card.innerHTML = `
-            <img src="https://ddragon.leagueoflegends.com/cdn/${CONFIG.DATA_DRAGON_VERSION}/img/champion/${champ.image.full}" alt="${champ.name}" loading="lazy">
-            ${badgesHtml}
-            <div class="champ-name">${champ.name}</div>
-        `;
+        card.innerHTML = `<img src="https://ddragon.leagueoflegends.com/cdn/${CONFIG.DATA_DRAGON_VERSION}/img/champion/${champ.image.full}" alt="${champ.name}" loading="lazy">${badgesHtml}<div class="champ-name">${champ.name}</div>`;
         card.onclick = () => isLocked ? handleUndo(historyEntry.stepIndex) : handleSelection(champ);
         grid.appendChild(card);
     });
@@ -236,8 +369,18 @@ function handleUndo(stepIndex) {
     updateAnalysis();
 }
 
+function handleSlotClick(slotId) {
+    const [side, type, id] = slotId.split('-');
+    const stepIndex = state.draftSequence.findIndex(s => s.side === side && s.type === type && s.id == id);
+    const historyEntry = state.history.find(h => h.stepIndex === stepIndex);
+    if (historyEntry) {
+        handleUndo(stepIndex);
+    }
+}
+
 function updateLanguageUI() {
-    const lang = translations[CONFIG.LANG];
+    const lang = window.translations[CONFIG.LANG];
+    if (!lang) return;
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (lang[key]) el.innerText = lang[key];
@@ -255,13 +398,9 @@ function setupEventListeners() {
     document.getElementById('mode-competitive').onclick = () => setMode('competitive');
     document.getElementById('set-side-blue').onclick = () => setUserSide('blue');
     document.getElementById('set-side-red').onclick = () => setUserSide('red');
-
     const poolToggle = document.getElementById('poolFilterToggle');
     if (poolToggle) {
-        poolToggle.onchange = (e) => {
-            CONFIG.ONLY_POOL = e.target.checked;
-            renderChampions();
-        };
+        poolToggle.onchange = (e) => { CONFIG.ONLY_POOL = e.target.checked; renderChampions(); updateAnalysis(); };
     }
     const search = document.getElementById('championSearch');
     if (search) search.oninput = (e) => renderChampions(e.target.value);
@@ -272,20 +411,6 @@ function setupEventListeners() {
             localStorage.setItem('pref_lang', CONFIG.LANG);
             updateLanguageUI();
             updateAnalysis();
-        };
-    }
-    const saveBtn = document.getElementById('saveApiKey');
-    if (saveBtn) {
-        saveBtn.onclick = async () => {
-            const key = document.getElementById('apiKeyInput').value.trim();
-            saveBtn.innerText = translations[CONFIG.LANG].verifying;
-            saveBtn.disabled = true;
-            await new Promise(r => setTimeout(r, 500));
-            const check = await validateApiKey(key);
-            if (check.valid) { CONFIG.API_KEY = key; await startApp(); }
-            else showApiModal(check.message);
-            saveBtn.innerText = translations[CONFIG.LANG].modal_btn;
-            saveBtn.disabled = false;
         };
     }
 }
@@ -299,6 +424,14 @@ function setMode(mode) {
     updateSideUI();
 }
 
+function setUserSide(side) {
+    CONFIG.USER_SIDE = side;
+    localStorage.setItem('pref_side', side);
+    updateSideUI();
+    renderChampions();
+    updateAnalysis();
+}
+
 function updateModeUI() {
     const standardBtn = document.getElementById('mode-standard');
     const competitiveBtn = document.getElementById('mode-competitive');
@@ -306,14 +439,6 @@ function updateModeUI() {
         standardBtn.classList.toggle('active', CONFIG.MODE === 'standard');
         competitiveBtn.classList.toggle('active', CONFIG.MODE === 'competitive');
     }
-}
-
-function setUserSide(side) {
-    CONFIG.USER_SIDE = side;
-    localStorage.setItem('pref_side', side);
-    updateSideUI();
-    renderChampions();
-    updateAnalysis();
 }
 
 function updateSideUI() {
