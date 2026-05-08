@@ -107,7 +107,22 @@ function renderDraftSlots() {
         const slot = document.getElementById(`${step.side}-${step.type}-${step.id}`);
         if (step.type === 'pick') {
             const role = state.slotRoles[`${step.side}-${step.type}-${step.id}`];
-            slot.innerHTML = `<img src="https://ddragon.leagueoflegends.com/cdn/${CONFIG.DATA_DRAGON_VERSION}/img/champion/${champ.image.full}" style="height: 100%; border-radius: 4px; margin-right: 15px;"><div class="slot-info"><div style="font-weight: 800; color: #fff;">${champ.name}</div><div style="font-size: 0.7rem; color: var(--text-muted);">${role}</div></div>`;
+            
+            // Flex Badges on Draft Slots
+            const flexRoles = ['TOP', 'JNG', 'MID', 'BOT', 'SUP'].filter(r => state.playerPools[r]?.includes(champ.name));
+            let flexHtml = '';
+            if (flexRoles.length > 1) {
+                flexHtml = `<div style="position: absolute; right: -5px; bottom: -5px; display: flex; gap: 2px;">` + 
+                           flexRoles.map(r => `<img src="${ROLE_ICONS[r]}" style="width: 16px; height: 16px; background: rgba(0,0,0,0.8); border-radius: 50%; border: 1px solid var(--accent-gold);" title="Flex: ${r}">`).join('') + 
+                           `</div>`;
+            }
+
+            slot.style.position = 'relative'; // Ensure absolute badges position correctly
+            slot.innerHTML = `<img src="https://ddragon.leagueoflegends.com/cdn/${CONFIG.DATA_DRAGON_VERSION}/img/champion/${champ.image.full}" style="height: 100%; border-radius: 4px; margin-right: 15px;">
+                              <div class="slot-info">
+                                  <div style="font-weight: 800; color: #fff;">${champ.name}</div>
+                                  <div style="font-size: 0.7rem; color: var(--text-muted);">${role}</div>
+                              </div>${flexHtml}`;
         } else {
             slot.innerHTML = `<img src="https://ddragon.leagueoflegends.com/cdn/${CONFIG.DATA_DRAGON_VERSION}/img/champion/${champ.image.full}">`;
         }
@@ -116,11 +131,24 @@ function renderDraftSlots() {
 
 function updateActiveSlot() {
     document.querySelectorAll('.slot, .ban-slot').forEach(el => el.classList.remove('active'));
-    if (state.currentStep >= state.draftSequence.length) return;
+    
+    const roleFilterBar = document.getElementById('roleFilterBar');
+
+    if (state.currentStep >= state.draftSequence.length) {
+        if (roleFilterBar) roleFilterBar.style.display = 'none';
+        return;
+    }
+    
     const step = state.draftSequence[state.currentStep];
     const slotId = `${step.side}-${step.type}-${step.id}`;
     const el = document.getElementById(slotId);
     if (el) el.classList.add('active');
+
+    const isUserTurn = step.side === CONFIG.USER_SIDE;
+    if (roleFilterBar) {
+        // Only show role filter when the user is picking for their own team
+        roleFilterBar.style.display = (isUserTurn && step.type === 'pick') ? 'flex' : 'none';
+    }
 }
 
 /**
@@ -128,9 +156,23 @@ function updateActiveSlot() {
  */
 function evaluateDraft() {
     const enemySide = CONFIG.USER_SIDE === 'blue' ? 'red' : 'blue';
-    const enemyPicks = state.history.filter((h, i) => state.draftSequence[i].side === enemySide && state.draftSequence[i].type === 'pick').map(h => ({ champ: state.champions.find(c => c.id === h.champId), role: state.slotRoles[`${state.draftSequence[i].side}-${state.draftSequence[i].type}-${state.draftSequence[i].id}`] }));
-    const userPicks = state.history.filter((h, i) => state.draftSequence[i].side === CONFIG.USER_SIDE && state.draftSequence[i].type === 'pick').map(h => ({ champ: state.champions.find(c => c.id === h.champId), role: state.slotRoles[`${state.draftSequence[i].side}-${state.draftSequence[i].type}-${state.draftSequence[i].id}`] }));
-    const enemyBans = state.history.filter((h, i) => state.draftSequence[i].side === enemySide && state.draftSequence[i].type === 'ban').map(h => state.champions.find(c => c.id === h.champId));
+    const enemyPicks = state.history
+        .filter(h => state.draftSequence[h.stepIndex].side === enemySide && state.draftSequence[h.stepIndex].type === 'pick')
+        .map(h => {
+            const step = state.draftSequence[h.stepIndex];
+            return { champ: state.champions.find(c => c.id === h.champId), role: state.slotRoles[`${step.side}-${step.type}-${step.id}`] };
+        });
+        
+    const userPicks = state.history
+        .filter(h => state.draftSequence[h.stepIndex].side === CONFIG.USER_SIDE && state.draftSequence[h.stepIndex].type === 'pick')
+        .map(h => {
+            const step = state.draftSequence[h.stepIndex];
+            return { champ: state.champions.find(c => c.id === h.champId), role: state.slotRoles[`${step.side}-${step.type}-${step.id}`] };
+        });
+        
+    const enemyBans = state.history
+        .filter(h => state.draftSequence[h.stepIndex].side === enemySide && state.draftSequence[h.stepIndex].type === 'ban')
+        .map(h => state.champions.find(c => c.id === h.champId));
 
     // Deep Threat Analysis
     const enemyComp = { engage: 0, poke: 0, dps: 0, burst: 0, peel: 0, front: 0, ap: 0, ad: 0 };
@@ -434,10 +476,26 @@ function autoAssignEnemyRoles() {
 
 function handleSelection(champ) {
     if (state.currentStep >= state.draftSequence.length) return;
-    state.history.push({ champId: champ.id, stepIndex: state.currentStep });
     
     const step = state.draftSequence[state.currentStep];
-    if (step.side !== CONFIG.USER_SIDE && step.type === 'pick') {
+    const isUserTurn = step.side === CONFIG.USER_SIDE;
+
+    // Auto-Role Swap: Assign the picked champion to the currently selected filter role
+    if (isUserTurn && step.type === 'pick') {
+        const slotId = `${step.side}-${step.type}-${step.id}`;
+        const currentSlotRole = state.slotRoles[slotId];
+        const targetRole = state.activeFilterRole;
+        
+        if (currentSlotRole !== targetRole) {
+            const otherSlotId = [1,2,3,4,5].map(i => `${step.side}-pick-${i}`).find(id => state.slotRoles[id] === targetRole);
+            if (otherSlotId) state.slotRoles[otherSlotId] = currentSlotRole;
+            state.slotRoles[slotId] = targetRole;
+        }
+    }
+
+    state.history.push({ champId: champ.id, stepIndex: state.currentStep });
+    
+    if (!isUserTurn && step.type === 'pick') {
         autoAssignEnemyRoles();
     }
     
