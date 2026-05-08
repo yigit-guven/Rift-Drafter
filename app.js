@@ -25,6 +25,7 @@ const state = {
     history: [],
     currentStep: 0,
     playerPools: {},
+    activeFilterRole: 'TOP',
     slotRoles: {
         'blue-pick-1': 'TOP', 'blue-pick-2': 'JNG', 'blue-pick-3': 'MID', 'blue-pick-4': 'BOT', 'blue-pick-5': 'SUP',
         'red-pick-1': 'TOP', 'red-pick-2': 'JNG', 'red-pick-3': 'MID', 'red-pick-4': 'BOT', 'red-pick-5': 'SUP'
@@ -286,8 +287,7 @@ function updateAnalysis() {
             html += `<div class="counter-item"><span class="counter-chip" style="border-color: var(--accent-red); color: var(--accent-red);">BAN</span> ${item.champ.name}${reasonStr}</div>`;
         });
     } else if (isUserTurn && step.type === 'pick') {
-        const slotId = `${step.side}-${step.type}-${step.id}`;
-        const role = state.slotRoles[slotId];
+        const role = state.activeFilterRole;
         const pool = state.playerPools[role] || [];
         html += `<div style="font-weight: 800; font-size: 0.8rem; margin-top: 10px;">${lang.top_recommendations} (${role}):</div>`;
         
@@ -350,8 +350,7 @@ function renderChampions(filter = '') {
     const evaluation = evaluateDraft();
     const step = state.draftSequence[state.currentStep];
     const isUserTurn = step && step.side === CONFIG.USER_SIDE;
-    const activeSlotId = step ? `${step.side}-${step.type}-${step.id}` : null;
-    const activeRole = activeSlotId ? state.slotRoles[activeSlotId] : null;
+    const activeRole = state.activeFilterRole; // Use the globally selected role
 
     let championsToRender = state.champions.map(c => {
         const scoreData = (CONFIG.MODE === 'competitive') ? getTacticalScore(c, activeRole, evaluation, step ? step.type : 'pick', state.currentStep) : { score: 0, reasons: [] };
@@ -377,6 +376,14 @@ function renderChampions(filter = '') {
         const pool = (activeRole && state.playerPools[activeRole]) || [];
         const isInPool = pool.includes(champ.name);
         const isSynergy = champ.tacticalScore > 110;
+        
+        // Calculate Flex Badges
+        const flexRoles = ['TOP', 'JNG', 'MID', 'BOT', 'SUP'].filter(r => state.playerPools[r]?.includes(champ.name));
+        let flexHtml = '';
+        if (CONFIG.MODE === 'competitive' && flexRoles.length > 0) {
+            flexHtml = `<div class="champ-flex-badges">` + flexRoles.map(r => `<img src="${ROLE_ICONS[r]}" class="champ-flex-icon" title="${r}">`).join('') + `</div>`;
+        }
+
         const card = document.createElement('div');
         card.className = `champ-card ${isLocked ? 'disabled' : ''} ${isSynergy ? 'synergy' : ''}`;
         let badgesHtml = '';
@@ -384,16 +391,56 @@ function renderChampions(filter = '') {
             if (isInPool && step && step.type === 'pick') badgesHtml += `<div class="recommendation-badge">${window.translations[CONFIG.LANG].badge_pool}</div>`;
             if (isSynergy) badgesHtml += `<div class="prio-badge">${window.translations[CONFIG.LANG].badge_pro}</div>`;
         }
-        card.innerHTML = `<img src="https://ddragon.leagueoflegends.com/cdn/${CONFIG.DATA_DRAGON_VERSION}/img/champion/${champ.image.full}" alt="${champ.name}" loading="lazy">${badgesHtml}<div class="champ-name">${champ.name}</div>`;
+        card.innerHTML = `<img src="https://ddragon.leagueoflegends.com/cdn/${CONFIG.DATA_DRAGON_VERSION}/img/champion/${champ.image.full}" alt="${champ.name}" loading="lazy">${flexHtml}${badgesHtml}<div class="champ-name">${champ.name}</div>`;
         card.onclick = () => isLocked ? handleUndo(historyEntry.stepIndex) : handleSelection(champ);
         grid.appendChild(card);
     });
     grid.scrollTop = currentScroll;
 }
 
+function autoAssignEnemyRoles() {
+    const enemySide = CONFIG.USER_SIDE === 'blue' ? 'red' : 'blue';
+    const enemyPicks = state.history.filter((h, i) => state.draftSequence[i].side === enemySide && state.draftSequence[i].type === 'pick');
+    
+    // Reset enemy roles
+    const availableRoles = ['TOP', 'JNG', 'MID', 'BOT', 'SUP'];
+    const assignedRoles = {};
+
+    // Very basic heuristic mapping for auto-assignment
+    enemyPicks.forEach(entry => {
+        const champ = state.champions.find(c => c.id === entry.champId);
+        let bestRole = null;
+        if (champ.tags.includes('Marksman') && availableRoles.includes('BOT')) bestRole = 'BOT';
+        else if (champ.tags.includes('Support') && availableRoles.includes('SUP')) bestRole = 'SUP';
+        else if (champ.tags.includes('Assassin') && availableRoles.includes('MID')) bestRole = 'MID';
+        else if (champ.tags.includes('Tank') && availableRoles.includes('TOP')) bestRole = 'TOP';
+        else if (availableRoles.includes('JNG')) bestRole = 'JNG'; // Fallback
+
+        if (bestRole) {
+            assignedRoles[entry.champId] = bestRole;
+            availableRoles.splice(availableRoles.indexOf(bestRole), 1);
+        }
+    });
+
+    // Apply back to state
+    enemyPicks.forEach(entry => {
+        const step = state.draftSequence[entry.stepIndex];
+        const slotId = `${step.side}-${step.type}-${step.id}`;
+        if (assignedRoles[entry.champId]) {
+            state.slotRoles[slotId] = assignedRoles[entry.champId];
+        }
+    });
+}
+
 function handleSelection(champ) {
     if (state.currentStep >= state.draftSequence.length) return;
     state.history.push({ champId: champ.id, stepIndex: state.currentStep });
+    
+    const step = state.draftSequence[state.currentStep];
+    if (step.side !== CONFIG.USER_SIDE && step.type === 'pick') {
+        autoAssignEnemyRoles();
+    }
+    
     state.currentStep++;
     renderDraftSlots();
     renderChampions(document.getElementById('championSearch').value);
@@ -437,6 +484,18 @@ function setupEventListeners() {
     document.getElementById('mode-competitive').onclick = () => setMode('competitive');
     document.getElementById('set-side-blue').onclick = () => setUserSide('blue');
     document.getElementById('set-side-red').onclick = () => setUserSide('red');
+    
+    // Role Filter Bar listeners
+    document.querySelectorAll('.role-filter-btn').forEach(btn => {
+        btn.onclick = (e) => {
+            document.querySelectorAll('.role-filter-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            state.activeFilterRole = e.target.getAttribute('data-role');
+            renderChampions();
+            updateAnalysis();
+        };
+    });
+
     const poolToggle = document.getElementById('poolFilterToggle');
     if (poolToggle) poolToggle.onchange = (e) => { CONFIG.ONLY_POOL = e.target.checked; renderChampions(); updateAnalysis(); };
     const search = document.getElementById('championSearch');
