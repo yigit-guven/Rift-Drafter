@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rift Drafter | Premium League of Legends Drafting</title>
+    <meta name="description" content="A state-of-the-art drafting tool for League of Legends, featuring real-time analysis and premium Hextech aesthetics.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo" data-i18n="title">Rift Drafter</div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <div class="search-bar">
+                    <input type="text" id="championSearch" data-i18n-placeholder="search_placeholder" placeholder="SEARCH CHAMPION...">
+                </div>
+                <select id="langSwitcher" class="lang-select">
+                    <option value="en_us">EN</option>
+                    <option value="tr_tr">TR</option>
+                </select>
+            </div>
+        </header>
+
+        <main class="draft-board">
+            <!-- Blue Side -->
+            <section class="side-panel blue">
+                <h2 class="panel-title" data-i18n="blue_team">Blue Team</h2>
+                <div class="bans-container" id="blue-bans">
+                    <div class="ban-slot" id="blue-ban-1"></div>
+                    <div class="ban-slot" id="blue-ban-2"></div>
+                    <div class="ban-slot" id="blue-ban-3"></div>
+                    <div class="ban-slot" id="blue-ban-4"></div>
+                    <div class="ban-slot" id="blue-ban-5"></div>
+                </div>
+                <div class="slot" id="blue-pick-1" data-role="TOP"></div>
+                <div class="slot" id="blue-pick-2" data-role="JNG"></div>
+                <div class="slot" id="blue-pick-3" data-role="MID"></div>
+                <div class="slot" id="blue-pick-4" data-role="BOT"></div>
+                <div class="slot" id="blue-pick-5" data-role="SUP"></div>
+            </section>
+
+            <!-- Center: Selection -->
+            <section class="champion-selection">
+                <div class="champion-grid" id="championGrid"></div>
+            </section>
+
+            <!-- Red Side -->
+            <section class="side-panel red">
+                <h2 class="panel-title" data-i18n="red_team">Red Team</h2>
+                <div class="bans-container" id="red-bans">
+                    <div class="ban-slot" id="red-ban-1"></div>
+                    <div class="ban-slot" id="red-ban-2"></div>
+                    <div class="ban-slot" id="red-ban-3"></div>
+                    <div class="ban-slot" id="red-ban-4"></div>
+                    <div class="ban-slot" id="red-ban-5"></div>
+                </div>
+                <div class="slot" id="red-pick-1" data-role="TOP"></div>
+                <div class="slot" id="red-pick-2" data-role="JNG"></div>
+                <div class="slot" id="red-pick-3" data-role="MID"></div>
+                <div class="slot" id="red-pick-4" data-role="BOT"></div>
+                <div class="slot" id="red-pick-5" data-role="SUP"></div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="apiModal">
+        <div class="modal-content">
+            <h2 data-i18n="modal_title">Rift Access Required</h2>
+            <p data-i18n="modal_desc">Please enter your Riot API Key to enable real-time drafting analysis and data fetching.</p>
+            <div class="api-input-group">
+                <div id="apiErrorMessage" style="color: var(--accent-red); font-size: 0.8rem; margin-bottom: 1rem; display: none; text-align: left; border-left: 2px solid var(--accent-red); padding-left: 10px;"></div>
+                <input type="password" id="apiKeyInput" data-i18n-placeholder="api_placeholder" placeholder="RGAPI-XXXXX-XXXXX...">
+                <button class="btn-primary" id="saveApiKey" data-i18n="modal_btn">Initialize Connection</button>
+            </div>
+            <p style="font-size: 0.7rem; margin-top: 1.5rem;" data-i18n="modal_note">Your key is stored locally in your browser and never sent to our servers.</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
