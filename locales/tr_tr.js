@@ -1,4 +1,6 @@
-const tr_tr = {
+if (!window.translations) window.translations = {};
+
+window.translations.tr_tr = {
     title: "Vadideki Kompozisyon",
     search_placeholder: "ŞAMPİYON ARA...",
     blue_team: "Mavi Takım",
@@ -13,7 +15,12 @@ const tr_tr = {
     err_format: "Geçersiz anahtar formatı.",
     err_invalid_file: "apikey.txt dosyasında geçersiz anahtar",
     verifying: "DOĞRULANIYOR...",
-    api_placeholder: "RGAPI-XXXXX-XXXXX..."
+    api_placeholder: "RGAPI-XXXXX-XXXXX...",
+    insights_header: "TAKIM ANALİZİ",
+    insights_empty: "Oyuncu havuzu önerilerini görmek için tarafınızı seçin.",
+    mode_standard: "STANDART",
+    mode_competitive: "REKABETÇİ",
+    select_your_side: "TARAFINIZI SEÇİN:",
+    player_pool_recommendation: "HAVUZ",
+    show_only_pool: "SADECE HAVUZU GÖSTER"
 };
-
-export default tr_tr;

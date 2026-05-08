@@ -14,6 +14,10 @@
                 <div class="logo" data-i18n="title">Rift Drafter</div>
             </a>
             <div style="display: flex; gap: 1rem; align-items: center;">
+                <div class="mode-switcher">
+                    <button id="mode-standard" class="mode-btn active" data-i18n="mode_standard">STANDARD</button>
+                    <button id="mode-competitive" class="mode-btn" data-i18n="mode_competitive">COMPETITIVE</button>
+                </div>
                 <div class="search-bar">
                     <input type="text" id="championSearch" data-i18n-placeholder="search_placeholder" placeholder="SEARCH CHAMPION...">
                 </div>
@@ -24,10 +28,26 @@
             </div>
         </header>
 
+        <div id="competitive-setup" class="comp-setup-bar" style="display: none;">
+            <span data-i18n="select_your_side">SELECT YOUR SIDE:</span>
+            <div class="side-toggle">
+                <button id="set-side-blue" class="side-btn blue" data-i18n="blue_team">BLUE</button>
+                <button id="set-side-red" class="side-btn red" data-i18n="red_team">RED</button>
+            </div>
+            <div class="filter-toggle">
+                <label class="switch">
+                    <input type="checkbox" id="poolFilterToggle">
+                    <span class="slider"></span>
+                </label>
+                <span style="font-size: 0.6rem;" data-i18n="show_only_pool">SHOW ONLY POOL</span>
+            </div>
+        </div>
+
         <main class="draft-board">
             <!-- Blue Side -->
             <section class="side-panel blue">
                 <h2 class="panel-title" data-i18n="blue_team">Blue Team</h2>
+                <div id="blue-comp-tags" class="comp-tags"></div>
                 <div class="bans-container" id="blue-bans">
                     <div class="ban-slot" id="blue-ban-1"></div>
                     <div class="ban-slot" id="blue-ban-2"></div>
@@ -42,14 +62,26 @@
                 <div class="slot" id="blue-pick-5" data-role="SUP"></div>
             </section>
 
-            <!-- Center: Selection -->
-            <section class="champion-selection">
-                <div class="champion-grid" id="championGrid"></div>
-            </section>
+            <!-- Center: Selection & Insights -->
+            <div class="center-column">
+                <section class="champion-selection">
+                    <div class="champion-grid" id="championGrid"></div>
+                </section>
+                
+                <section class="analysis-panel" id="analysisPanel" style="display: none;">
+                    <div class="analysis-header" data-i18n="insights_header">LIVE STRATEGIC INSIGHTS</div>
+                    <div class="analysis-content">
+                        <div id="counterSuggestions">
+                            <span style="color: var(--text-muted);" data-i18n="insights_empty">Pick a champion to see counter recommendations...</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
 
             <!-- Red Side -->
             <section class="side-panel red">
                 <h2 class="panel-title" data-i18n="red_team">Red Team</h2>
+                <div id="red-comp-tags" class="comp-tags"></div>
                 <div class="bans-container" id="red-bans">
                     <div class="ban-slot" id="red-ban-1"></div>
                     <div class="ban-slot" id="red-ban-2"></div>
@@ -79,6 +111,8 @@
         </div>
     </div>
 
+    <script src="locales/en_us.js"></script>
+    <script src="locales/tr_tr.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

@@ -1,4 +1,6 @@
-const en_us = {
+if (!window.translations) window.translations = {};
+
+window.translations.en_us = {
     title: "Rift Drafter",
     search_placeholder: "SEARCH CHAMPION...",
     blue_team: "Blue Team",
@@ -13,7 +15,12 @@ const en_us = {
     err_format: "Invalid key format.",
     err_invalid_file: "Invalid key in apikey.txt",
     verifying: "VERIFYING...",
-    api_placeholder: "RGAPI-XXXXX-XXXXX..."
+    api_placeholder: "RGAPI-XXXXX-XXXXX...",
+    insights_header: "TEAM ANALYSIS",
+    insights_empty: "Select your side to see player pool recommendations.",
+    mode_standard: "STANDARD",
+    mode_competitive: "COMPETITIVE",
+    select_your_side: "SELECT YOUR SIDE:",
+    player_pool_recommendation: "POOL",
+    show_only_pool: "SHOW ONLY POOL"
 };
-
-export default en_us;
