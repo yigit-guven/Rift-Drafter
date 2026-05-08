@@ -164,10 +164,17 @@ async function loadApiKeyFromFile() {
 
 async function fetchChampions() {
     try {
-        const response = await fetch(`https://ddragon.leagueoflegends.com/cdn/${CONFIG.DATA_DRAGON_VERSION}/data/en_US/champion.json`);
+        const vRes = await fetch('https://ddragon.leagueoflegends.com/api/versions.json');
+        const versions = await vRes.json();
+        const latest = versions[0];
+        CONFIG.DATA_DRAGON_VERSION = latest;
+
+        const response = await fetch(`https://ddragon.leagueoflegends.com/cdn/${latest}/data/en_US/champion.json`);
         const data = await response.json();
         state.champions = Object.values(data.data).sort((a,b) => a.name.localeCompare(b.name));
-    } catch (error) {}
+    } catch (error) {
+        console.error("Champions fetch failed:", error);
+    }
 }
 
 function renderChampions(filter = '') {
