@@ -109,13 +109,14 @@
     <div class="modal-overlay" id="apiModal">
         <div class="modal-content">
             <h2 data-i18n="modal_title">Rift Access Required</h2>
-            <p data-i18n="modal_desc">Please enter your Riot API Key to enable real-time drafting analysis and data fetching.</p>
+            <p data-i18n="modal_desc">Please enter your API Keys to enable real-time drafting analysis and data fetching.</p>
             <div class="api-input-group">
                 <div id="apiErrorMessage" style="color: var(--accent-red); font-size: 0.8rem; margin-bottom: 1rem; display: none; text-align: left; border-left: 2px solid var(--accent-red); padding-left: 10px;"></div>
-                <input type="password" id="apiKeyInput" data-i18n-placeholder="api_placeholder" placeholder="RGAPI-XXXXX-XXXXX...">
+                <input type="password" id="apiKeyInput" data-i18n-placeholder="api_placeholder" placeholder="Riot API Key (RGAPI-XXXXX...)">
+                <input type="password" id="geminiKeyInput" placeholder="Google Gemini AI Key (AIzaSy...) - Optional for AI Coach">
                 <button class="btn-primary" id="saveApiKey" data-i18n="modal_btn">Initialize Connection</button>
             </div>
-            <p style="font-size: 0.7rem; margin-top: 1.5rem;" data-i18n="modal_note">Your key is stored locally in your browser and never sent to our servers.</p>
+            <p style="font-size: 0.7rem; margin-top: 1.5rem;" data-i18n="modal_note">Your keys are stored locally in your browser and never sent to our servers.</p>
         </div>
     </div>
 

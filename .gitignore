@@ -1,7 +1,7 @@
 # Riot API Security
-apikey.txt
 config.js
 .env
 node_modules/
 .DS_Store
 preferences.json
+apikey.json

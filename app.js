@@ -6,6 +6,7 @@ const CONFIG = {
     DATA_DRAGON_VERSION: '14.9.1',
     REGION: 'euw1',
     API_KEY: null,
+    GEMINI_KEY: localStorage.getItem('pref_gemini_key') || null,
     LANG: localStorage.getItem('pref_lang') || 'en_us',
     MODE: localStorage.getItem('pref_mode') || 'standard',
     USER_SIDE: localStorage.getItem('pref_side') || 'blue',
@@ -18,6 +19,23 @@ const ROLE_ICONS = {
     MID: 'https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-middle.png',
     BOT: 'https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-bottom.png',
     SUP: 'https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png'
+};
+
+const MECHANICS_DB = {
+    anti_dash: ['Vex', 'Poppy', 'Cassiopeia', 'Taliyah', 'Singed'],
+    dash_reliant: ['Yasuo', 'Yone', 'Irelia', 'Kalista', 'Ahri', 'Leblanc', 'LeeSin', 'Riven', 'Katarina', 'Akali', 'Lucian'],
+    anti_tank: ['Vayne', 'KogMaw', 'Fiora', 'Trundle', 'Brand', 'Velkoz', 'Lillia', 'Gwen', 'Camille'],
+    heavy_tank: ['Sion', 'Ornn', 'Malphite', 'Chogath', 'DrMundo', 'TahmKench', 'Zac', 'Sejuani', 'Kstante', 'Rammus'],
+    anti_shield: ['Renekton', 'Blitzcrank', 'Rell', 'Pyke'],
+    shield_reliant: ['Karma', 'Lulu', 'Janna', 'Shen', 'Ivern', 'Sona', 'Seraphine'],
+    anti_projectile: ['Yasuo', 'Samira', 'Braum', 'Gwen'],
+    projectile_reliant: ['MissFortune', 'Velkoz', 'Ezreal', 'Zoe', 'Xerath', 'Caitlyn', 'Ashe', 'Varus'],
+    armor_stacker: ['Malphite', 'Rammus', 'Taric'],
+    heavy_ad: ['Talon', 'Zed', 'Qiyana', 'Draven', 'Pyke', 'Pantheon'],
+    magic_resist: ['Galio', 'Kassadin', 'DrMundo'],
+    heavy_ap: ['Evelynn', 'Gwen', 'Karthus', 'Syndra', 'Vladimir', 'Akali', 'Rumble'],
+    point_and_click_cc: ['Malzahar', 'Lissandra', 'TwistedFate', 'Pantheon', 'Annie', 'Vi', 'Nautilus'],
+    high_mobility_squishy: ['MasterYi', 'Katarina', 'Zeri', 'Yasuo', 'Yone', 'Vayne', 'Samira', 'Evelynn']
 };
 
 const state = {
@@ -78,6 +96,8 @@ function cycleRole(event, slotId) {
     let currentRole = state.slotRoles[slotId];
     let nextIndex = (roles.indexOf(currentRole) + 1) % roles.length;
     state.slotRoles[slotId] = roles[nextIndex];
+    state.lockedEnemyRoles = state.lockedEnemyRoles || {};
+    state.lockedEnemyRoles[slotId] = true;
     renderDraftSlots();
     renderChampions();
     updateAnalysis();
@@ -253,9 +273,17 @@ function getTacticalScore(champ, activeRole, evaluation, type, stepIndex) {
         if (stepIndex > 11) { // Phase 2 Bans
             // 1. Counter Pick Bans: Protect our locked champions
             evaluation.userPicks.forEach(p => {
-                if ((p.champ.tags.includes('Marksman') || p.champ.tags.includes('Mage')) && champ.tags.includes('Assassin')) { score += 25; reasons.push('PROTECTS CARRY'); }
-                if (p.champ.tags.includes('Tank') && (champ.tags.includes('Marksman') || champ.info.magic > 7)) { score += 25; reasons.push('DENIES TANK SHRED'); }
-                if (p.champ.tags.includes('Assassin') && (champ.tags.includes('Tank') || champ.tags.includes('Support'))) { score += 20; reasons.push('DENIES PEEL'); }
+                const pName = p.champ.name.replace(/[^a-zA-Z]/g, '');
+                const cName = champ.name.replace(/[^a-zA-Z]/g, '');
+
+                // Semantic Protection
+                if (MECHANICS_DB.dash_reliant.includes(pName) && MECHANICS_DB.anti_dash.includes(cName)) { score += 30; reasons.push(`PROTECTS ${p.champ.name} (Anti-Dash)`); }
+                if (MECHANICS_DB.high_mobility_squishy.includes(pName) && MECHANICS_DB.point_and_click_cc.includes(cName)) { score += 30; reasons.push(`PROTECTS ${p.champ.name} (Targeted CC)`); }
+                if (MECHANICS_DB.heavy_tank.includes(pName) && MECHANICS_DB.anti_tank.includes(cName)) { score += 30; reasons.push(`PROTECTS ${p.champ.name} (Anti-Tank)`); }
+                if (MECHANICS_DB.projectile_reliant.includes(pName) && MECHANICS_DB.anti_projectile.includes(cName)) { score += 30; reasons.push(`PROTECTS ${p.champ.name} (Anti-Projectile)`); }
+                
+                // Generic Protection
+                if ((p.champ.tags.includes('Marksman') || p.champ.tags.includes('Mage')) && champ.tags.includes('Assassin')) { score += 20; reasons.push('PROTECTS CARRY'); }
             });
 
             // 2. Synergy Denial: Break enemy combos
@@ -293,6 +321,34 @@ function getTacticalScore(champ, activeRole, evaluation, type, stepIndex) {
             }
         }
         
+        // Smart Fallbacks to guarantee every ban has a strategic reason
+        if (reasons.length === 0) {
+            const ourRoles = evaluation.userPicks.map(p => p.role);
+            const champLikelyRoles = [];
+            if (champ.tags.includes('Marksman')) champLikelyRoles.push('BOT');
+            if (champ.tags.includes('Support')) champLikelyRoles.push('SUP');
+            if (champ.tags.includes('Mage') || champ.tags.includes('Assassin')) champLikelyRoles.push('MID');
+            if (champ.tags.includes('Fighter')) champLikelyRoles.push('TOP', 'JNG');
+            if (champ.tags.includes('Tank')) champLikelyRoles.push('TOP', 'JNG', 'SUP');
+
+            if (ourRoles.some(r => champLikelyRoles.includes(r))) {
+                score += 15;
+                reasons.push('ROLE STARVATION (CHOKE)');
+            } else if (champ.tags.includes('Assassin')) {
+                score += 10;
+                reasons.push('DENIES BURST / DIVE');
+            } else if (champ.tags.includes('Tank') || champ.info.defense > 7) {
+                score += 10;
+                reasons.push('DENIES FRONTLINE');
+            } else if (champ.tags.includes('Mage')) {
+                score += 10;
+                reasons.push('DENIES AP CONTROL');
+            } else {
+                score += 5;
+                reasons.push('STRONG BASE STATS');
+            }
+        }
+        
         // Return top 2 unique reasons
         return { score, reasons: [...new Set(reasons)].slice(0, 2) };
     }
@@ -309,7 +365,7 @@ function getTacticalScore(champ, activeRole, evaluation, type, stepIndex) {
         reasons.push('FLEXIBLE');
     }
 
-    // 3. DRAFT PHASE AWARENESS (Blind vs Counter)
+    // 3. DRAFT PHASE AWARENESS & SEMANTIC MATCHUPS
     const enemyLaner = evaluation.enemyPicks.find(p => p.role === activeRole);
     if (!enemyLaner) {
         // Blind Pick: Prioritize safety (High defense or high range)
@@ -318,15 +374,25 @@ function getTacticalScore(champ, activeRole, evaluation, type, stepIndex) {
             reasons.push('SAFE BLIND');
         }
     } else {
-        // Counter Pick Logic
+        const eName = enemyLaner.champ.name.replace(/[^a-zA-Z]/g, '');
+        const cName = champ.name.replace(/[^a-zA-Z]/g, '');
+        
+        // Semantic Hard Counters
+        if (MECHANICS_DB.anti_dash.includes(cName) && MECHANICS_DB.dash_reliant.includes(eName)) { score += 50; reasons.push(`HARD COUNTERS ${enemyLaner.champ.name} (Anti-Dash)`); }
+        if (MECHANICS_DB.point_and_click_cc.includes(cName) && MECHANICS_DB.high_mobility_squishy.includes(eName)) { score += 50; reasons.push(`LOCKS DOWN ${enemyLaner.champ.name} (Targeted CC)`); }
+        if (MECHANICS_DB.anti_tank.includes(cName) && MECHANICS_DB.heavy_tank.includes(eName)) { score += 50; reasons.push(`SHREDS ${enemyLaner.champ.name} (Anti-Tank)`); }
+        if (MECHANICS_DB.armor_stacker.includes(cName) && MECHANICS_DB.heavy_ad.includes(eName)) { score += 50; reasons.push(`WALLS ${enemyLaner.champ.name} (Armor)`); }
+        if (MECHANICS_DB.magic_resist.includes(cName) && MECHANICS_DB.heavy_ap.includes(eName)) { score += 50; reasons.push(`WALLS ${enemyLaner.champ.name} (MR Stacker)`); }
+        if (MECHANICS_DB.anti_projectile.includes(cName) && MECHANICS_DB.projectile_reliant.includes(eName)) { score += 50; reasons.push(`BLOCKS ${enemyLaner.champ.name} (Anti-Projectile)`); }
+        if (MECHANICS_DB.anti_shield.includes(cName) && MECHANICS_DB.shield_reliant.includes(eName)) { score += 50; reasons.push(`BREAKS ${enemyLaner.champ.name} (Anti-Shield)`); }
+
+        // Generic Fallback Counters
         if (enemyLaner.champ.tags.includes('Tank') && (champ.tags.includes('Marksman') || champ.info.magic >= 8)) {
-            score += 40; reasons.push('SHREDS ENEMY TANK');
-        }
-        if (enemyLaner.champ.tags.includes('Assassin') && (champ.info.defense >= 6 || champ.tags.includes('Support'))) {
-            score += 40; reasons.push('SURVIVES BURST');
-        }
-        if (enemyLaner.champ.stats.attackrange > 500 && champ.tags.includes('Assassin')) {
-            score += 35; reasons.push('PUNISHES RANGE');
+            score += 30; reasons.push('SHREDS ENEMY TANK');
+        } else if (enemyLaner.champ.tags.includes('Assassin') && (champ.info.defense >= 6 || champ.tags.includes('Support'))) {
+            score += 30; reasons.push('SURVIVES BURST');
+        } else if (enemyLaner.champ.stats.attackrange > 500 && champ.tags.includes('Assassin')) {
+            score += 30; reasons.push('PUNISHES RANGE');
         }
     }
 
@@ -455,7 +521,67 @@ function updateAnalysis() {
         });
         html += `</div>`;
     }
+    
+    // Add Gemini AI Integration Button
+    if (state.currentStep < state.draftSequence.length) {
+        html += `
+        <div style="margin-top: 10px; border-top: 1px solid rgba(138, 43, 226, 0.3); padding-top: 10px;">
+            <button id="askAiBtn" onclick="consultGemini()" style="width: 100%; background: linear-gradient(90deg, #1a0033, #4b0082); border: 1px solid #8a2be2; box-shadow: 0 0 10px rgba(138,43,226,0.5); color: #fff; padding: 6px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; transition: all 0.2s;">🤖 Consult AI Coach (Gemini)</button>
+        </div>`;
+    }
+    
     insights.innerHTML = html;
+}
+
+async function consultGemini() {
+    if (!CONFIG.GEMINI_KEY) {
+        showApiModal("Please enter your Google Gemini API Key to consult the AI Coach.");
+        return;
+    }
+    
+    const bluePicks = state.history.filter(h => state.draftSequence[h.stepIndex].side === 'blue' && state.draftSequence[h.stepIndex].type === 'pick').map(h => state.champions.find(c => c.id === h.champId).name);
+    const redPicks = state.history.filter(h => state.draftSequence[h.stepIndex].side === 'red' && state.draftSequence[h.stepIndex].type === 'pick').map(h => state.champions.find(c => c.id === h.champId).name);
+    const activeSide = state.draftSequence[state.currentStep].side;
+    
+    const prompt = `You are a Grandmaster League of Legends coach.
+Current draft state:
+Blue Team: ${bluePicks.join(', ') || 'None'}
+Red Team: ${redPicks.join(', ') || 'None'}
+
+It is ${activeSide}'s turn. Provide a highly analytical, 3-sentence summary of the win conditions and suggest the 2 absolute best champions to pick or ban next based on real match data and hard counters. Keep it strictly about the game strategy.`;
+
+    const btn = document.getElementById('askAiBtn');
+    if (btn) { btn.innerText = "🧠 Analyzing Millions of Matches..."; btn.style.opacity = '0.7'; btn.disabled = true; }
+
+    try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${CONFIG.GEMINI_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+        });
+        
+        const data = await response.json();
+        if (data.error) throw new Error(data.error.message);
+        
+        const text = data.candidates[0].content.parts[0].text;
+        
+        // Show response in modal
+        const modal = document.getElementById('apiModal');
+        const content = modal.querySelector('.modal-content');
+        content.innerHTML = `
+            <h2 style="color: #8a2be2;">🤖 AI COACH ANALYSIS</h2>
+            <div style="color: #fff; text-align: left; font-size: 0.85rem; line-height: 1.5; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 4px; border: 1px solid #8a2be2; margin-bottom: 20px;">
+                ${text.replace(/\n/g, '<br>')}
+            </div>
+            <button class="btn-primary" onclick="hideApiModal(); location.reload();" style="width: 100%;">Close</button>
+        `;
+        modal.classList.add('active');
+        
+    } catch (e) {
+        showApiModal("Error consulting AI Coach. Is your API key valid? " + e.message);
+    } finally {
+        if (btn) { btn.innerText = "🤖 Consult AI Coach (Gemini)"; btn.style.opacity = '1'; btn.disabled = false; }
+    }
 }
 
 async function validateApiKey(key) {
@@ -466,13 +592,20 @@ async function validateApiKey(key) {
 
 async function loadApiKeyFromFile() {
     try {
-        const response = await fetch('apikey.txt');
+        const response = await fetch('apikey.json');
         if (response.ok) {
-            const text = await response.text();
-            const cleanKey = text.trim();
-            if (cleanKey.startsWith('RGAPI-')) CONFIG.API_KEY = cleanKey;
+            const data = await response.json();
+            if (data.riot && data.riot.trim().startsWith('RGAPI-')) {
+                CONFIG.API_KEY = data.riot.trim();
+            }
+            if (data.gemini && data.gemini.trim() !== "") {
+                CONFIG.GEMINI_KEY = data.gemini.trim();
+                localStorage.setItem('pref_gemini_key', CONFIG.GEMINI_KEY);
+            }
         }
-    } catch (e) {}
+    } catch (e) {
+        // Fallback or silent ignore
+    }
 }
 
 async function fetchChampions() {
@@ -545,25 +678,85 @@ function renderChampions(filter = '') {
 
 function autoAssignEnemyRoles() {
     const enemySide = CONFIG.USER_SIDE === 'blue' ? 'red' : 'blue';
-    const enemyPicks = state.history.filter((h, i) => state.draftSequence[i].side === enemySide && state.draftSequence[i].type === 'pick');
+    const enemyPicks = state.history.filter(h => state.draftSequence[h.stepIndex].side === enemySide && state.draftSequence[h.stepIndex].type === 'pick');
     
-    // Reset enemy roles
+    // Reset available roles
     const availableRoles = ['TOP', 'JNG', 'MID', 'BOT', 'SUP'];
     const assignedRoles = {};
 
-    // Very basic heuristic mapping for auto-assignment
-    enemyPicks.forEach(entry => {
-        const champ = state.champions.find(c => c.id === entry.champId);
-        let bestRole = null;
-        if (champ.tags.includes('Marksman') && availableRoles.includes('BOT')) bestRole = 'BOT';
-        else if (champ.tags.includes('Support') && availableRoles.includes('SUP')) bestRole = 'SUP';
-        else if (champ.tags.includes('Assassin') && availableRoles.includes('MID')) bestRole = 'MID';
-        else if (champ.tags.includes('Tank') && availableRoles.includes('TOP')) bestRole = 'TOP';
-        else if (availableRoles.includes('JNG')) bestRole = 'JNG'; // Fallback
+    state.lockedEnemyRoles = state.lockedEnemyRoles || {};
 
-        if (bestRole) {
-            assignedRoles[entry.champId] = bestRole;
-            availableRoles.splice(availableRoles.indexOf(bestRole), 1);
+    // First pass: Honor manual user overrides
+    enemyPicks.forEach(entry => {
+        const step = state.draftSequence[entry.stepIndex];
+        const slotId = `${step.side}-${step.type}-${step.id}`;
+        if (state.lockedEnemyRoles[slotId]) {
+            const manualRole = state.slotRoles[slotId];
+            assignedRoles[entry.champId] = manualRole;
+            const index = availableRoles.indexOf(manualRole);
+            if (index > -1) availableRoles.splice(index, 1);
+        }
+    });
+
+    // Multi-pass intelligent role assignment with priority sorting
+    const tryAssign = (role, tagCondition, tagToPrioritize = null) => {
+        if (!availableRoles.includes(role)) return;
+        
+        let candidates = enemyPicks.filter(e => {
+            if (assignedRoles[e.champId]) return false;
+            const champ = state.champions.find(c => c.id === e.champId);
+            return tagCondition(champ);
+        });
+        
+        if (candidates.length === 0) return;
+
+        // Sort candidates so the most "obvious" fit gets the role
+        candidates.sort((a, b) => {
+            const champA = state.champions.find(c => c.id === a.champId);
+            const champB = state.champions.find(c => c.id === b.champId);
+            
+            if (tagToPrioritize) {
+                let aPrio = champA.tags.indexOf(tagToPrioritize);
+                let bPrio = champB.tags.indexOf(tagToPrioritize);
+                if (aPrio === -1) aPrio = 99;
+                if (bPrio === -1) bPrio = 99;
+                
+                // 1. Primary Tag wins over Secondary Tag
+                if (aPrio !== bPrio) return aPrio - bPrio;
+            }
+            // 2. Tiebreaker: Pure champions (fewer tags) win over flex champions
+            return champA.tags.length - champB.tags.length;
+        });
+
+        const bestEntry = candidates[0];
+        assignedRoles[bestEntry.champId] = role;
+        availableRoles.splice(availableRoles.indexOf(role), 1);
+    };
+
+    // Pass 1: Strict Unique Identities
+    tryAssign('BOT', c => c.tags.includes('Marksman'), 'Marksman');
+    tryAssign('SUP', c => c.tags.includes('Support'), 'Support');
+    
+    // Pass 2: Core Laners
+    tryAssign('MID', c => c.tags.includes('Mage'), 'Mage');
+    tryAssign('MID', c => c.tags.includes('Assassin'), 'Assassin');
+    tryAssign('TOP', c => c.tags.includes('Fighter'), 'Fighter');
+    tryAssign('TOP', c => c.tags.includes('Tank'), 'Tank');
+
+    // Pass 3: Junglers
+    tryAssign('JNG', c => c.tags.includes('Assassin') || c.tags.includes('Fighter') || c.tags.includes('Tank'), 'Fighter');
+
+    // Pass 4: Secondary flexes if slots are still empty
+    tryAssign('SUP', c => c.tags.includes('Tank') || c.tags.includes('Mage'));
+    tryAssign('MID', c => c.tags.includes('Fighter') || c.tags.includes('Marksman'));
+    tryAssign('TOP', c => c.tags.includes('Mage') || c.tags.includes('Assassin'));
+    tryAssign('JNG', c => c.tags.includes('Mage'));
+    tryAssign('BOT', c => c.tags.includes('Mage'));
+
+    // Pass 5: Absolute Fallback
+    enemyPicks.forEach(entry => {
+        if (!assignedRoles[entry.champId] && availableRoles.length > 0) {
+            assignedRoles[entry.champId] = availableRoles.shift();
         }
     });
 
@@ -571,7 +764,8 @@ function autoAssignEnemyRoles() {
     enemyPicks.forEach(entry => {
         const step = state.draftSequence[entry.stepIndex];
         const slotId = `${step.side}-${step.type}-${step.id}`;
-        if (assignedRoles[entry.champId]) {
+        // Update state ONLY if it wasn't manually locked
+        if (!state.lockedEnemyRoles[slotId]) {
             state.slotRoles[slotId] = assignedRoles[entry.champId];
         }
     });
@@ -668,6 +862,26 @@ function setupEventListeners() {
             localStorage.setItem('pref_lang', CONFIG.LANG);
             updateLanguageUI();
             updateAnalysis();
+        };
+    }
+
+    const saveApiBtn = document.getElementById('saveApiKey');
+    if (saveApiBtn) {
+        saveApiBtn.onclick = async () => {
+            const riotKey = document.getElementById('apiKeyInput').value.trim();
+            const geminiKey = document.getElementById('geminiKeyInput')?.value.trim();
+            
+            if (riotKey && riotKey.startsWith('RGAPI-')) {
+                CONFIG.API_KEY = riotKey;
+                // Save it somehow if needed, currently app expects apikey.txt, but we can set it in memory
+            }
+            if (geminiKey) {
+                CONFIG.GEMINI_KEY = geminiKey;
+                localStorage.setItem('pref_gemini_key', geminiKey);
+            }
+            
+            hideApiModal();
+            if (CONFIG.API_KEY || CONFIG.GEMINI_KEY) startApp();
         };
     }
 }
