@@ -229,6 +229,10 @@ function handleUndo(stepIndex) {
 
 function updateLanguageUI() {
     const lang = translations[CONFIG.LANG];
+    
+    const switcher = document.getElementById('langSwitcher');
+    if (switcher) switcher.value = CONFIG.LANG;
+
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (lang[key]) el.innerText = lang[key];
