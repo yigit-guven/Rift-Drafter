@@ -113,7 +113,7 @@ function renderDraftSlots() {
             let flexHtml = '';
             if (flexRoles.length > 1) {
                 flexHtml = `<div style="position: absolute; right: -5px; bottom: -5px; display: flex; gap: 2px;">` + 
-                           flexRoles.map(r => `<img src="${ROLE_ICONS[r]}" style="width: 16px; height: 16px; background: rgba(0,0,0,0.8); border-radius: 50%; border: 1px solid var(--accent-gold);" title="Flex: ${r}">`).join('') + 
+                           flexRoles.map(r => `<img src="${ROLE_ICONS[r]}" class="champ-flex-icon" title="Flex: ${r}">`).join('') + 
                            `</div>`;
             }
 
@@ -205,10 +205,28 @@ function evaluateDraft() {
         if (userComp.front === 0) missing.push('FRONTLINE');
         if (userComp.engage === 0 && userComp.poke === 0) missing.push('ENGAGE / INITIATION');
     }
+    
+    // Draft Phase Gameplan
+    let gameplan = '';
+    const stepIdx = state.currentStep;
+    if (stepIdx <= 5) {
+        gameplan = CONFIG.USER_SIDE === 'blue' ? 'PHASE 1 BANS: Target S-Tier OP champs. If 3 OP champs are open, BAN one to force an even 1-1 trade.' : 'PHASE 1 BANS: Ban S-Tier OP champs. Blue side gets first pick, so eliminate power picks.';
+    } else if (stepIdx === 6) {
+        gameplan = 'FIRST PICK: Secure the highest priority S-Tier or Flex champion in your pool.';
+    } else if (stepIdx === 7 || stepIdx === 8) {
+        gameplan = 'POWER PAIRING: Secure a strong duo (Mid/Jng or Bot/Sup) or answer the enemy first pick.';
+    } else if (stepIdx === 9 || stepIdx === 10 || stepIdx === 11) {
+        gameplan = 'ROUNDING CORE: Pick safe blind lanes or secure high-synergy champions. Save hard-counter lanes for Phase 2.';
+    } else if (stepIdx >= 12 && stepIdx <= 15) {
+        gameplan = 'PHASE 2 BANS: Pinch the enemy! Ban the best champions for the roles they have not picked yet.';
+    } else {
+        gameplan = 'FINAL PICKS: Counter-pick the enemy laners and fulfill any missing composition needs (AP/AD/Frontline).';
+    }
 
     return { 
         strategy, 
         missing,
+        gameplan,
         enemyComp, 
         userComp,
         enemyPicks,
@@ -232,19 +250,51 @@ function getTacticalScore(champ, activeRole, evaluation, type, stepIndex) {
     score += basePower;
 
     if (type === 'ban') {
-        if (stepIndex > 12) {
-            // Target Ban Phase: Ban what the enemy needs
+        if (stepIndex > 11) { // Phase 2 Bans
+            // 1. Counter Pick Bans: Protect our locked champions
+            evaluation.userPicks.forEach(p => {
+                if ((p.champ.tags.includes('Marksman') || p.champ.tags.includes('Mage')) && champ.tags.includes('Assassin')) { score += 25; reasons.push('PROTECTS CARRY'); }
+                if (p.champ.tags.includes('Tank') && (champ.tags.includes('Marksman') || champ.info.magic > 7)) { score += 25; reasons.push('DENIES TANK SHRED'); }
+                if (p.champ.tags.includes('Assassin') && (champ.tags.includes('Tank') || champ.tags.includes('Support'))) { score += 20; reasons.push('DENIES PEEL'); }
+            });
+
+            // 2. Synergy Denial: Break enemy combos
+            if (evaluation.enemyComp.poke > 2 && champ.tags.includes('Mage')) { score += 20; reasons.push('DENIES POKE SYNERGY'); }
+            if (evaluation.enemyComp.engage > 2 && (champ.tags.includes('Tank') || champ.tags.includes('Fighter'))) { score += 20; reasons.push('DENIES DIVE SYNERGY'); }
+
+            // 3. Pinch Bans: Target missing enemy roles
             const enemyRolesFilled = evaluation.enemyPicks.map(p => p.role);
             const missingRoles = ['TOP', 'JNG', 'MID', 'BOT', 'SUP'].filter(r => !enemyRolesFilled.includes(r));
-            if (missingRoles.some(r => state.playerPools[r]?.includes(champ.name))) {
-                score += 50;
-                reasons.push('TARGET BAN');
+            
+            // Basic heuristic mapping for champion roles to see if they fit the enemy's missing role
+            const champLikelyRoles = [];
+            if (champ.tags.includes('Marksman')) champLikelyRoles.push('BOT');
+            if (champ.tags.includes('Support')) champLikelyRoles.push('SUP');
+            if (champ.tags.includes('Mage') || champ.tags.includes('Assassin')) champLikelyRoles.push('MID');
+            if (champ.tags.includes('Fighter') || champ.tags.includes('Tank')) champLikelyRoles.push('TOP', 'JNG');
+            
+            if (missingRoles.some(r => champLikelyRoles.includes(r))) {
+                score += 35 + (basePower / 2); // Prioritize strong champions in the missing role
+                reasons.push(`PINCHES ${missingRoles[0]}`);
             }
         } else {
-            if (champ.info.difficulty >= 7 && basePower > 10) reasons.push('PRO META THREAT');
-            else reasons.push('HIGH STATS');
+            // Phase 1 Bans: Meta Threats & OP Trade
+            if (champ.info.difficulty >= 7 && basePower >= 11) {
+                score += 40;
+                reasons.push('S-TIER THREAT');
+            } else if (basePower >= 13) {
+                score += 30;
+                reasons.push('HIGH BASE STATS');
+            }
+            
+            if (CONFIG.USER_SIDE === 'blue' && stepIndex === 4 && score > 0) {
+                score += 20;
+                reasons.push('OP TRADE MATH');
+            }
         }
-        return { score, reasons };
+        
+        // Return top 2 unique reasons
+        return { score, reasons: [...new Set(reasons)].slice(0, 2) };
     }
 
     // 2. POOL & FLEXIBILITY
@@ -314,43 +364,96 @@ function updateAnalysis() {
     const step = state.draftSequence[state.currentStep];
     const isUserTurn = step && step.side === CONFIG.USER_SIDE;
 
-    let html = `<div style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; border-bottom: 1px solid rgba(200,155,60,0.2); padding-bottom: 5px; margin-bottom: 10px;">${lang.coach_inference}: ${evaluation.strategy}</div>`;
-
-    evaluation.missing.forEach(m => { html += `<div class="warning-tag">⚠️ NEEDS ${m}</div>`; });
+    let html = '';
+    
+    // Show only warnings
+    if (evaluation.missing.length > 0) {
+        html += `<div style="margin-bottom: 10px;">`;
+        evaluation.missing.forEach(m => { html += `<div class="warning-tag">⚠️ NEEDS ${m}</div>`; });
+        html += `</div>`;
+    }
 
     if (step && step.type === 'ban' && step.side === CONFIG.USER_SIDE) {
         html += `<div style="font-weight: 800; font-size: 0.8rem; margin-top: 10px; color: var(--accent-red);">${lang.suggested_bans}:</div>`;
         const metaBans = state.champions
             .map(c => ({ champ: c, analysis: getTacticalScore(c, null, evaluation, 'ban', state.currentStep) }))
             .sort((a,b) => b.analysis.score - a.analysis.score)
-            .slice(0, 4);
-        metaBans.forEach(item => {
-            const reasonStr = item.analysis.reasons.length > 0 ? ` <span style="color:rgba(255,255,255,0.4); font-size: 0.65rem;">(${item.analysis.reasons.join(', ')})</span>` : '';
-            html += `<div class="counter-item"><span class="counter-chip" style="border-color: var(--accent-red); color: var(--accent-red);">BAN</span> ${item.champ.name}${reasonStr}</div>`;
-        });
-    } else if (isUserTurn && step.type === 'pick') {
-        const role = state.activeFilterRole;
-        const pool = state.playerPools[role] || [];
-        html += `<div style="font-weight: 800; font-size: 0.8rem; margin-top: 10px;">${lang.top_recommendations} (${role}):</div>`;
-        
-        const recommendations = state.champions
-            .map(c => ({ champ: c, analysis: getTacticalScore(c, role, evaluation, 'pick', state.currentStep) }))
-            .filter(item => pool.includes(item.champ.name))
-            .sort((a,b) => b.analysis.score - a.analysis.score)
             .slice(0, 5);
             
-        recommendations.forEach((item, idx) => {
-            const isTop = idx === 0 && item.analysis.score > 80;
-            const badge = isTop ? lang.badge_pro : lang.badge_pool;
-            const color = isTop ? '#ffaa00' : '#00ff88';
-            const reasonStr = item.analysis.reasons.length > 0 ? `<div style="color:rgba(255,255,255,0.6); font-size: 0.65rem; margin-top: 2px; line-height: 1.1;">⤷ ${item.analysis.reasons.join(' • ')}</div>` : '';
-            html += `<div class="counter-item" style="flex-direction: column; align-items: flex-start; padding: 6px 8px;">
-                        <div style="display: flex; align-items: center;">
-                            <span class="counter-chip" style="border-color: ${color}; color: ${color}; background: rgba(0,0,0,0.3)">${badge}</span> ${item.champ.name}
+        html += `<div style="display: flex; gap: 8px; margin-top: 5px;">`;
+        metaBans.forEach(item => {
+            const reasonStr = item.analysis.reasons.join(' • ');
+            html += `
+                <div class="tooltip-container">
+                    <img src="https://ddragon.leagueoflegends.com/cdn/${CONFIG.DATA_DRAGON_VERSION}/img/champion/${item.champ.image.full}" class="coach-icon ban-icon">
+                    <div class="custom-tooltip">
+                        <strong style="color: var(--accent-red); font-size: 0.75rem;">${item.champ.name}</strong><br>
+                        <span style="color: #ccc; font-size: 0.6rem;">${reasonStr}</span>
+                    </div>
+                </div>`;
+        });
+        html += `</div>`;
+    } else if (isUserTurn && step.type === 'pick') {
+        const roleScores = {};
+        ['TOP', 'JNG', 'MID', 'BOT', 'SUP'].forEach(r => {
+            if (evaluation.userPicks.some(p => p.role === r)) return;
+            let rScore = 0;
+            const enemyHasRole = evaluation.enemyPicks.some(p => p.role === r);
+            if (enemyHasRole) rScore += 30; 
+            else if (state.currentStep < 10) rScore -= 10; 
+            const topChamp = state.champions.map(c => getTacticalScore(c, r, evaluation, 'pick', state.currentStep)).sort((a,b) => b.score - a.score)[0];
+            if (topChamp && topChamp.score > 80) rScore += 20;
+            roleScores[r] = rScore;
+        });
+
+        const sortedRoles = Object.keys(roleScores).sort((a,b) => roleScores[b] - roleScores[a]);
+        
+        // Highlight active role in top bar
+        document.querySelectorAll('.role-filter-btn').forEach(btn => {
+            btn.classList.remove('recommended-role-glow');
+            if (btn.getAttribute('data-role') === sortedRoles[0]) btn.classList.add('recommended-role-glow');
+        });
+
+        html += `<div style="font-weight: 800; font-size: 0.8rem; margin-bottom: 5px;">${lang.top_recommendations || 'RECOMMENDED ROLES'}:</div>`;
+        
+        // Render Top 2 Roles compactly
+        html += `<div style="display: flex; gap: 20px;">`;
+        sortedRoles.slice(0, 2).forEach((role, roleIdx) => {
+            const pool = state.playerPools[role] || [];
+            const roleColor = roleIdx === 0 ? 'var(--accent-gold)' : '#aaa';
+            html += `<div style="display: flex; flex-direction: column;">
+                        <div style="color: ${roleColor}; font-size: 0.7rem; font-weight: 800; margin-top: 5px; margin-bottom: 5px; display: flex; align-items: center; gap: 5px;">
+                            <img src="${ROLE_ICONS[role]}" style="width: 14px; filter: brightness(1.5);"> ${role} ${roleIdx === 0 ? '⭐(PRIO)' : ''}
                         </div>
-                        ${reasonStr}
+                        <div style="display: flex; gap: 8px;">`;
+            
+            const recommendations = state.champions
+                .map(c => ({ champ: c, analysis: getTacticalScore(c, role, evaluation, 'pick', state.currentStep) }))
+                .filter(item => pool.includes(item.champ.name))
+                .sort((a,b) => b.analysis.score - a.analysis.score)
+                .slice(0, 3); // Show top 3 champs per role
+                
+            recommendations.forEach((item, idx) => {
+                const isTop = idx === 0 && item.analysis.score > 80;
+                const badge = isTop ? '⭐PRO' : 'POOL';
+                const color = isTop ? '#ffaa00' : '#00ff88';
+                const reasonStr = item.analysis.reasons.join(' • ');
+                html += `
+                    <div class="tooltip-container" style="position: relative;">
+                        ${isTop ? `<div style="position:absolute; top:-6px; right:-6px; font-size:10px; z-index:3; text-shadow: 0 0 5px #000;">⭐</div>` : ''}
+                        <img src="https://ddragon.leagueoflegends.com/cdn/${CONFIG.DATA_DRAGON_VERSION}/img/champion/${item.champ.image.full}" class="coach-icon" style="border-color: ${color};">
+                        <div style="position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); background: #000; color: ${color}; font-size: 0.45rem; font-weight: bold; padding: 1px 3px; border: 1px solid ${color}; border-radius: 2px; z-index: 2; white-space: nowrap;">${badge}</div>
+                        
+                        <div class="custom-tooltip">
+                            <strong style="color: ${color}; font-size: 0.75rem;">${item.champ.name}</strong><br>
+                            <span style="color: #ccc; font-size: 0.6rem;">${reasonStr}</span>
+                        </div>
+                    </div>`;
+            });
+            html += `   </div>
                      </div>`;
         });
+        html += `</div>`;
     }
     insights.innerHTML = html;
 }
