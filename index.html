@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rift Drafter</title>
-    <meta name="description" content="A team composition builder for League of Legends. Draft, analyze synergy, and optimize strategies using Riot API data. (Independent project, not affiliated with Riot Games.)">
+    <meta name="description"
+        content="A team composition builder for League of Legends. Draft, analyze synergy, and optimize strategies using Riot API data. (Independent project, not affiliated with Riot Games.)">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -19,7 +22,8 @@
                     <button id="mode-competitive" class="mode-btn" data-i18n="mode_competitive">COMPETITIVE</button>
                 </div>
                 <div class="search-bar">
-                    <input type="text" id="championSearch" data-i18n-placeholder="search_placeholder" placeholder="SEARCH CHAMPION...">
+                    <input type="text" id="championSearch" data-i18n-placeholder="search_placeholder"
+                        placeholder="SEARCH CHAMPION...">
                 </div>
                 <select id="langSwitcher" class="lang-select">
                     <option value="en_us">EN</option>
@@ -41,13 +45,18 @@
                 </label>
                 <span style="font-size: 0.6rem; margin-right: 10px;" data-i18n="show_only_pool">ONLY POOL</span>
             </div>
-            
+
             <div class="role-filter-bar" id="roleFilterBar">
-                <img src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-top.png" data-role="TOP" class="role-filter-btn active" title="Top">
-                <img src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-jungle.png" data-role="JNG" class="role-filter-btn" title="Jungle">
-                <img src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-middle.png" data-role="MID" class="role-filter-btn" title="Mid">
-                <img src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-bottom.png" data-role="BOT" class="role-filter-btn" title="Bot">
-                <img src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png" data-role="SUP" class="role-filter-btn" title="Support">
+                <img src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-top.png"
+                    data-role="TOP" class="role-filter-btn active" title="Top">
+                <img src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-jungle.png"
+                    data-role="JNG" class="role-filter-btn" title="Jungle">
+                <img src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-middle.png"
+                    data-role="MID" class="role-filter-btn" title="Mid">
+                <img src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-bottom.png"
+                    data-role="BOT" class="role-filter-btn" title="Bot">
+                <img src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png"
+                    data-role="SUP" class="role-filter-btn" title="Support">
             </div>
         </div>
 
@@ -75,12 +84,13 @@
                 <section class="champion-selection">
                     <div class="champion-grid" id="championGrid"></div>
                 </section>
-                
+
                 <section class="analysis-panel" id="analysisPanel" style="display: none;">
                     <div class="analysis-header" data-i18n="insights_header">LIVE STRATEGIC INSIGHTS</div>
                     <div class="analysis-content">
                         <div id="counterSuggestions">
-                            <span style="color: var(--text-muted);" data-i18n="insights_empty">Pick a champion to see counter recommendations...</span>
+                            <span style="color: var(--text-muted);" data-i18n="insights_empty">Pick a champion to see
+                                counter recommendations...</span>
                         </div>
                     </div>
                 </section>
@@ -109,14 +119,20 @@
     <div class="modal-overlay" id="apiModal">
         <div class="modal-content">
             <h2 data-i18n="modal_title">Rift Access Required</h2>
-            <p data-i18n="modal_desc">Please enter your API Keys to enable real-time drafting analysis and data fetching.</p>
+            <p data-i18n="modal_desc">Please enter your API Keys to enable real-time drafting analysis and data
+                fetching.</p>
             <div class="api-input-group">
-                <div id="apiErrorMessage" style="color: var(--accent-red); font-size: 0.8rem; margin-bottom: 1rem; display: none; text-align: left; border-left: 2px solid var(--accent-red); padding-left: 10px;"></div>
-                <input type="password" id="apiKeyInput" data-i18n-placeholder="api_placeholder" placeholder="Riot API Key (RGAPI-XXXXX...)">
-                <input type="password" id="geminiKeyInput" placeholder="Google Gemini AI Key (AIzaSy...) - Optional for AI Coach">
+                <div id="apiErrorMessage"
+                    style="color: var(--accent-red); font-size: 0.8rem; margin-bottom: 1rem; display: none; text-align: left; border-left: 2px solid var(--accent-red); padding-left: 10px;">
+                </div>
+                <input type="password" id="apiKeyInput" data-i18n-placeholder="api_placeholder"
+                    placeholder="Riot API Key (RGAPI-XXXXX...)">
+                <input type="password" id="geminiKeyInput"
+                    placeholder="Google Gemini AI Key (AIzaSy...) - Optional for AI Coach">
                 <button class="btn-primary" id="saveApiKey" data-i18n="modal_btn">Initialize Connection</button>
             </div>
-            <p style="font-size: 0.7rem; margin-top: 1.5rem;" data-i18n="modal_note">Your keys are stored locally in your browser and never sent to our servers.</p>
+            <p style="font-size: 0.7rem; margin-top: 1.5rem;" data-i18n="modal_note">Your keys are stored locally in
+                your browser and never sent to our servers.</p>
         </div>
     </div>
 
@@ -124,4 +140,5 @@
     <script src="locales/tr_tr.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>

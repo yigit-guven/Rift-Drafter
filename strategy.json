@@ -1,0 +1,2070 @@
+{
+    "meta_info": {
+        "version": "14.10.Alpha-Exodia",
+        "author": "Antigravity Pro-Coach",
+        "description": "Comprehensive Professional League of Legends Drafting Knowledge Base",
+        "total_entries": 167
+    },
+    "champion_data": {
+        "Aatrox": {
+            "tags": ["Fighter", "Juggernaut"],
+            "counters": [
+                { "name": "Fiora", "reason": "Superior dueling and parry", "intensity": 9 },
+                { "name": "Irelia", "reason": "High mobility to dodge Qs", "intensity": 8 },
+                { "name": "Kled", "reason": "Built-in healing reduction", "intensity": 8 },
+                { "name": "Jayce", "reason": "Ranged poke and disengage", "intensity": 7 },
+                { "name": "Wukong", "reason": "Clone decoys and armor shred", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "CC chain for easy Q sweetspots", "intensity": 8 },
+                { "name": "Orianna", "reason": "Ball delivery with E-dash", "intensity": 7 },
+                { "name": "Yuumi", "reason": "Invincible drain-tanking", "intensity": 9 },
+                { "name": "Lulu", "reason": "Ultimate HP buffer and shielding", "intensity": 8 }
+            ]
+        },
+        "Ahri": {
+            "tags": ["Mage", "Assassin"],
+            "counters": [
+                { "name": "Yasuo", "reason": "Wind wall blocks Charm and Q", "intensity": 9 },
+                { "name": "Vex", "reason": "Anti-dash passive ruins mobility", "intensity": 8 },
+                { "name": "Annie", "reason": "Instant point-click stun burst", "intensity": 7 },
+                { "name": "Lissandra", "reason": "Hard lockdown for mobile targets", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Vi", "reason": "The 'Point-Click' catch duo", "intensity": 10 },
+                { "name": "JarvanIV", "reason": "Lockdown for Charm setup", "intensity": 8 },
+                { "name": "LeeSin", "reason": "Aggressive mid/jungle catch", "intensity": 8 }
+            ]
+        },
+        "Akali": {
+            "tags": ["Assassin"],
+            "counters": [
+                { "name": "Galio", "reason": "Magic damage shield and CC", "intensity": 8 },
+                { "name": "Vex", "reason": "Fear on dashes and high burst", "intensity": 8 },
+                { "name": "LeeSin", "reason": "Reveal in shroud and early pressure", "intensity": 7 },
+                { "name": "Lissandra", "reason": "Ultimate shutdown", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Engage to allow Akali flank", "intensity": 7 },
+                { "name": "Maokai", "reason": "Rooting targets for E-hit", "intensity": 8 }
+            ]
+        },
+        "Akshan": {
+            "tags": ["Marksman", "Assassin"],
+            "counters": [
+                { "name": "Jax", "reason": "Counter-strike blocks double shot", "intensity": 9 },
+                { "name": "Yasuo", "reason": "Wind wall ruins trading", "intensity": 8 },
+                { "name": "Irelia", "reason": "Gap close and damage reduction", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Nautilus", "reason": "CC for free swing setup", "intensity": 8 },
+                { "name": "Leona", "reason": "Early kill pressure", "intensity": 8 }
+            ]
+        },
+        "Alistar": {
+            "tags": ["Tank", "Support"],
+            "counters": [
+                { "name": "Morgana", "reason": "Black shield ruins combo", "intensity": 9 },
+                { "name": "Janna", "reason": "Disengage and tornado interuption", "intensity": 8 },
+                { "name": "Sylas", "reason": "Stealing massive ultimate", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Yasuo", "reason": "Multiple knockups for R", "intensity": 9 },
+                { "name": "Samira", "reason": "Passive proc and dive synergy", "intensity": 9 },
+                { "name": "Tristana", "reason": "Level 2 all-in dominance", "intensity": 8 }
+            ]
+        },
+        "Amumu": {
+            "tags": ["Tank", "Jungle"],
+            "counters": [
+                { "name": "LeeSin", "reason": "Early invasion and outplay", "intensity": 8 },
+                { "name": "Trundle", "reason": "Stealing massive resistances", "intensity": 9 },
+                { "name": "Janna", "reason": "Ruining the engage with R", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "MissFortune", "reason": "The ultimate AoE wombo", "intensity": 10 },
+                { "name": "Katarina", "reason": "AoE stun for full R duration", "intensity": 9 },
+                { "name": "Kennen", "reason": "Double AoE lockdown", "intensity": 9 }
+            ]
+        },
+        "Anivia": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Kassadin", "reason": "Magic shield and R-blink", "intensity": 9 },
+                { "name": "Fizz", "reason": "E-dodge Q and gap close", "intensity": 8 },
+                { "name": "Xerath", "reason": "Superior range and poke", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Poppy", "reason": "Wall synergy for E-stun", "intensity": 9 },
+                { "name": "Vayne", "reason": "Wall synergy for E-stun", "intensity": 8 },
+                { "name": "JarvanIV", "reason": "The ultimate cage duo", "intensity": 9 }
+            ]
+        },
+        "Annie": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Syndra", "reason": "Outranges and out-bursts", "intensity": 8 },
+                { "name": "Galio", "reason": "AoE magic shield and CC", "intensity": 7 },
+                { "name": "Xerath", "reason": "Cannot get close to trade", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "JarvanIV", "reason": "Group up for Tibbers", "intensity": 8 },
+                { "name": "Maokai", "reason": "CC chain for guaranteed R", "intensity": 9 }
+            ]
+        },
+        "Aphelios": {
+            "tags": ["Marksman"],
+            "counters": [
+                { "name": "Draven", "reason": "Superior early trade and burst", "intensity": 8 },
+                { "name": "Nautilus", "reason": "Point-click hook to lock down", "intensity": 8 },
+                { "name": "Vi", "reason": "Focusing the immobile carry", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Thresh", "reason": "The pro-standard safety duo", "intensity": 10 },
+                { "name": "Lulu", "reason": "Attack speed and protection", "intensity": 9 },
+                { "name": "Braum", "reason": "Unbreakable wall protection", "intensity": 8 }
+            ]
+        },
+        "Ashe": {
+            "tags": ["Marksman", "Support"],
+            "counters": [
+                { "name": "Ezreal", "reason": "Can blink out of Arrow", "intensity": 7 },
+                { "name": "Braum", "reason": "Shield blocks arrow and poke", "intensity": 9 },
+                { "name": "Yasuo", "reason": "Wind wall blocks all utility", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Seraphine", "reason": "Current meta poke/slow duo", "intensity": 9 },
+                { "name": "Braum", "reason": "Easiest passive stacks in game", "intensity": 10 },
+                { "name": "Zyra", "reason": "Elite lane control and poke", "intensity": 8 }
+            ]
+        },
+        "AurelionSol": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Fizz", "reason": "Untargetable gap close", "intensity": 9 },
+                { "name": "Zed", "reason": "Extreme mobility and burst", "intensity": 9 },
+                { "name": "Yone", "reason": "Long range gap close", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "JarvanIV", "reason": "Singularity into Cataclysm", "intensity": 9 },
+                { "name": "Maokai", "reason": "Root for Breath of Light", "intensity": 8 }
+            ]
+        },
+        "Azir": {
+            "tags": ["Mage", "Marksman"],
+            "counters": [
+                { "name": "Kassadin", "reason": "Late game anti-mage scaling", "intensity": 9 },
+                { "name": "Xerath", "reason": "Extreme range poke", "intensity": 8 },
+                { "name": "Syndra", "reason": "Burst and ball control", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Nautilus", "reason": "Engage for Emperor's Divide", "intensity": 8 },
+                { "name": "Maokai", "reason": "Zone control dominance", "intensity": 9 }
+            ]
+        },
+        "Bard": {
+            "tags": ["Support"],
+            "counters": [
+                { "name": "Morgana", "reason": "Black shield blocks Q stun", "intensity": 8 },
+                { "name": "Samira", "reason": "Dodge stun and burst", "intensity": 7 },
+                { "name": "Blitzcrank", "reason": "Punishing roams with hooks", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Ezreal", "reason": "Safe solo-laning for roams", "intensity": 9 },
+                { "name": "Jhin", "reason": "Ult into binding setup", "intensity": 8 }
+            ]
+        },
+        "BelVeth": {
+            "tags": ["Fighter"],
+            "counters": [
+                { "name": "Jax", "reason": "E blocks massive attack speed", "intensity": 9 },
+                { "name": "Rammus", "reason": "Reflection kills herself", "intensity": 10 },
+                { "name": "Poppy", "reason": "W stops constant Q dashes", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Nautilus", "reason": "CC for true damage stack", "intensity": 8 },
+                { "name": "RenataGlasc", "reason": "Revive during hyper-state", "intensity": 9 }
+            ]
+        },
+        "Blitzcrank": {
+            "tags": ["Tank", "Support"],
+            "counters": [
+                { "name": "Morgana", "reason": "Black shield priority", "intensity": 10 },
+                { "name": "Braum", "reason": "Can jump to hook target", "intensity": 8 },
+                { "name": "Leona", "reason": "Wants to be hooked", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Draven", "reason": "Hook into early kill", "intensity": 9 },
+                { "name": "Samira", "reason": "Pull into passive stack", "intensity": 8 },
+                { "name": "Kalista", "reason": "Ultimate pull-back safety", "intensity": 9 }
+            ]
+        },
+        "Brand": {
+            "tags": ["Mage", "Support"],
+            "counters": [
+                { "name": "Xerath", "reason": "Outranged significantly", "intensity": 8 },
+                { "name": "Pyke", "reason": "Mobility and catch", "intensity": 7 },
+                { "name": "Soraka", "reason": "Neutralizing AoE burn", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Amumu", "reason": "The AoE burn wombo", "intensity": 9 },
+                { "name": "Ashe", "reason": "Slow for guaranteed stun", "intensity": 8 }
+            ]
+        },
+        "Braum": {
+            "tags": ["Tank", "Support"],
+            "counters": [
+                { "name": "Morgana", "reason": "Cannot block her bind", "intensity": 7 },
+                { "name": "Zyra", "reason": "Poke and plants go through", "intensity": 8 },
+                { "name": "Brand", "reason": "AoE goes through shield", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Lucian", "reason": "Fastest passive stacks", "intensity": 10 },
+                { "name": "Kaisa", "reason": "Passive stack help", "intensity": 8 },
+                { "name": "Ashe", "reason": "Slow for stun chase", "intensity": 10 }
+            ]
+        },
+        "Briar": {
+            "tags": ["Fighter"],
+            "counters": [
+                { "name": "Jax", "reason": "Counter-strike ruins frenzy", "intensity": 9 },
+                { "name": "Rammus", "reason": "Taunt into reflection", "intensity": 9 },
+                { "name": "Poppy", "reason": "W stops all-in frenzy", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Galio", "reason": "Ult delivery with long dash", "intensity": 9 },
+                { "name": "Shen", "reason": "Global shield during frenzy", "intensity": 8 }
+            ]
+        },
+        "Caitlyn": {
+            "tags": ["Marksman"],
+            "counters": [
+                { "name": "Sivir", "reason": "Spell shield for traps/ult", "intensity": 8 },
+                { "name": "Jinx", "reason": "Outscales in late game", "intensity": 7 },
+                { "name": "Braum", "reason": "Shield blocks poke and ult", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Lux", "reason": "The trap-binding pro combo", "intensity": 10 },
+                { "name": "Morgana", "reason": "Infinite CC chain", "intensity": 9 },
+                { "name": "Karma", "reason": "Elite lane dominance poke", "intensity": 9 }
+            ]
+        },
+        "Camille": {
+            "tags": ["Fighter"],
+            "counters": [
+                { "name": "Jax", "reason": "E blocks Q2 true damage", "intensity": 10 },
+                { "name": "Fiora", "reason": "Parry the wall jump stun", "intensity": 9 },
+                { "name": "Poppy", "reason": "W stops hookshot entirely", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Galio", "reason": "The Hextech Box combo", "intensity": 10 },
+                { "name": "Sejuani", "reason": "Melee stun stacking", "intensity": 9 },
+                { "name": "Kaisa", "reason": "Lockdown for R-dive", "intensity": 8 }
+            ]
+        },
+        "Cassiopeia": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Xerath", "reason": "Cannot approach poke", "intensity": 9 },
+                { "name": "VelKoz", "reason": "Outranged and poked out", "intensity": 8 },
+                { "name": "Zed", "reason": "R-swap outplays her ult", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Singed", "reason": "Free poison for E-spam", "intensity": 10 },
+                { "name": "Twitch", "reason": "Free poison for E-spam", "intensity": 9 },
+                { "name": "Teemo", "reason": "Free poison for E-spam", "intensity": 9 }
+            ]
+        },
+        "ChoGath": {
+            "tags": ["Tank", "Mage"],
+            "counters": [
+                { "name": "Vayne", "reason": "True damage shred", "intensity": 10 },
+                { "name": "Fiora", "reason": "True damage and parry", "intensity": 9 },
+                { "name": "Sylas", "reason": "Stealing massive execute", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Senna", "reason": "The unkillable scaling duo", "intensity": 9 },
+                { "name": "Seraphine", "reason": "CC for easy rupture", "intensity": 8 }
+            ]
+        },
+        "Corki": {
+            "tags": ["Mage", "Marksman"],
+            "counters": [
+                { "name": "Kassadin", "reason": "Passive MR and mobility", "intensity": 8 },
+                { "name": "Zed", "reason": "Early burst and gap close", "intensity": 7 },
+                { "name": "Yasuo", "reason": "Wind wall blocks rockets", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Maokai", "reason": "The pro siege duo", "intensity": 10 },
+                { "name": "Nautilus", "reason": "Frontline for poke", "intensity": 8 }
+            ]
+        },
+        "Darius": {
+            "tags": ["Fighter", "Juggernaut"],
+            "counters": [
+                { "name": "Vayne", "reason": "Kiting and true damage", "intensity": 9 },
+                { "name": "Quinn", "reason": "Blind and disengage", "intensity": 9 },
+                { "name": "Jayce", "reason": "Disengage and poke", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Ghost", "reason": "Mandatory for mobility", "intensity": 10 },
+                { "name": "Sejuani", "reason": "CC for 5-stack setup", "intensity": 8 }
+            ]
+        },
+        "Diana": {
+            "tags": ["Fighter", "Assassin"],
+            "counters": [
+                { "name": "Galio", "reason": "Magic shield and disruption", "intensity": 8 },
+                { "name": "Jax", "reason": "Dueling power and block", "intensity": 7 },
+                { "name": "Poppy", "reason": "W stops E-dash resets", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Yasuo", "reason": "AoE knockup for ultimate", "intensity": 10 },
+                { "name": "Orianna", "reason": "Vacuum ball delivery", "intensity": 9 },
+                { "name": "Yone", "reason": "AoE dive followup", "intensity": 8 }
+            ]
+        },
+        "Draven": {
+            "tags": ["Marksman"],
+            "counters": [
+                { "name": "Nautilus", "reason": "Point-click R catch", "intensity": 9 },
+                { "name": "Varus", "reason": "Range poke and ult catch", "intensity": 8 },
+                { "name": "Ashe", "reason": "Constant slow prevents axes", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Leona", "reason": "Early kill-pressure king", "intensity": 10 },
+                { "name": "Nautilus", "reason": "Chain CC for burst", "intensity": 9 },
+                { "name": "Thresh", "reason": "Hook into early snowball", "intensity": 9 }
+            ]
+        },
+        "Ekko": {
+            "tags": ["Assassin", "Fighter"],
+            "counters": [
+                { "name": "Kassadin", "reason": "Scaling anti-magic", "intensity": 8 },
+                { "name": "Lissandra", "reason": "R-lockdown before his R", "intensity": 9 },
+                { "name": "Sylas", "reason": "Stealing R for second life", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Vi", "reason": "Lockdown for W-stun", "intensity": 9 },
+                { "name": "Sejuani", "reason": "Melee stun stacking", "intensity": 8 }
+            ]
+        },
+        "Elise": {
+            "tags": ["Mage", "Assassin"],
+            "counters": [
+                { "name": "LeeSin", "reason": "Counter-jungle and reveal", "intensity": 7 },
+                { "name": "Warwick", "reason": "Sustain and fear through dive", "intensity": 8 },
+                { "name": "Rengar", "reason": "Bush vision and burst", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Renekton", "reason": "The pro dive legacy duo", "intensity": 10 },
+                { "name": "Pantheon", "reason": "Point-click stun for Cocoon", "intensity": 9 },
+                { "name": "Kled", "reason": "Elite dive and catch", "intensity": 8 }
+            ]
+        },
+        "Evelynn": {
+            "tags": ["Assassin"],
+            "counters": [
+                { "name": "RekSai", "reason": "Tremor sense finds her", "intensity": 10 },
+                { "name": "LeeSin", "reason": "Vision reveal Q/E", "intensity": 9 },
+                { "name": "Rengar", "reason": "Ult reveals her stealth", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Yuumi", "reason": "The invisible nuke", "intensity": 9 },
+                { "name": "Galio", "reason": "Invisible ult delivery", "intensity": 8 }
+            ]
+        },
+        "Ezreal": {
+            "tags": ["Marksman", "Mage"],
+            "counters": [
+                { "name": "Draven", "reason": "Pure damage output gap", "intensity": 9 },
+                { "name": "Yasuo", "reason": "Wind wall blocks everything", "intensity": 10 },
+                { "name": "Braum", "reason": "Shield blocks poke", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Karma", "reason": "Infinite poke and kite", "intensity": 9 },
+                { "name": "Bard", "reason": "Solo lane safety for roams", "intensity": 10 },
+                { "name": "Lux", "reason": "Siege and poke pressure", "intensity": 8 }
+            ]
+        },
+        "Fiora": {
+            "tags": ["Fighter"],
+            "counters": [
+                { "name": "Jax", "reason": "Counter-strike ruins vitals", "intensity": 9 },
+                { "name": "Pantheon", "reason": "Point-click stun is too fast", "intensity": 8 },
+                { "name": "Malphite", "reason": "Armor and AS reduction", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Melee stun synergy", "intensity": 9 },
+                { "name": "Janna", "reason": "Movespeed for vital procs", "intensity": 8 }
+            ]
+        },
+        "Fizz": {
+            "tags": ["Assassin"],
+            "counters": [
+                { "name": "Kassadin", "reason": "Magic shield and scaling", "intensity": 9 },
+                { "name": "Lissandra", "reason": "R-lockdown and poke", "intensity": 8 },
+                { "name": "Akali", "reason": "Shroud outplays shark", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Vi", "reason": "Lockdown for max shark", "intensity": 9 },
+                { "name": "Maokai", "reason": "Sapling/Ult for catch", "intensity": 8 }
+            ]
+        },
+        "Galio": {
+            "tags": ["Tank", "Mage"],
+            "counters": [
+                { "name": "Fiora", "reason": "True damage and parry stun", "intensity": 8 },
+                { "name": "Vayne", "reason": "Kiting and true damage", "intensity": 9 },
+                { "name": "Trundle", "reason": "Stealing resistances", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Camille", "reason": "The pro-meta box combo", "intensity": 10 },
+                { "name": "XinZhao", "reason": "Invincible dive setup", "intensity": 10 },
+                { "name": "JarvanIV", "reason": "Multiple engage layers", "intensity": 9 }
+            ]
+        },
+        "Gangplank": {
+            "tags": ["Fighter"],
+            "counters": [
+                { "name": "Jayce", "reason": "Ranged poke and burst", "intensity": 8 },
+                { "name": "Lucian", "reason": "Early kill pressure", "intensity": 7 },
+                { "name": "Akshan", "reason": "Destroying barrels instantly", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "CC for barrel setup", "intensity": 9 },
+                { "name": "Ashe", "reason": "Slow for ult hits", "intensity": 8 }
+            ]
+        },
+        "Garen": {
+            "tags": ["Fighter", "Juggernaut"],
+            "counters": [
+                { "name": "Vayne", "reason": "Kiting and true damage", "intensity": 10 },
+                { "name": "Kayle", "reason": "Scaling past him safely", "intensity": 8 },
+                { "name": "Teemo", "reason": "Blind blocks Q and kiting", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Yuumi", "reason": "Unkillable beyblade", "intensity": 9 },
+                { "name": "Lulu", "reason": "Speed and HP buffer", "intensity": 8 }
+            ]
+        },
+        "Gnar": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Irelia", "reason": "Gap close and outplay", "intensity": 9 },
+                { "name": "Yasuo", "reason": "Wind wall blocks boomerang", "intensity": 8 },
+                { "name": "Jayce", "reason": "Range trade and burst", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Orianna", "reason": "Mega-Gnar ball delivery", "intensity": 9 },
+                { "name": "Taliyah", "reason": "Wall combo setup", "intensity": 8 }
+            ]
+        },
+        "Gragas": {
+            "tags": ["Fighter", "Mage", "Tank"],
+            "counters": [
+                { "name": "Yorick", "reason": "Cannot clear ghouls well", "intensity": 7 },
+                { "name": "Vayne", "reason": "Kiting and tank shred", "intensity": 8 },
+                { "name": "Fiora", "reason": "Parry E-dash and outscale", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Yasuo", "reason": "AoE knockup for R", "intensity": 10 },
+                { "name": "Sejuani", "reason": "Melee stun stacking", "intensity": 9 },
+                { "name": "Taliyah", "reason": "Cask into seismic shove", "intensity": 8 }
+            ]
+        },
+        "Graves": {
+            "tags": ["Marksman"],
+            "counters": [
+                { "name": "Jax", "reason": "E blocks massive damage", "intensity": 9 },
+                { "name": "Rammus", "reason": "Armor stacking", "intensity": 8 },
+                { "name": "Vi", "reason": "Lockdown for reload gaps", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Ryze", "reason": "Waveclear and burst", "intensity": 8 },
+                { "name": "Renekton", "reason": "Stun for easy Q-hit", "intensity": 9 }
+            ]
+        },
+        "Gwen": {
+            "tags": ["Fighter"],
+            "counters": [
+                { "name": "Jax", "reason": "E blocks AA-scaling", "intensity": 8 },
+                { "name": "Tryndamere", "reason": "Pure raw physical burst", "intensity": 9 },
+                { "name": "Kayle", "reason": "Scaling past her shroud", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Yuumi", "reason": "The invincible shredder", "intensity": 9 },
+                { "name": "Maokai", "reason": "CC for full snipped R", "intensity": 8 }
+            ]
+        },
+        "Hecarim": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Thresh", "reason": "Flay stops the dash", "intensity": 9 },
+                { "name": "Poppy", "reason": "W stops his E-dash", "intensity": 10 },
+                { "name": "Janna", "reason": "Disengage and ult push", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Yuumi", "reason": "The mach-10 predator", "intensity": 10 },
+                { "name": "Sivir", "reason": "Elite move speed engage", "intensity": 9 },
+                { "name": "Zilean", "reason": "The speed demon", "intensity": 9 }
+            ]
+        },
+        "Heimerdinger": {
+            "tags": ["Mage", "Support"],
+            "counters": [
+                { "name": "Syndra", "reason": "Throwing his turrets away", "intensity": 10 },
+                { "name": "Sion", "reason": "Shouting turrets away", "intensity": 9 },
+                { "name": "Xerath", "reason": "Range poke destroys them", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Varus", "reason": "Pro-meta lane control", "intensity": 10 },
+                { "name": "Ashe", "reason": "Slow for grenade stun", "intensity": 9 }
+            ]
+        },
+        "Hwei": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Fizz", "reason": "Untargetable gap close", "intensity": 9 },
+                { "name": "Zed", "reason": "High mobility burst", "intensity": 9 },
+                { "name": "Kassadin", "reason": "Late game anti-magic", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Maokai", "reason": "CC for ultimate hit", "intensity": 9 },
+                { "name": "Nautilus", "reason": "Frontline and catch", "intensity": 8 }
+            ]
+        },
+        "Illaoi": {
+            "tags": ["Fighter", "Juggernaut"],
+            "counters": [
+                { "name": "Vayne", "reason": "Kiting and true damage", "intensity": 9 },
+                { "name": "Yorick", "reason": "Ghouls block her E", "intensity": 8 },
+                { "name": "Jayce", "reason": "Ranged poke and disengage", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Amumu", "reason": "Root for massive ultimate", "intensity": 9 },
+                { "name": "JarvanIV", "reason": "Lock inside ult cage", "intensity": 10 }
+            ]
+        },
+        "Irelia": {
+            "tags": ["Fighter", "Assassin"],
+            "counters": [
+                { "name": "Poppy", "reason": "W stops all Q-resets", "intensity": 10 },
+                { "name": "Jax", "reason": "E blocks passive AA stacks", "intensity": 9 },
+                { "name": "Sett", "reason": "Facebreaker stops the dash", "intensity": 8 },
+                { "name": "Volibear", "reason": "Stun and raw stat check", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Melee passive synergy", "intensity": 10 },
+                { "name": "Lulu", "reason": "Safety and move speed", "intensity": 8 },
+                { "name": "Maokai", "reason": "CC setup for E-hit", "intensity": 9 }
+            ]
+        },
+        "Ivern": {
+            "tags": ["Support", "Mage"],
+            "counters": [
+                { "name": "Rengar", "reason": "He creates bushes for Rengar", "intensity": 9 },
+                { "name": "LeeSin", "reason": "Invasion and Daisy outplay", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Rengar", "reason": "The bush-hop predator duo", "intensity": 10 },
+                { "name": "Riven", "reason": "Shielding and catch setup", "intensity": 8 },
+                { "name": "Aatrox", "reason": "Enabling the juggernaut", "intensity": 9 }
+            ]
+        },
+        "Janna": {
+            "tags": ["Support"],
+            "counters": [
+                { "name": "Xerath", "reason": "Outranged and poked", "intensity": 8 },
+                { "name": "VelKoz", "reason": "Outranged and poked", "intensity": 8 },
+                { "name": "Blitzcrank", "reason": "Hook ignores disengage", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Draven", "reason": "Bonus AD and safety", "intensity": 9 },
+                { "name": "Jinx", "reason": "Kiting and protection", "intensity": 9 },
+                { "name": "Y Yasuo", "reason": "Tornado for easy R", "intensity": 8 }
+            ]
+        },
+        "JarvanIV": {
+            "tags": ["Tank", "Fighter"],
+            "counters": [
+                { "name": "Vayne", "reason": "Can Q out of his ultimate", "intensity": 8 },
+                { "name": "Poppy", "reason": "W stops the flag-n-drag", "intensity": 9 },
+                { "name": "Fiora", "reason": "Can parry his combo easily", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Galio", "reason": "The pro-standard Hero duo", "intensity": 10 },
+                { "name": "Orianna", "reason": "Cataclysm ball delivery", "intensity": 10 },
+                { "name": "MissFortune", "reason": "Locked in ult for MF R", "intensity": 9 }
+            ]
+        },
+        "Jax": {
+            "tags": ["Fighter"],
+            "counters": [
+                { "name": "Malphite", "reason": "Armor and AS reduction", "intensity": 10 },
+                { "name": "Garen", "reason": "Silence and raw stats", "intensity": 8 },
+                { "name": "Singed", "reason": "Fling and kiting", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Melee stun stacking", "intensity": 10 },
+                { "name": "Orianna", "reason": "Ball delivery dive", "intensity": 8 }
+            ]
+        },
+        "Jayce": {
+            "tags": ["Fighter", "Marksman"],
+            "counters": [
+                { "name": "Irelia", "reason": "Gap close and outplay", "intensity": 9 },
+                { "name": "Yasuo", "reason": "Wind wall blocks QE poke", "intensity": 9 },
+                { "name": "Malphite", "reason": "Armor stacking", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Maokai", "reason": "The pro siege-poke duo", "intensity": 10 },
+                { "name": "Sejuani", "reason": "CC for easy poke", "intensity": 8 }
+            ]
+        },
+        "Jhin": {
+            "tags": ["Marksman"],
+            "counters": [
+                { "name": "Draven", "reason": "Out-damaged in trades", "intensity": 8 },
+                { "name": "Yasuo", "reason": "Wind wall blocks 4th shot", "intensity": 9 },
+                { "name": "Braum", "reason": "Blocks all ultimate shots", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Xerath", "reason": "The long-range sniper duo", "intensity": 10 },
+                { "name": "Lux", "reason": "Binding into Jhin W chain", "intensity": 9 },
+                { "name": "Karma", "reason": "Speed and lane poke", "intensity": 9 }
+            ]
+        },
+        "Jinx": {
+            "tags": ["Marksman"],
+            "counters": [
+                { "name": "Vi", "reason": "Point-click focus", "intensity": 9 },
+                { "name": "Draven", "reason": "Early stomp potential", "intensity": 8 },
+                { "name": "Nocturne", "reason": "Global darkness dive", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Lulu", "reason": "Protection and attack speed", "intensity": 10 },
+                { "name": "Thresh", "reason": "Lantern for immobile carry", "intensity": 9 },
+                { "name": "Braum", "reason": "Peeling and protection", "intensity": 9 }
+            ]
+        },
+        "KSante": {
+            "tags": ["Tank", "Fighter"],
+            "counters": [
+                { "name": "Garen", "reason": "Silence and R-execute", "intensity": 8 },
+                { "name": "Fiora", "reason": "True damage and scaling", "intensity": 9 },
+                { "name": "Vayne", "reason": "Kiting and tank shred", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "The pro-meta melee duo", "intensity": 10 },
+                { "name": "Orianna", "reason": "Ball delivery with W-dash", "intensity": 8 }
+            ]
+        },
+        "Kaisa": {
+            "tags": ["Marksman"],
+            "counters": [
+                { "name": "Draven", "reason": "Early game damage gap", "intensity": 9 },
+                { "name": "Caitlyn", "reason": "Extreme range disadvantage", "intensity": 8 },
+                { "name": "Yasuo", "reason": "Wind wall blocks plasma", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Nautilus", "reason": "The pro-meta plasma duo", "intensity": 10 },
+                { "name": "Leona", "reason": "Aggressive plasma stacks", "intensity": 9 },
+                { "name": "Rell", "reason": "AoE dive and plasma help", "intensity": 8 }
+            ]
+        },
+        "Kalista": {
+            "tags": ["Marksman"],
+            "counters": [
+                { "name": "Ashe", "reason": "Passive slow ruins her hop", "intensity": 10 },
+                { "name": "Nasus", "reason": "Wither makes her stand still", "intensity": 10 },
+                { "name": "Draven", "reason": "Superior early burst", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "RenataGlasc", "reason": "Save/Revive dive duo", "intensity": 10 },
+                { "name": "Thresh", "reason": "Lantern and chain hook", "intensity": 9 },
+                { "name": "Nautilus", "reason": "Aggressive hook into R", "intensity": 9 }
+            ]
+        },
+        "Karma": {
+            "tags": ["Support", "Mage"],
+            "counters": [
+                { "name": "Blitzcrank", "reason": "Hook ignores her shield speed", "intensity": 7 },
+                { "name": "Soraka", "reason": "Out-sustaining her poke", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Ezreal", "reason": "Infinite poke and kiting", "intensity": 10 },
+                { "name": "Caitlyn", "reason": "Elite lane dominance", "intensity": 9 },
+                { "name": "Sivir", "reason": "Speed-meta engage", "intensity": 9 }
+            ]
+        },
+        "Karthus": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Soraka", "reason": "Global R heals against his R", "intensity": 10 },
+                { "name": "Fizz", "reason": "E-dodge the ultimate", "intensity": 9 },
+                { "name": "Kassadin", "reason": "Scaling anti-magic", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Senna", "reason": "Global cross-map kills", "intensity": 10 },
+                { "name": "Nocturne", "reason": "Paranoia into Karthus R", "intensity": 9 }
+            ]
+        },
+        "Kassadin": {
+            "tags": ["Assassin", "Mage"],
+            "counters": [
+                { "name": "Talon", "reason": "AD burst and early kill", "intensity": 9 },
+                { "name": "Zed", "reason": "AD burst and mobility", "intensity": 9 },
+                { "name": "Tristana", "reason": "Early AD dive and push", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Early jungle backup", "intensity": 8 },
+                { "name": "Nautilus", "reason": "Peeling for late scaling", "intensity": 8 }
+            ]
+        },
+        "Katarina": {
+            "tags": ["Assassin"],
+            "counters": [
+                { "name": "Lissandra", "reason": "Point-click R shutdown", "intensity": 10 },
+                { "name": "Malzahar", "reason": "Point-click R shutdown", "intensity": 10 },
+                { "name": "Pantheon", "reason": "Point-click W shutdown", "intensity": 9 },
+                { "name": "Galio", "reason": "Shield and AoE CC", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Amumu", "reason": "AoE stun for full R", "intensity": 10 },
+                { "name": "JarvanIV", "reason": "Cage targets for R", "intensity": 9 }
+            ]
+        },
+        "Kayle": {
+            "tags": ["Fighter", "Mage"],
+            "counters": [
+                { "name": "Irelia", "reason": "Early stomp and gap close", "intensity": 9 },
+                { "name": "Tryndamere", "reason": "Dive and pure burst", "intensity": 8 },
+                { "name": "Jax", "reason": "Dueling and outscaling", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Lulu", "reason": "Double protection scaling", "intensity": 10 },
+                { "name": "Sejuani", "reason": "Jungle safety early", "intensity": 9 }
+            ]
+        },
+        "Kayn": {
+            "tags": ["Assassin", "Fighter"],
+            "counters": [
+                { "name": "Poppy", "reason": "W stops all dashes", "intensity": 9 },
+                { "name": "Warwick", "reason": "Early jungle tracking/stomp", "intensity": 8 },
+                { "name": "Vayne", "reason": "Can outplay Red-Kayn", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Yuumi", "reason": "Blue Kayn invisible nuke", "intensity": 9 },
+                { "name": "Lulu", "reason": "Red Kayn unkillable drain", "intensity": 9 }
+            ]
+        },
+        "Kennen": {
+            "tags": ["Mage", "Marksman"],
+            "counters": [
+                { "name": "Janna", "reason": "Disengage push-away R", "intensity": 10 },
+                { "name": "LeeSin", "reason": "Kick-away engage", "intensity": 9 },
+                { "name": "Sylas", "reason": "Stealing massive AoE CC", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Amumu", "reason": "Double AoE CC chain", "intensity": 10 },
+                { "name": "Nocturne", "reason": "Darkness into stun engage", "intensity": 9 }
+            ]
+        },
+        "Khazix": {
+            "tags": ["Assassin"],
+            "counters": [
+                { "name": "LeeSin", "reason": "Reveals stealth and burst", "intensity": 9 },
+                { "name": "Rammus", "reason": "Armor and taunt", "intensity": 8 },
+                { "name": "RekSai", "reason": "Tracking and knockup", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Yuumi", "reason": "The predator assassin", "intensity": 9 },
+                { "name": "Lulu", "reason": "Shielding and safety", "intensity": 8 }
+            ]
+        },
+        "Kindred": {
+            "tags": ["Marksman"],
+            "counters": [
+                { "name": "LeeSin", "reason": "Kick out of ultimate", "intensity": 10 },
+                { "name": "Gragas", "reason": "Ult out of her ultimate", "intensity": 10 },
+                { "name": "Janna", "reason": "Ult out of her ultimate", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Taric", "reason": "Double invincibility", "intensity": 10 },
+                { "name": "Lulu", "reason": "Maximum carry protection", "intensity": 9 }
+            ]
+        },
+        "Kled": {
+            "tags": ["Fighter"],
+            "counters": [
+                { "name": "Fiora", "reason": "Parry Q or E and outduel", "intensity": 9 },
+                { "name": "Jax", "reason": "Blocks his W fast attacks", "intensity": 9 },
+                { "name": "Trundle", "reason": "Steals resistances", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Melee stun stacking", "intensity": 9 },
+                { "name": "Galio", "reason": "Ult delivery with charge", "intensity": 8 }
+            ]
+        },
+        "KogMaw": {
+            "tags": ["Marksman", "Mage"],
+            "counters": [
+                { "name": "Vi", "reason": "Lockdown for immobile", "intensity": 9 },
+                { "name": "Draven", "reason": "Early kill potential", "intensity": 8 },
+                { "name": "Nocturne", "reason": "Global dive", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Lulu", "reason": "The Jugger-Kog standard", "intensity": 10 },
+                { "name": "Braum", "reason": "Unbreakable protection", "intensity": 9 },
+                { "name": "Milio", "reason": "Range and sustain", "intensity": 9 }
+            ]
+        },
+        "Leblanc": {
+            "tags": ["Assassin", "Mage"],
+            "counters": [
+                { "name": "Lissandra", "reason": "Hard lockdown", "intensity": 10 },
+                { "name": "Kassadin", "reason": "Sustain and magic shield", "intensity": 9 },
+                { "name": "Vex", "reason": "Anti-dash fear", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "LeeSin", "reason": "Aggressive jungle/mid pro", "intensity": 10 },
+                { "name": "Vi", "reason": "Lockdown for chain setup", "intensity": 9 }
+            ]
+        },
+        "LeeSin": {
+            "tags": ["Fighter", "Assassin"],
+            "counters": [
+                { "name": "Poppy", "reason": "W stops all Q/W dashes", "intensity": 10 },
+                { "name": "Warwick", "reason": "Duelist power and sustain", "intensity": 8 },
+                { "name": "Rammus", "reason": "Armor stacking", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Leblanc", "reason": "The pro mid/jungle catch", "intensity": 10 },
+                { "name": "Ahri", "reason": "Catch and burst potential", "intensity": 9 },
+                { "name": "Renekton", "reason": "Dive and early stomp", "intensity": 9 }
+            ]
+        },
+        "Leona": {
+            "tags": ["Tank", "Support"],
+            "counters": [
+                { "name": "Morgana", "reason": "Black shield priority", "intensity": 9 },
+                { "name": "Alistar", "reason": "Headbutt away the dash", "intensity": 8 },
+                { "name": "Janna", "reason": "Disengage engage engage", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Draven", "reason": "The pro kill-lane king", "intensity": 10 },
+                { "name": "Kaisa", "reason": "Plasma stacks and dive", "intensity": 9 },
+                { "name": "Samira", "reason": "AoE dive synergy", "intensity": 9 }
+            ]
+        },
+        "Lillia": {
+            "tags": ["Fighter", "Mage"],
+            "counters": [
+                { "name": "Vi", "reason": "Lockdown for speed-meta", "intensity": 9 },
+                { "name": "MasterYi", "reason": "Cannot slow him", "intensity": 8 },
+                { "name": "Nocturne", "reason": "Fear and darkness", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Nautilus", "reason": "CC for sleepy-hit", "intensity": 8 },
+                { "name": "Yuumi", "reason": "Double movement speed", "intensity": 9 }
+            ]
+        },
+        "Lissandra": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Xerath", "reason": "Outranged significantly", "intensity": 9 },
+                { "name": "Kassadin", "reason": "Scaling anti-magic", "intensity": 8 },
+                { "name": "Syndra", "reason": "Range and burst", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Vi", "reason": "Infinite point-click CC", "intensity": 10 },
+                { "name": "JarvanIV", "reason": "Dive and lockdown", "intensity": 9 },
+                { "name": "Hecarim", "reason": "Double engage", "intensity": 8 }
+            ]
+        },
+        "Lucian": {
+            "tags": ["Marksman"],
+            "counters": [
+                { "name": "Draven", "reason": "Pure raw trading gap", "intensity": 8 },
+                { "name": "Caitlyn", "reason": "Extreme range advantage", "intensity": 9 },
+                { "name": "Braum", "reason": "Shield blocks his burst", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Nami", "reason": "The pro-meta electro duo", "intensity": 10 },
+                { "name": "Milio", "reason": "Range and sustain buffs", "intensity": 10 },
+                { "name": "Braum", "reason": "Fastest passive stacks", "intensity": 9 }
+            ]
+        },
+        "Lulu": {
+            "tags": ["Support", "Mage"],
+            "counters": [
+                { "name": "Soraka", "reason": "Out-sustaining shields", "intensity": 8 },
+                { "name": "Blitzcrank", "reason": "Hook ignores protection", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "KogMaw", "reason": "The Jugger-Kog standard", "intensity": 10 },
+                { "name": "Zeri", "reason": "Hypercarry movement speed", "intensity": 10 },
+                { "name": "Jinx", "reason": "Attack speed and safety", "intensity": 9 }
+            ]
+        },
+        "Lux": {
+            "tags": ["Mage", "Support"],
+            "counters": [
+                { "name": "Yasuo", "reason": "Wind wall blocks bind/E", "intensity": 9 },
+                { "name": "Pyke", "reason": "Mobility and catch", "intensity": 8 },
+                { "name": "Zed", "reason": "Blink out of her binding", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Caitlyn", "reason": "The pro-meta trap combo", "intensity": 10 },
+                { "name": "Jhin", "reason": "Double long range CC", "intensity": 9 },
+                { "name": "Ezreal", "reason": "Infinite poke siege", "intensity": 9 }
+            ]
+        },
+        "Malphite": {
+            "tags": ["Tank", "Fighter"],
+            "counters": [
+                { "name": "Sylas", "reason": "Stealing his best asset", "intensity": 10 },
+                { "name": "Vayne", "reason": "Kiting and true damage", "intensity": 9 },
+                { "name": "Mordekaiser", "reason": "Magic shred and R-duel", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Yasuo", "reason": "The ultimate R-wombo", "intensity": 10 },
+                { "name": "Orianna", "reason": "The ball-delivery womb", "intensity": 10 },
+                { "name": "MissFortune", "reason": "AoE stun for bullet time", "intensity": 9 }
+            ]
+        },
+        "Malzahar": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Gangplank", "reason": "W cleanses the ultimate", "intensity": 10 },
+                { "name": "Olaf", "reason": "R ignores the ultimate", "intensity": 10 },
+                { "name": "Sivir", "reason": "Spell shield for ultimate", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Vi", "reason": "Infinite point-click CC", "intensity": 10 },
+                { "name": "JarvanIV", "reason": "Cage targets for burst", "intensity": 8 }
+            ]
+        },
+        "Maokai": {
+            "tags": ["Tank", "Mage"],
+            "counters": [
+                { "name": "Sylas", "reason": "Stealing massive AoE R", "intensity": 9 },
+                { "name": "Fiora", "reason": "Parry the point-click W", "intensity": 9 },
+                { "name": "Trundle", "reason": "Stealing resistances", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Jayce", "reason": "Pro-meta siege duo", "intensity": 10 },
+                { "name": "Taliyah", "reason": "CC into seismic shove", "intensity": 9 },
+                { "name": "Kaisa", "reason": "Plasma stacks and engage", "intensity": 9 }
+            ]
+        },
+        "MasterYi": {
+            "tags": ["Assassin", "Fighter"],
+            "counters": [
+                { "name": "Jax", "reason": "Counter-strike is hard-stop", "intensity": 10 },
+                { "name": "Rammus", "reason": "Taunt into reflection", "intensity": 10 },
+                { "name": "Malzahar", "reason": "Point-click shutdown", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Taric", "reason": "The funnel pro duo", "intensity": 10 },
+                { "name": "Lulu", "reason": "Speed and invincibility", "intensity": 9 },
+                { "name": "Yuumi", "reason": "Invincible predator", "intensity": 9 }
+            ]
+        },
+        "Milio": {
+            "tags": ["Support"],
+            "counters": [
+                { "name": "Blitzcrank", "reason": "Hook ignores range/cleanse", "intensity": 7 },
+                { "name": "Pyke", "reason": "Burst and catch", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Lucian", "reason": "Elite range/burst pro", "intensity": 10 },
+                { "name": "Caitlyn", "reason": "Maximum siege range", "intensity": 9 },
+                { "name": "KogMaw", "reason": "Range and safety", "intensity": 9 }
+            ]
+        },
+        "MissFortune": {
+            "tags": ["Marksman", "Mage"],
+            "counters": [
+                { "name": "Yasuo", "reason": "Wind wall blocks ultimate", "intensity": 10 },
+                { "name": "Braum", "reason": "Shield blocks ultimate", "intensity": 9 },
+                { "name": "Vi", "reason": "Lockdown during ultimate", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Amumu", "reason": "The classic AoE wombo", "intensity": 10 },
+                { "name": "JarvanIV", "reason": "Lock inside cage for R", "intensity": 10 },
+                { "name": "Leona", "reason": "AoE CC for full R hit", "intensity": 9 }
+            ]
+        },
+        "Mordekaiser": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Vayne", "reason": "True damage and kiting", "intensity": 9 },
+                { "name": "Fiora", "reason": "True damage and parry", "intensity": 9 },
+                { "name": "Gangplank", "reason": "Oranges cleanse his R", "intensity": 10 },
+                { "name": "Olaf", "reason": "R ignores his R entirely", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Melee stun stacking", "intensity": 8 },
+                { "name": "Nautilus", "reason": "CC setup for pull", "intensity": 8 }
+            ]
+        },
+        "Morgana": {
+            "tags": ["Support", "Mage"],
+            "counters": [
+                { "name": "Karma", "reason": "Out-shielding and poking", "intensity": 7 },
+                { "name": "Zyra", "reason": "Plants block her binding", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Caitlyn", "reason": "The infinite CC chain", "intensity": 10 },
+                { "name": "Jhin", "reason": "Double binding setup", "intensity": 9 },
+                { "name": "Lux", "reason": "Poke and lockdown meta", "intensity": 8 }
+            ]
+        },
+        "Naafiri": {
+            "tags": ["Assassin"],
+            "counters": [
+                { "name": "Jax", "reason": "Counter-strike blocks dogs", "intensity": 8 },
+                { "name": "Sett", "reason": "AoE disruption for dogs", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Melee synergy and catch", "intensity": 8 },
+                { "name": "Maokai", "reason": "CC for full hunt", "intensity": 9 }
+            ]
+        },
+        "Nami": {
+            "tags": ["Support"],
+            "counters": [
+                { "name": "Blitzcrank", "reason": "Hook ignores bubble/heal", "intensity": 8 },
+                { "name": "Yasuo", "reason": "Wind wall blocks ultimate", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Lucian", "reason": "The Electro-Burst pro duo", "intensity": 10 },
+                { "name": "Draven", "reason": "Early kill-pressure buffs", "intensity": 8 },
+                { "name": "Ashe", "reason": "Infinite slows and CC", "intensity": 9 }
+            ]
+        },
+        "Nasus": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Vayne", "reason": "True damage and kiting", "intensity": 10 },
+                { "name": "Garen", "reason": "Silence and Q-cleanses slow", "intensity": 8 },
+                { "name": "Sivir", "reason": "Spell shield for Wither", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Yuumi", "reason": "Unkillable scaling monster", "intensity": 9 },
+                { "name": "Lulu", "reason": "Speed and HP buffer", "intensity": 9 }
+            ]
+        },
+        "Nautilus": {
+            "tags": ["Tank", "Support"],
+            "counters": [
+                { "name": "Morgana", "reason": "Black shield priority", "intensity": 10 },
+                { "name": "Braum", "reason": "Can jump to hook target", "intensity": 8 },
+                { "name": "Sylas", "reason": "Stealing point-click R", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Kaisa", "reason": "The plasma stacking pro", "intensity": 10 },
+                { "name": "Draven", "reason": "Early hook into kill", "intensity": 9 },
+                { "name": "Samira", "reason": "CC proc and dive", "intensity": 9 }
+            ]
+        },
+        "Neeko": {
+            "tags": ["Mage", "Support"],
+            "counters": [
+                { "name": "Syndra", "reason": "Range and burst outplay", "intensity": 8 },
+                { "name": "Xerath", "reason": "Extreme range poke", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Nocturne", "reason": "Invisible ult delivery", "intensity": 10 },
+                { "name": "Amumu", "reason": "Double AoE CC wombo", "intensity": 9 }
+            ]
+        },
+        "Nidalee": {
+            "tags": ["Assassin", "Mage"],
+            "counters": [
+                { "name": "LeeSin", "reason": "Tracking and out-duel", "intensity": 9 },
+                { "name": "Vi", "reason": "Lockdown for mobile leap", "intensity": 8 },
+                { "name": "Rengar", "reason": "Bush vision and burst", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Renekton", "reason": "The pro point-click dive", "intensity": 10 },
+                { "name": "Pantheon", "reason": "Stun for easy spear", "intensity": 9 },
+                { "name": "Maokai", "reason": "CC for spear setup", "intensity": 9 }
+            ]
+        },
+        "Nilah": {
+            "tags": ["Fighter", "Assassin"],
+            "counters": [
+                { "name": "Xayah", "reason": "R-safety and feather-peel", "intensity": 9 },
+                { "name": "Caitlyn", "reason": "Extreme range bully", "intensity": 8 },
+                { "name": "Vayne", "reason": "Late game dueling outplay", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Taric", "reason": "Double armor/XP synergy", "intensity": 10 },
+                { "name": "Sona", "reason": "AoE heal/XP stacking", "intensity": 9 },
+                { "name": "Soraka", "reason": "Infinite sustain dive", "intensity": 9 }
+            ]
+        },
+        "Nocturne": {
+            "tags": ["Assassin", "Fighter"],
+            "counters": [
+                { "name": "Jax", "reason": "E blocks his AA-fear trade", "intensity": 8 },
+                { "name": "Poppy", "reason": "W stops his R-dash", "intensity": 9 },
+                { "name": "Rammus", "reason": "Armor stacking", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Orianna", "reason": "Invisible ball delivery", "intensity": 10 },
+                { "name": "Neeko", "reason": "Invisible ult delivery", "intensity": 10 },
+                { "name": "Galio", "reason": "Global darkness collapse", "intensity": 9 }
+            ]
+        },
+        "Nunu": {
+            "tags": ["Tank", "Fighter"],
+            "counters": [
+                { "name": "Trundle", "reason": "Stealing resistances", "intensity": 9 },
+                { "name": "Anivia", "reason": "Wall stops the snowball", "intensity": 9 },
+                { "name": "Taliyah", "reason": "Wall stops the snowball", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Ryze", "reason": "The invisible Realm Warp", "intensity": 10 },
+                { "name": "Yasuo", "reason": "Snowball knockup for R", "intensity": 8 }
+            ]
+        },
+        "Olaf": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Vayne", "reason": "Kiting and true damage", "intensity": 9 },
+                { "name": "Fiora", "reason": "Superior dueling outplay", "intensity": 8 },
+                { "name": "Tryndamere", "reason": "Late game stat-check", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Yuumi", "reason": "The unkillable predator", "intensity": 10 },
+                { "name": "Lulu", "reason": "Speed and HP buffer", "intensity": 9 },
+                { "name": "Karma", "reason": "Elite movement speed", "intensity": 9 }
+            ]
+        },
+        "Orianna": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Zed", "reason": "Extreme mobility outplay", "intensity": 9 },
+                { "name": "Syndra", "reason": "Range and burst gap", "intensity": 8 },
+                { "name": "Xerath", "reason": "Extreme range poke", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "JarvanIV", "reason": "The pro Cataclysm ball", "intensity": 10 },
+                { "name": "Nocturne", "reason": "Invisible ball delivery", "intensity": 10 },
+                { "name": "Wukong", "reason": "Cyclone ball delivery", "intensity": 10 }
+            ]
+        },
+        "Ornn": {
+            "tags": ["Tank", "Fighter"],
+            "counters": [
+                { "name": "Fiora", "reason": "True damage and parry", "intensity": 9 },
+                { "name": "Vayne", "reason": "True damage shred", "intensity": 9 },
+                { "name": "Sylas", "reason": "Stealing massive CC R", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "The pro-meta melee duo", "intensity": 10 },
+                { "name": "Senna", "reason": "Scaling item upgrades", "intensity": 9 },
+                { "name": "Ashe", "reason": "Arrow into Ornn R chain", "intensity": 9 }
+            ]
+        },
+        "Pantheon": {
+            "tags": ["Fighter", "Assassin"],
+            "counters": [
+                { "name": "Malphite", "reason": "Armor stacking", "intensity": 8 },
+                { "name": "Garen", "reason": "Silence and raw stats", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Nidalee", "reason": "Stun for easy spear pro", "intensity": 10 },
+                { "name": "Taliyah", "reason": "Stun into seismic shove", "intensity": 9 },
+                { "name": "Renekton", "reason": "The point-click dive", "intensity": 9 }
+            ]
+        },
+        "Poppy": {
+            "tags": ["Tank", "Fighter"],
+            "counters": [
+                { "name": "Irelia", "reason": "Hard-counters all Q-dashes", "intensity": 10 },
+                { "name": "LeeSin", "reason": "Stops all jungle dashes", "intensity": 10 },
+                { "name": "Yasuo", "reason": "Stops E-dash resets", "intensity": 9 },
+                { "name": "Hecarim", "reason": "Stops engage dash", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Anivia", "reason": "Wall stun combo", "intensity": 10 },
+                { "name": "JarvanIV", "reason": "Cage wall stun setup", "intensity": 9 },
+                { "name": "Vayne", "reason": "Double wall stun threat", "intensity": 8 }
+            ]
+        },
+        "Pyke": {
+            "tags": ["Assassin", "Support"],
+            "counters": [
+                { "name": "Morgana", "reason": "Black shield blocks hook/E", "intensity": 8 },
+                { "name": "Soraka", "reason": "Heal out of execute range", "intensity": 9 },
+                { "name": "Lulu", "reason": "Ult prevents the execute", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Draven", "reason": "Early kill-gold snowball", "intensity": 10 },
+                { "name": "Tristana", "reason": "Level 2 dive dominance", "intensity": 9 },
+                { "name": "Kalista", "reason": "R-pull for safety", "intensity": 9 }
+            ]
+        },
+        "Qiyana": {
+            "tags": ["Assassin"],
+            "counters": [
+                { "name": "Lissandra", "reason": "Point-click shutdown", "intensity": 9 },
+                { "name": "Vex", "reason": "Anti-dash fear", "intensity": 8 },
+                { "name": "Kassadin", "reason": "Scaling anti-magic", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Melee stun stacking", "intensity": 9 },
+                { "name": "JarvanIV", "reason": "Cage for AoE ultimate", "intensity": 9 }
+            ]
+        },
+        "Quinn": {
+            "tags": ["Marksman", "Assassin"],
+            "counters": [
+                { "name": "Malphite", "reason": "Armor and AS reduction", "intensity": 9 },
+                { "name": "Irelia", "reason": "Gap close and burst", "intensity": 8 },
+                { "name": "Yasuo", "reason": "Wind wall blocks AA-burst", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Nocturne", "reason": "Global darkness predator", "intensity": 9 },
+                { "name": "Pantheon", "reason": "Global map-control duo", "intensity": 8 }
+            ]
+        },
+        "Rakan": {
+            "tags": ["Support"],
+            "counters": [
+                { "name": "Thresh", "reason": "Flay stops W-dash", "intensity": 9 },
+                { "name": "Poppy", "reason": "W stops all W/E dashes", "intensity": 10 },
+                { "name": "Janna", "reason": "Disengage engage engage", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Xayah", "reason": "The pro lovers duo", "intensity": 10 },
+                { "name": "Yasuo", "reason": "AoE knockup for R", "intensity": 9 },
+                { "name": "Samira", "reason": "Dive and CC proc", "intensity": 9 }
+            ]
+        },
+        "Rammus": {
+            "tags": ["Tank"],
+            "counters": [
+                { "name": "MasterYi", "reason": "Taunt into reflection", "intensity": 10 },
+                { "name": "BelVeth", "reason": "Reflection kill herself", "intensity": 10 },
+                { "name": "Draven", "reason": "Armor stack vs physical", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Galio", "reason": "Ult delivery with speed", "intensity": 8 },
+                { "name": "Shen", "reason": "Global shield dive", "intensity": 8 }
+            ]
+        },
+        "RekSai": {
+            "tags": ["Fighter"],
+            "counters": [
+                { "name": "Poppy", "reason": "W stops E-tunnel", "intensity": 9 },
+                { "name": "Jax", "reason": "Dueling power", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Pantheon", "reason": "Global map-control catch", "intensity": 9 },
+                { "name": "Renekton", "reason": "Point-click stun dive", "intensity": 10 }
+            ]
+        },
+        "Rell": {
+            "tags": ["Tank", "Support"],
+            "counters": [
+                { "name": "Thresh", "reason": "Flay stops W-jump", "intensity": 9 },
+                { "name": "Janna", "reason": "Disengage push-away", "intensity": 9 },
+                { "name": "Poppy", "reason": "W stops all jumps", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Samira", "reason": "The AoE dive pro combo", "intensity": 10 },
+                { "name": "Kalista", "reason": "Aggressive R-dive", "intensity": 9 },
+                { "name": "MissFortune", "reason": "Magnet ultimate for R", "intensity": 9 }
+            ]
+        },
+        "RenataGlasc": {
+            "tags": ["Support"],
+            "counters": [
+                { "name": "Xerath", "reason": "Extreme range poke", "intensity": 8 },
+                { "name": "Soraka", "reason": "Out-sustaining her poke", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Kalista", "reason": "The save/revive pro duo", "intensity": 10 },
+                { "name": "Samira", "reason": "Invincible dive reset", "intensity": 9 },
+                { "name": "Zeri", "reason": "Late game carry safety", "intensity": 9 }
+            ]
+        },
+        "Renekton": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Illaoi", "reason": "Anti-dive and E-shred", "intensity": 9 },
+                { "name": "Quinn", "reason": "Range bully and blind", "intensity": 9 },
+                { "name": "Vayne", "reason": "Range bully and kiting", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Nidalee", "reason": "The elite pro-dive duo", "intensity": 10 },
+                { "name": "Elise", "reason": "The pro tower-dive duo", "intensity": 10 },
+                { "name": "Sejuani", "reason": "Melee stun stacking pro", "intensity": 10 }
+            ]
+        },
+        "Rengar": {
+            "tags": ["Assassin", "Fighter"],
+            "counters": [
+                { "name": "Jax", "reason": "E blocks leap damage", "intensity": 9 },
+                { "name": "Poppy", "reason": "W stops his leap entirely", "intensity": 10 },
+                { "name": "LeeSin", "reason": "True sight and catch", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Ivern", "reason": "The bush-hop predator pro", "intensity": 10 },
+                { "name": "Orianna", "reason": "Invisible ball delivery", "intensity": 10 },
+                { "name": "Yuumi", "reason": "Invincible nuke predator", "intensity": 9 }
+            ]
+        },
+        "Riven": {
+            "tags": ["Fighter"],
+            "counters": [
+                { "name": "Renekton", "reason": "Point-click stun and armor", "intensity": 9 },
+                { "name": "Poppy", "reason": "W stops all 4 dashes", "intensity": 10 },
+                { "name": "Garen", "reason": "Silence and raw stats", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Melee stun stacking", "intensity": 9 },
+                { "name": "Ivern", "reason": "Shielding and catch setup", "intensity": 8 }
+            ]
+        },
+        "Rumble": {
+            "tags": ["Fighter", "Mage"],
+            "counters": [
+                { "name": "Jayce", "reason": "Ranged poke and burst", "intensity": 8 },
+                { "name": "Irelia", "reason": "Gap close and outplay", "intensity": 8 },
+                { "name": "Kassadin", "reason": "Scaling anti-magic", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "JarvanIV", "reason": "The equalizer cage combo", "intensity": 10 },
+                { "name": "Maokai", "reason": "CC for equalizer duration", "intensity": 9 },
+                { "name": "Amumu", "reason": "AoE stun for equalizer", "intensity": 9 }
+            ]
+        },
+        "Ryze": {
+            "tags": ["Mage", "Fighter"],
+            "counters": [
+                { "name": "Xerath", "reason": "Extreme range poke gap", "intensity": 9 },
+                { "name": "Syndra", "reason": "Outranges and bursts", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Nunu", "reason": "The invisible Realm Warp", "intensity": 10 },
+                { "name": "Sion", "reason": "The zombie Realm Warp", "intensity": 10 },
+                { "name": "Maokai", "reason": "The pro siege-wave duo", "intensity": 9 }
+            ]
+        },
+        "Samira": {
+            "tags": ["Marksman", "Assassin"],
+            "counters": [
+                { "name": "Alistar", "reason": "Multiple knockups for R", "intensity": 9 },
+                { "name": "Lulu", "reason": "Polymorph ruins the R", "intensity": 10 },
+                { "name": "Vi", "reason": "Lockdown during R-channel", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Nautilus", "reason": "The CC-passive proc duo", "intensity": 10 },
+                { "name": "Rell", "reason": "The AoE dive pro combo", "intensity": 10 },
+                { "name": "Alistar", "reason": "Level 2 all-in dominance", "intensity": 9 }
+            ]
+        },
+        "Sejuani": {
+            "tags": ["Tank"],
+            "counters": [
+                { "name": "Trundle", "reason": "Steals massive resistances", "intensity": 10 },
+                { "name": "Sylas", "reason": "Stealing her best CC R", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Renekton", "reason": "The pro melee stun duo", "intensity": 10 },
+                { "name": "Sylas", "reason": "Melee stun pro stacking", "intensity": 10 },
+                { "name": "Jax", "reason": "Melee stun pro stacking", "intensity": 10 }
+            ]
+        },
+        "Senna": {
+            "tags": ["Marksman", "Support"],
+            "counters": [
+                { "name": "Draven", "reason": "Early kill stomp pressure", "intensity": 9 },
+                { "name": "Pyke", "reason": "Mobility and execute catch", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Nautilus", "reason": "Fasting Senna standard", "intensity": 10 },
+                { "name": "TahmKench", "reason": "Fasting Senna safety pro", "intensity": 10 },
+                { "name": "Ornn", "reason": "Fasting Senna scaling pro", "intensity": 9 }
+            ]
+        },
+        "Seraphine": {
+            "tags": ["Mage", "Support"],
+            "counters": [
+                { "name": "Yasuo", "reason": "Wind wall blocks ultimate", "intensity": 10 },
+                { "name": "Pyke", "reason": "Catch and burst mobility", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Ashe", "reason": "The meta perma-slow duo", "intensity": 10 },
+                { "name": "Sona", "reason": "The aura sustain pro duo", "intensity": 9 },
+                { "name": "Maokai", "reason": "AoE CC chain meta", "intensity": 9 }
+            ]
+        },
+        "Sett": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Vayne", "reason": "Kiting and true damage shred", "intensity": 10 },
+                { "name": "Fiora", "reason": "True damage and parry outplay", "intensity": 9 },
+                { "name": "Jax", "reason": "Superior late game dueling", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Melee stun stacking pro", "intensity": 9 },
+                { "name": "Yuumi", "reason": "Unkillable juggernaut dive", "intensity": 8 }
+            ]
+        },
+        "Shaco": {
+            "tags": ["Assassin"],
+            "counters": [
+                { "name": "LeeSin", "reason": "True sight reveal stealth", "intensity": 10 },
+                { "name": "RekSai", "reason": "Tremor sense finds him", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Blitzcrank", "reason": "Hook into box trap", "intensity": 8 },
+                { "name": "Teemo", "reason": "Ultimate trap psychological gap", "intensity": 7 }
+            ]
+        },
+        "Shen": {
+            "tags": ["Tank"],
+            "counters": [
+                { "name": "Garen", "reason": "Silence stops the ultimate", "intensity": 8 },
+                { "name": "Mordekaiser", "reason": "R pulls him out of map", "intensity": 9 },
+                { "name": "Sylas", "reason": "Stealing global protector", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Nocturne", "reason": "Global darkness collapse", "intensity": 10 },
+                { "name": "Twitch", "reason": "Invisible ult delivery", "intensity": 9 },
+                { "name": "Hecarim", "reason": "Global shield for speed", "intensity": 9 }
+            ]
+        },
+        "Shyvana": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Jax", "reason": "Blocks Q-procs and duels", "intensity": 8 },
+                { "name": "Trundle", "reason": "Stealing resistances", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "JarvanIV", "reason": "Cage for AoE fire-bomb", "intensity": 9 },
+                { "name": "Maokai", "reason": "CC for easy E-fire hit", "intensity": 8 }
+            ]
+        },
+        "Singed": {
+            "tags": ["Tank", "Mage"],
+            "counters": [
+                { "name": "Vayne", "reason": "Kiting and true damage", "intensity": 9 },
+                { "name": "Quinn", "reason": "Disengage and poke", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Cassiopeia", "reason": "Infinite poison E-spam", "intensity": 10 },
+                { "name": "Yuumi", "reason": "Unstoppable speed poison", "intensity": 9 }
+            ]
+        },
+        "Sion": {
+            "tags": ["Tank", "Fighter"],
+            "counters": [
+                { "name": "Vayne", "reason": "True damage and Q-dodge", "intensity": 10 },
+                { "name": "Fiora", "reason": "True damage and Q-parry", "intensity": 10 },
+                { "name": "Sylas", "reason": "Stealing HP stacking R", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Senna", "reason": "Fasting Senna zombie duo", "intensity": 10 },
+                { "name": "Ryze", "reason": "Invisible Realm Warp bomb", "intensity": 10 }
+            ]
+        },
+        "Sivir": {
+            "tags": ["Marksman"],
+            "counters": [
+                { "name": "Draven", "reason": "Superior early game damage", "intensity": 8 },
+                { "name": "Yasuo", "reason": "Wind wall blocks W-bounce", "intensity": 9 },
+                { "name": "Braum", "reason": "Shield blocks Q/W poke", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Karma", "reason": "Speed-meta pro dominance", "intensity": 10 },
+                { "name": "Yuumi", "reason": "The mach-10 carry duo", "intensity": 9 },
+                { "name": "Sona", "reason": "Speed and sustain aura", "intensity": 9 }
+            ]
+        },
+        "Skarner": {
+            "tags": ["Tank", "Fighter"],
+            "counters": [
+                { "name": "Gangplank", "reason": "W cleanses the ultimate", "intensity": 10 },
+                { "name": "Olaf", "reason": "R ignores the ultimate", "intensity": 10 },
+                { "name": "Thresh", "reason": "Lantern saves R-target", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Thresh", "reason": "The kidnap combo legacy", "intensity": 9 },
+                { "name": "Kalista", "reason": "Ult-pull target kidnap", "intensity": 10 }
+            ]
+        },
+        "Smolder": {
+            "tags": ["Marksman", "Mage"],
+            "counters": [
+                { "name": "Draven", "reason": "Early kill-pressure gap", "intensity": 9 },
+                { "name": "Vi", "reason": "Lockdown during late scaling", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Maokai", "reason": "Frontline for scaling", "intensity": 9 },
+                { "name": "Lulu", "reason": "Protection for hypercarry", "intensity": 9 }
+            ]
+        },
+        "Sona": {
+            "tags": ["Support", "Mage"],
+            "counters": [
+                { "name": "Blitzcrank", "reason": "Hook ignores sustain aura", "intensity": 10 },
+                { "name": "Leona", "reason": "Aggressive dive shutdown", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Seraphine", "reason": "The music-aura sustain pro", "intensity": 10 },
+                { "name": "Taric", "reason": "The unkillable aura pro", "intensity": 9 },
+                { "name": "Sivir", "reason": "Speed-meta sustain duo", "intensity": 9 }
+            ]
+        },
+        "Soraka": {
+            "tags": ["Support"],
+            "counters": [
+                { "name": "Blitzcrank", "reason": "Hook ignores healing aura", "intensity": 9 },
+                { "name": "Pyke", "reason": "Execute ignores her R-heal", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Vayne", "reason": "The infinite kiting duo", "intensity": 9 },
+                { "name": "Nilah", "reason": "XP and heal stacking meta", "intensity": 10 }
+            ]
+        },
+        "Swain": {
+            "tags": ["Mage", "Fighter"],
+            "counters": [
+                { "name": "Vayne", "reason": "Kiting and true damage", "intensity": 9 },
+                { "name": "Sylas", "reason": "Stealing invincible drain R", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Maokai", "reason": "CC to keep inside ultimate", "intensity": 9 },
+                { "name": "Nautilus", "reason": "Frontline for drain-tanking", "intensity": 8 }
+            ]
+        },
+        "Sylas": {
+            "tags": ["Mage", "Assassin"],
+            "counters": [
+                { "name": "Kassadin", "reason": "Scaling anti-magic", "intensity": 9 },
+                { "name": "Vex", "reason": "Anti-dash fear ruins combo", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Melee stun stacking pro", "intensity": 10 },
+                { "name": "Maokai", "reason": "Steal CC R and CC chain", "intensity": 9 }
+            ]
+        },
+        "Syndra": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Fizz", "reason": "E-dodge the ultimate", "intensity": 9 },
+                { "name": "Zed", "reason": "High mobility outplay", "intensity": 8 },
+                { "name": "Yasuo", "reason": "Wind wall blocks balls/ult", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Vi", "reason": "Lockdown for guaranteed R", "intensity": 9 },
+                { "name": "Maokai", "reason": "CC setup for burst", "intensity": 8 }
+            ]
+        },
+        "TahmKench": {
+            "tags": ["Tank", "Support"],
+            "counters": [
+                { "name": "Vayne", "reason": "True damage shred", "intensity": 9 },
+                { "name": "Sylas", "reason": "Stealing his protective R", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Senna", "reason": "The fasting Senna pro duo", "intensity": 10 },
+                { "name": "Jinx", "reason": "Ultimate protection duo", "intensity": 9 }
+            ]
+        },
+        "Taliyah": {
+            "tags": ["Mage", "Support"],
+            "counters": [
+                { "name": "Zed", "reason": "Can blink over her mines", "intensity": 7 },
+                { "name": "Kassadin", "reason": "Scaling anti-magic", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Pantheon", "reason": "Point-click stun into W", "intensity": 10 },
+                { "name": "Renekton", "reason": "Point-click stun into W", "intensity": 10 },
+                { "name": "Maokai", "reason": "CC setup for mines", "intensity": 9 }
+            ]
+        },
+        "Talon": {
+            "tags": ["Assassin"],
+            "counters": [
+                { "name": "Lissandra", "reason": "Hard lockdown", "intensity": 9 },
+                { "name": "Poppy", "reason": "W stops all wall-hops", "intensity": 10 },
+                { "name": "Garen", "reason": "Silence and raw stats", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Yuumi", "reason": "Invisible predator nuke", "intensity": 9 },
+                { "name": "Sejuani", "reason": "Melee stun stacking", "intensity": 8 }
+            ]
+        },
+        "Taric": {
+            "tags": ["Support", "Tank"],
+            "counters": [
+                { "name": "Morgana", "reason": "Black shield blocks stun", "intensity": 8 },
+                { "name": "Xerath", "reason": "Extreme range poke gap", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "MasterYi", "reason": "The funnel pro legacy", "intensity": 10 },
+                { "name": "Kalista", "reason": "Double invincibility dive", "intensity": 10 },
+                { "name": "Nilah", "reason": "Armor/XP/Heal stacking", "intensity": 10 }
+            ]
+        },
+        "Teemo": {
+            "tags": ["Marksman", "Mage"],
+            "counters": [
+                { "name": "Syndra", "reason": "Outranges and bursts", "intensity": 9 },
+                { "name": "Xerath", "reason": "Extreme range poke", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Cassiopeia", "reason": "Poison for E-spam", "intensity": 10 },
+                { "name": "Twitch", "reason": "Double invisible traps", "intensity": 8 }
+            ]
+        },
+        "Thresh": {
+            "tags": ["Support"],
+            "counters": [
+                { "name": "Morgana", "reason": "Black shield priority", "intensity": 10 },
+                { "name": "Sivir", "reason": "Spell shield for hook", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Aphelios", "reason": "The safety pro standard", "intensity": 10 },
+                { "name": "Draven", "reason": "Early hook into snowball", "intensity": 9 },
+                { "name": "Jinx", "reason": "Lantern for immobile carry", "intensity": 9 }
+            ]
+        },
+        "Tristana": {
+            "tags": ["Marksman", "Assassin"],
+            "counters": [
+                { "name": "Draven", "reason": "Superior early trade", "intensity": 9 },
+                { "name": "Yasuo", "reason": "Wind wall blocks bomb/AA", "intensity": 9 },
+                { "name": "Poppy", "reason": "W stops her W-jump", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Leona", "reason": "Level 2 all-in dive pro", "intensity": 10 },
+                { "name": "Nautilus", "reason": "Aggressive hook into bomb", "intensity": 9 },
+                { "name": "Pyke", "reason": "Double aggressive catch", "intensity": 9 }
+            ]
+        },
+        "Trundle": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Jax", "reason": "Dueling power and block", "intensity": 9 },
+                { "name": "Fiora", "reason": "Dueling power and vitals", "intensity": 8 },
+                { "name": "Teemo", "reason": "Blind and kiting", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Melee stun stacking pro", "intensity": 9 },
+                { "name": "Lulu", "reason": "Speed and HP buffer", "intensity": 8 }
+            ]
+        },
+        "Tryndamere": {
+            "tags": ["Fighter", "Assassin"],
+            "counters": [
+                { "name": "Jax", "reason": "E blocks everything", "intensity": 10 },
+                { "name": "Malphite", "reason": "Armor and AS reduction", "intensity": 10 },
+                { "name": "Nasus", "reason": "Wither makes him useless", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Yuumi", "reason": "Invincible spinning death", "intensity": 9 },
+                { "name": "Lulu", "reason": "Extra life and speed", "intensity": 9 }
+            ]
+        },
+        "TwistedFate": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Kassadin", "reason": "Scaling anti-magic", "intensity": 8 },
+                { "name": "Fizz", "reason": "E-dodge gold card", "intensity": 9 },
+                { "name": "Nocturne", "reason": "Darkness ruins his ultimate", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Nocturne", "reason": "Global map-collapse pro", "intensity": 10 },
+                { "name": "LeeSin", "reason": "Aggressive gold card catch", "intensity": 9 },
+                { "name": "Shen", "reason": "The pro global duo", "intensity": 10 }
+            ]
+        },
+        "Twitch": {
+            "tags": ["Marksman", "Assassin"],
+            "counters": [
+                { "name": "Vi", "reason": "Lockdown during ultimate", "intensity": 8 },
+                { "name": "Yasuo", "reason": "Wind wall blocks ultimate", "intensity": 10 },
+                { "name": "Braum", "reason": "Shield blocks ultimate", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Lulu", "reason": "The hyper-spray pro duo", "intensity": 10 },
+                { "name": "Yuumi", "reason": "The invisible predator", "intensity": 10 },
+                { "name": "Sona", "reason": "Sustain and speed aura", "intensity": 9 }
+            ]
+        },
+        "Udyr": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Vayne", "reason": "Kiting and true damage", "intensity": 9 },
+                { "name": "Ashe", "reason": "Infinite kiting and slow", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Yuumi", "reason": "The mach-10 juggernaut", "intensity": 10 },
+                { "name": "Lulu", "reason": "Speed and HP buffer", "intensity": 9 }
+            ]
+        },
+        "Urgot": {
+            "tags": ["Fighter", "Marksman"],
+            "counters": [
+                { "name": "Vayne", "reason": "Kiting and true damage", "intensity": 9 },
+                { "name": "Jax", "reason": "E blocks massive attack speed", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Malphite", "reason": "CC for easy ultimate hit", "intensity": 8 },
+                { "name": "JarvanIV", "reason": "Cage targets for AoE R", "intensity": 9 }
+            ]
+        },
+        "Varus": {
+            "tags": ["Marksman", "Mage"],
+            "counters": [
+                { "name": "Yasuo", "reason": "Wind wall blocks ult/poke", "intensity": 10 },
+                { "name": "Braum", "reason": "Shield blocks ult/poke", "intensity": 9 },
+                { "name": "Vi", "reason": "Lockdown for immobile", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Heimerdinger", "reason": "Pro-meta lane control", "intensity": 10 },
+                { "name": "Ashe", "reason": "The pro double-arrow catch", "intensity": 10 },
+                { "name": "Nautilus", "reason": "Chain CC for full burst", "intensity": 9 }
+            ]
+        },
+        "Vayne": {
+            "tags": ["Marksman", "Assassin"],
+            "counters": [
+                { "name": "Caitlyn", "reason": "Extreme range disadvantage", "intensity": 9 },
+                { "name": "Draven", "reason": "Superior early game damage", "intensity": 10 },
+                { "name": "Teemo", "reason": "Blind ruins true damage", "intensity": 10 },
+                { "name": "Malphite", "reason": "AS reduction and R-dive", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Lulu", "reason": "The hypercarry safety pro", "intensity": 10 },
+                { "name": "Anivia", "reason": "Wall stun combo setup", "intensity": 10 },
+                { "name": "Poppy", "reason": "Double wall stun threat", "intensity": 9 }
+            ]
+        },
+        "Veigar": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Kassadin", "reason": "Scaling anti-magic", "intensity": 9 },
+                { "name": "Zed", "reason": "Blink out of cage", "intensity": 9 },
+                { "name": "Fizz", "reason": "E-dodge the cage", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "JarvanIV", "reason": "Double cage lockdown", "intensity": 9 },
+                { "name": "Maokai", "reason": "CC for full W/R burst", "intensity": 8 }
+            ]
+        },
+        "VelKoz": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Fizz", "reason": "Untargetable gap close", "intensity": 9 },
+                { "name": "Zed", "reason": "High mobility outplay", "intensity": 9 },
+                { "name": "Yasuo", "reason": "Wind wall blocks ultimate", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Amumu", "reason": "AoE stun for true damage", "intensity": 9 },
+                { "name": "JarvanIV", "reason": "Cage targets for burst", "intensity": 8 }
+            ]
+        },
+        "Vex": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Xerath", "reason": "Outranged significantly", "intensity": 9 },
+                { "name": "Syndra", "reason": "Range and burst gap", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Nocturne", "reason": "Fear followup pro engage", "intensity": 9 },
+                { "name": "Hecarim", "reason": "Aggressive fear chain", "intensity": 10 }
+            ]
+        },
+        "Vi": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Jax", "reason": "Dueling and block", "intensity": 7 },
+                { "name": "Morgana", "reason": "Black shield blocks R", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Ahri", "reason": "The pro point-click catch", "intensity": 10 },
+                { "name": "Lissandra", "reason": "Infinite point-click CC", "intensity": 10 },
+                { "name": "Kaisa", "reason": "Lockdown for dive R", "intensity": 9 }
+            ]
+        },
+        "Viego": {
+            "tags": ["Assassin", "Fighter"],
+            "counters": [
+                { "name": "Jax", "reason": "E blocks passive healing/AA", "intensity": 9 },
+                { "name": "Poppy", "reason": "W stops W-dash catch", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Nautilus", "reason": "CC for reset setup", "intensity": 9 },
+                { "name": "Yuumi", "reason": "The invincible reset nuke", "intensity": 9 }
+            ]
+        },
+        "Viktor": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Kassadin", "reason": "Scaling anti-magic", "intensity": 9 },
+                { "name": "Xerath", "reason": "Extreme range poke", "intensity": 9 },
+                { "name": "Zed", "reason": "High mobility burst", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Maokai", "reason": "The pro-meta waveclear pro", "intensity": 10 },
+                { "name": "JarvanIV", "reason": "Cage for full R-duration", "intensity": 9 }
+            ]
+        },
+        "Vladimir": {
+            "tags": ["Mage", "Tank"],
+            "counters": [
+                { "name": "Malzahar", "reason": "Point-click shutdown", "intensity": 8 },
+                { "name": "Kassadin", "reason": "Late game anti-magic", "intensity": 9 },
+                { "name": "Vayne", "reason": "True damage shred", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Yuumi", "reason": "Invincible pool drainer", "intensity": 9 },
+                { "name": "Lulu", "reason": "Speed and HP buffer", "intensity": 8 }
+            ]
+        },
+        "Volibear": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Jax", "reason": "E blocks his Q-stun and AA", "intensity": 9 },
+                { "name": "Vayne", "reason": "Kiting and true damage", "intensity": 9 },
+                { "name": "Quinn", "reason": "Blind and disengage", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Melee stun stacking pro", "intensity": 9 },
+                { "name": "Yuumi", "reason": "Unkillable tower diver", "intensity": 8 }
+            ]
+        },
+        "Warwick": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Jax", "reason": "E blocks his R and AAs", "intensity": 9 },
+                { "name": "Rammus", "reason": "Reflection kills him", "intensity": 8 },
+                { "name": "Vayne", "reason": "Kiting and true damage", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Galio", "reason": "Ult delivery with speed", "intensity": 8 },
+                { "name": "Lulu", "reason": "Speed and safety", "intensity": 8 }
+            ]
+        },
+        "Wukong": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Malphite", "reason": "Armor stacking", "intensity": 8 },
+                { "name": "Jax", "reason": "Dueling and block", "intensity": 7 }
+            ],
+            "synergies": [
+                { "name": "Yasuo", "reason": "Double knockup R-combo", "intensity": 10 },
+                { "name": "Orianna", "reason": "Cyclone ball delivery", "intensity": 10 },
+                { "name": "MissFortune", "reason": "AoE CC for bullet time", "intensity": 9 }
+            ]
+        },
+        "Xayah": {
+            "tags": ["Marksman"],
+            "counters": [
+                { "name": "Caitlyn", "reason": "Extreme range advantage", "intensity": 9 },
+                { "name": "Ashe", "reason": "Constant slow and poke", "intensity": 8 },
+                { "name": "Draven", "reason": "Superior early damage", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Rakan", "reason": "The pro lovers duo", "intensity": 10 },
+                { "name": "Nautilus", "reason": "CC for feather setup", "intensity": 8 },
+                { "name": "Braum", "reason": "Safety and protection", "intensity": 8 }
+            ]
+        },
+        "Xerath": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Fizz", "reason": "Untargetable gap close", "intensity": 9 },
+                { "name": "Zed", "reason": "High mobility outplay", "intensity": 9 },
+                { "name": "Yasuo", "reason": "Wind wall blocks everything", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Jhin", "reason": "The pro sniper duo", "intensity": 10 },
+                { "name": "Varus", "reason": "Infinite poke siege pro", "intensity": 9 },
+                { "name": "Lux", "reason": "The siege-meta dominance", "intensity": 9 }
+            ]
+        },
+        "XinZhao": {
+            "tags": ["Fighter"],
+            "counters": [
+                { "name": "Jax", "reason": "E blocks his Q-stun/AA", "intensity": 9 },
+                { "name": "Rammus", "reason": "Armor stacking", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Galio", "reason": "The invincible dive pro", "intensity": 10 },
+                { "name": "Orianna", "reason": "Ball delivery dive", "intensity": 8 },
+                { "name": "Renekton", "reason": "Melee stun stacking pro", "intensity": 9 }
+            ]
+        },
+        "Yasuo": {
+            "tags": ["Fighter", "Assassin"],
+            "counters": [
+                { "name": "Renekton", "reason": "Point-click stun/Shield break", "intensity": 10 },
+                { "name": "Pantheon", "reason": "Point-click stun/Shield break", "intensity": 10 },
+                { "name": "Vi", "reason": "Point-click R shutdown", "intensity": 9 },
+                { "name": "Malzahar", "reason": "Point-click R shutdown", "intensity": 10 },
+                { "name": "Annie", "reason": "Point-click R shutdown", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Malphite", "reason": "The ultimate R-wombo", "intensity": 10 },
+                { "name": "Diana", "reason": "Vacuum ball delivery pro", "intensity": 10 },
+                { "name": "Gragas", "reason": "Cask-bounce pro R-chain", "intensity": 10 },
+                { "name": "Yone", "reason": "The brothers AoE dive", "intensity": 9 }
+            ]
+        },
+        "Yone": {
+            "tags": ["Assassin", "Fighter"],
+            "counters": [
+                { "name": "Jax", "reason": "E blocks massive AA-burst", "intensity": 9 },
+                { "name": "Renekton", "reason": "Point-click stun shutdown", "intensity": 8 },
+                { "name": "Vex", "reason": "Anti-dash fear ruins combo", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "Melee stun stacking pro", "intensity": 10 },
+                { "name": "Yasuo", "reason": "The brothers AoE dive pro", "intensity": 9 },
+                { "name": "Orianna", "reason": "The vacuum ball delivery", "intensity": 9 }
+            ]
+        },
+        "Yorick": {
+            "tags": ["Fighter", "Tank"],
+            "counters": [
+                { "name": "Irelia", "reason": "Q-resets on his ghouls", "intensity": 10 },
+                { "name": "Jax", "reason": "Blocks ghouls and out-duels", "intensity": 9 },
+                { "name": "Tryndamere", "reason": "Stat-check and dive", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Hullbreaker", "reason": "Mandatory for split", "intensity": 10 },
+                { "name": "Zilean", "reason": "Speed and second life", "intensity": 8 }
+            ]
+        },
+        "Yuumi": {
+            "tags": ["Support"],
+            "counters": [
+                { "name": "Nautilus", "reason": "Hook ignores attachment", "intensity": 8 },
+                { "name": "Leona", "reason": "Catch and dive burst", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Zeri", "reason": "Hyper-speed hypercarry pro", "intensity": 10 },
+                { "name": "Twitch", "reason": "Invisible predator nuke", "intensity": 10 },
+                { "name": "Garen", "reason": "The invincible beyblade", "intensity": 9 }
+            ]
+        },
+        "Zac": {
+            "tags": ["Tank"],
+            "counters": [
+                { "name": "Thresh", "reason": "Flay stops the E-jump", "intensity": 9 },
+                { "name": "Poppy", "reason": "W stops the E-jump entirely", "intensity": 10 },
+                { "name": "Janna", "reason": "Disengage push-away engage", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Orianna", "reason": "Jump ball delivery", "intensity": 9 },
+                { "name": "Yasuo", "reason": "AoE knockup for R", "intensity": 9 }
+            ]
+        },
+        "Zed": {
+            "tags": ["Assassin"],
+            "counters": [
+                { "name": "Lissandra", "reason": "Hard-lockdown shutdown", "intensity": 10 },
+                { "name": "Vladimir", "reason": "Pool outplays his ultimate", "intensity": 9 },
+                { "name": "Fizz", "reason": "E outplays his ultimate", "intensity": 9 },
+                { "name": "Kayle", "reason": "R prevents the pop damage", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Vi", "reason": "Lockdown for full combo", "intensity": 9 },
+                { "name": "Sejuani", "reason": "Melee stun stacking pro", "intensity": 8 }
+            ]
+        },
+        "Zeri": {
+            "tags": ["Marksman"],
+            "counters": [
+                { "name": "Draven", "reason": "Superior early game damage", "intensity": 9 },
+                { "name": "Vi", "reason": "Point-click lockdown", "intensity": 9 },
+                { "name": "Poppy", "reason": "W stops all E-wall hops", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Lulu", "reason": "Hyper-speed hypercarry pro", "intensity": 10 },
+                { "name": "Yuumi", "reason": "Hyper-speed hypercarry pro", "intensity": 10 },
+                { "name": "RenataGlasc", "reason": "Save/Revive safety duo", "intensity": 9 }
+            ]
+        },
+        "Ziggs": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Fizz", "reason": "Untargetable gap close", "intensity": 9 },
+                { "name": "Yasuo", "reason": "Wind wall blocks bombs/R", "intensity": 10 }
+            ],
+            "synergies": [
+                { "name": "Maokai", "reason": "The pro siege-poke duo", "intensity": 10 },
+                { "name": "JarvanIV", "reason": "Cage targets for AoE R", "intensity": 9 }
+            ]
+        },
+        "Zilean": {
+            "tags": ["Support", "Mage"],
+            "counters": [
+                { "name": "Xerath", "reason": "Outranged significantly", "intensity": 8 }
+            ],
+            "synergies": [
+                { "name": "Hecarim", "reason": "The machine-gun speed duo", "intensity": 10 },
+                { "name": "MasterYi", "reason": "Speed and second life pro", "intensity": 9 }
+            ]
+        },
+        "Zoe": {
+            "tags": ["Mage"],
+            "counters": [
+                { "name": "Yasuo", "reason": "Wind wall blocks bubble/Q", "intensity": 10 },
+                { "name": "Braum", "reason": "Shield blocks bubble/Q", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Sejuani", "reason": "CC for easy bubble hit", "intensity": 9 },
+                { "name": "Nidalee", "reason": "Double poke catch meta", "intensity": 8 }
+            ]
+        },
+        "Zyra": {
+            "tags": ["Support", "Mage"],
+            "counters": [
+                { "name": "Xerath", "reason": "Outranged and poked", "intensity": 9 },
+                { "name": "VelKoz", "reason": "Outranged and poked", "intensity": 9 }
+            ],
+            "synergies": [
+                { "name": "Ashe", "reason": "Elite lane control pro", "intensity": 10 },
+                { "name": "Varus", "reason": "Infinite poke siege pro", "intensity": 9 },
+                { "name": "Jhin", "reason": "CC chain for easy root", "intensity": 9 }
+            ]
+        }
+    },
+    "subclass_counters": {
+        "Assassin": { "countered_by": ["Tank", "Warden"], "coefficient": 1.4 },
+        "Marksman": { "countered_by": ["Assassin", "Diver"], "coefficient": 1.3 },
+        "Tank": { "countered_by": ["Slayer", "Battlemage"], "coefficient": 1.3 },
+        "Juggernaut": { "countered_by": ["Artillery", "Marksman"], "coefficient": 1.4 },
+        "Artillery": { "countered_by": ["Assassin", "Diver"], "coefficient": 1.5 },
+        "Enchanter": { "countered_by": ["Catcher", "Assassin"], "coefficient": 1.3 }
+    },
+    "macro_weights": {
+        "heavy_dash": { "threshold": 3, "counter_trait": "anti_dash", "bonus": 350 },
+        "heavy_tank": { "threshold": 3, "counter_trait": "anti_tank", "bonus": 300 },
+        "heavy_shield": { "threshold": 2, "counter_trait": "anti_shield", "bonus": 250 },
+        "heavy_heal": { "threshold": 2, "counter_trait": "healers", "bonus": 250, "target_trait": "anti_heal" },
+        "heavy_stealth": { "threshold": 2, "counter_trait": "stealth", "bonus": 300, "target_trait": "true_sight" }
+    },
+    "exodia_comps": [
+        { "name": "The Unkillable Deathball", "champions": ["Ashe", "Seraphine", "Galio", "XinZhao", "Karma"], "reason": "Current Pro Meta Exodia" },
+        { "name": "Global Nuke Squad", "champions": ["Karthus", "Senna", "Gangplank", "Ashe", "Shen"], "reason": "Map-wide Execution" },
+        { "name": "Protect the Dog", "champions": ["KogMaw", "Lulu", "Ivern", "Braum", "Galio"], "reason": "Maximum Peeling" },
+        { "name": "Deep Dive Kings", "champions": ["Camille", "Galio", "Kaisa", "Nautilus", "JarvanIV"], "reason": "Target Isolation" },
+        { "name": "The AoE Wombo", "champions": ["Malphite", "Yasuo", "Diana", "MissFortune", "Amumu"], "reason": "Instant Teamfight Wipe" },
+        { "name": "The Machine Speed", "champions": ["Hecarim", "Yuumi", "Sivir", "Karma", "Zilean"], "reason": "Mach 10 Engage" }
+    ]
+}
