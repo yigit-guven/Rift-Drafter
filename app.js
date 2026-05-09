@@ -6,7 +6,6 @@ const CONFIG = {
     DATA_DRAGON_VERSION: '14.9.1',
     REGION: 'euw1',
     API_KEY: null,
-    GEMINI_KEY: localStorage.getItem('pref_gemini_key') || null,
     LANG: localStorage.getItem('pref_lang') || 'en_us',
     MODE: localStorage.getItem('pref_mode') || 'standard',
     USER_SIDE: localStorage.getItem('pref_side') || 'blue',
@@ -823,19 +822,12 @@ function setupEventListeners() {
     if (saveApiBtn) {
         saveApiBtn.onclick = async () => {
             const riotKey = document.getElementById('apiKeyInput').value.trim();
-            const geminiKey = document.getElementById('geminiKeyInput')?.value.trim();
-
             if (riotKey && riotKey.startsWith('RGAPI-')) {
                 CONFIG.API_KEY = riotKey;
-                // Save it somehow if needed, currently app expects apikey.txt, but we can set it in memory
-            }
-            if (geminiKey) {
-                CONFIG.GEMINI_KEY = geminiKey;
-                localStorage.setItem('pref_gemini_key', geminiKey);
             }
 
             hideApiModal();
-            if (CONFIG.API_KEY || CONFIG.GEMINI_KEY) startApp();
+            if (CONFIG.API_KEY) startApp();
         };
     }
 }
